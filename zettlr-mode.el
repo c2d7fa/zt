@@ -60,8 +60,8 @@
 (defun zt--available-formatted-links ()
   (mapcar 'zt--format-link-id (zt--all-existing-ids-default-directory)))
 
-(defun zt--completing-read-insert-formatted-link ()
-  (insert (completing-read "Insert link: " (zt--available-formatted-links))))
+(defun zt--completing-read (prompt)
+  (completing-read prompt (zt--available-formatted-links)))
 
 (defun zt--new-filename-id (id)
   (concat id ".txt"))
@@ -79,13 +79,18 @@
 
 (defun zt-find-link ()
   (interactive)
-  (zt--completing-read-insert-formatted-link))
+  (insert (zt--completing-read "Insert link: ")))
+
+(defun zt-find-file ()
+  (interactive)
+  (zt-open-id (zt--find-id (zt--completing-read "Find file: "))))
 
 (defconst zt--keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-o") 'zt-open-at-point)
     (define-key map (kbd "C-c C-t") 'zt-insert-new-id)
     (define-key map (kbd "C-c C-l") 'zt-find-link)
+    (define-key map (kbd "C-c C-f") 'zt-find-file)
     map))
 
 (define-minor-mode zt-minor-mode "zt"
