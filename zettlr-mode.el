@@ -68,7 +68,8 @@
 
 (defun zt-open-id (id)
   (find-file (or (zt--search-id id)
-                 (zt--new-filename-id id))))
+                 (zt--new-filename-id id)))
+  (zt-minor-mode 1))
 
 (defun zt-open-at-point ()
   (interactive)
