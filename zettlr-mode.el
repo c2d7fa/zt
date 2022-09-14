@@ -1,4 +1,6 @@
-(defconst zt--id-regexp (rx (= 8 digit) "T" (= 4 digit)))
+(defconst zt--id-regexp (rx (= 8 digit)
+                            (? "T")
+                            (= 6 digit)))
 
 (defconst zt--keywords `((,zt--id-regexp 0 'link t)))
 
