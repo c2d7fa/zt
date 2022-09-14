@@ -29,8 +29,12 @@
    return its full path; otherwise, return nil."
   nil)
 
+(defun zt--new-filename-id (id)
+  (concat id ".txt"))
+
 (defun zt-open-id (id)
-  (message "Opening %s..." id))
+  (find-file (or (zt--search-id id)
+                 (zt--new-filename-id id))))
 
 (defun zt-open-at-point ()
   (interactive)
