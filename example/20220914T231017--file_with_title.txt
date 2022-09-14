@@ -1,3 +1,5 @@
+Test note with title in filename
+
 This is another note written to test ID resolution in 20220914T230840, just like
 its sibling 20220914T231023. However, this one has a filename that contains
 additional information other than just the prefix.

@@ -6,6 +6,6 @@ anything, since it just leads back to the same note.
 Here are links to some other notes:
 
 - 20220914T231008 Test note that doesn't exist yet
-- 20220914T231017 Another test note that doesn't exist
+- 20220914T231017 Test note with title in filename
 - 20220914T231023 Test note that does exist
 

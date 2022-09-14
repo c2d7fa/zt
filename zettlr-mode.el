@@ -15,25 +15,53 @@
   (font-lock-remove-keywords nil zt--keywords)
   (font-lock-fontify-buffer))
 
+(defun zt--is-id (string)
+  (string-match zt--id-regexp string))
+
 (defun zt--id-at-point ()
   (let ((word (word-at-point t)))
-    (when (string-match zt--id-regexp word)
-      word)))
+    (when (zt--is-id word) word)))
 
 (defun zt-insert-new-id ()
   (interactive)
   (insert (zt--generate-id)))
+
+(defun zt--find-id (filename)
+  (string-match zt--id-regexp filename)
+  (match-string 0 filename))
+
+(defun zt--all-existing-ids-default-directory ()
+  (let* ((all-files (seq-filter 'zt--is-id (directory-files default-directory)))
+         (all-ids (mapcar 'zt--find-id all-files)))
+    all-ids))
 
 (defun zt--search-id (id)
   "If a note with the given ID exists in the current directory,
    return its full path; if no file exists, or there are multiple
    matching files, return nil."
   (let* ((all-files (directory-files default-directory))
-         (file-matches (lambda (file)
-                         (s-prefix? id file)))
-         (matching-files (seq-filter file-matches all-files)))
-    (when (= (length matching-files) 1)
-      (car matching-files))))
+         (has-id (lambda (file) (s-prefix? id file)))
+         (id-files (seq-filter has-id all-files)))
+    (when (= (length id-files) 1)
+      (car id-files))))
+
+(defun zt--file-title (filename)
+  "Given the path to a file, return it's 'title' as it would be
+   inserted as a new link."
+  (with-temp-buffer
+    (insert-file-contents filename)
+    (buffer-substring (line-beginning-position) (line-end-position))))
+
+(defun zt--format-link-id (id)
+  (if-let ((file (zt--search-id id)))
+      (concat id " " (zt--file-title file))
+    id))
+
+(defun zt--available-formatted-links ()
+  (mapcar 'zt--format-link-id (zt--all-existing-ids-default-directory)))
+
+(defun zt--completing-read-insert-formatted-link ()
+  (insert (completing-read "Insert link: " (zt--available-formatted-links))))
 
 (defun zt--new-filename-id (id)
   (concat id ".txt"))
@@ -48,10 +76,15 @@
       (zt-open-id id)
     (message "zt: no link at point")))
 
+(defun zt-find-link ()
+  (interactive)
+  (zt--completing-read-insert-formatted-link))
+
 (defconst zt--keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-o") 'zt-open-at-point)
     (define-key map (kbd "C-c C-t") 'zt-insert-new-id)
+    (define-key map (kbd "C-c C-l") 'zt-find-link)
     map))
 
 (define-minor-mode zt-minor-mode "zt"
