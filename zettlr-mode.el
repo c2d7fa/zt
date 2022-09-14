@@ -26,8 +26,14 @@
 
 (defun zt--search-id (id)
   "If a note with the given ID exists in the current directory,
-   return its full path; otherwise, return nil."
-  nil)
+   return its full path; if no file exists, or there are multiple
+   matching files, return nil."
+  (let* ((all-files (directory-files default-directory))
+         (file-matches (lambda (file)
+                         (s-prefix? id file)))
+         (matching-files (seq-filter file-matches all-files)))
+    (when (= (length matching-files) 1)
+      (car matching-files))))
 
 (defun zt--new-filename-id (id)
   (concat id ".txt"))
