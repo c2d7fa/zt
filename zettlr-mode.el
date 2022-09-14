@@ -15,13 +15,28 @@
   (font-lock-remove-keywords nil zt--keywords)
   (font-lock-fontify-buffer))
 
-(defun zt-open-at-point ()
-  (interactive)
-  (message "open at point"))
+(defun zt--id-at-point ()
+  (let ((word (word-at-point t)))
+    (when (string-match zt--id-regexp word)
+      word)))
 
 (defun zt-insert-new-id ()
   (interactive)
   (insert (zt--generate-id)))
+
+(defun zt--search-id (id)
+  "If a note with the given ID exists in the current directory,
+   return its full path; otherwise, return nil."
+  nil)
+
+(defun zt-open-id (id)
+  (message "Opening %s..." id))
+
+(defun zt-open-at-point ()
+  (interactive)
+  (if-let ((id (zt--id-at-point)))
+      (zt-open-id id)
+    (message "zt: no link at point")))
 
 (defconst zt--keymap
   (let ((map (make-sparse-keymap)))
