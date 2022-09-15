@@ -88,16 +88,10 @@ inserted as a new link."
               (zt--all-existing-ids-default-directory)))
 
 (defun zt--available-formatted-links ()
-  (seq-filter 'zt--is-id
-              (split-string (shell-command-to-string "rg --no-heading --max-depth 1 -m1 . | sed 's|[^:0-9]\\+:| |'")
-                            "\n")))
+  (s-split "\n" (s-trim (shell-command-to-string "ztf ."))))
 
 (defun zt--available-linking-files (id)
-  (mapcar (lambda (file)
-            (zt--format-link-id (zt--find-id file)))
-          (seq-filter 'zt--is-id
-            (split-string (shell-command-to-string (concat "rg --no-heading --max-depth 1 -l " (shell-quote-argument id)))
-                          "\n"))))
+  (s-split "\n" (s-trim (shell-command-to-string (concat "ztf . " (shell-quote-argument id))))))
 
 (defun zt--completing-read (prompt)
   (completing-read prompt (zt--available-formatted-links)))
