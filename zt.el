@@ -133,7 +133,7 @@ of the created file:
       (zt-open id)
     (message "zt: no link at point")))
 
-(defun zt-find-link ()
+(defun zt-insert-link ()
   (interactive)
   (insert (zt--completing-read "Insert link: ")))
 
@@ -145,11 +145,27 @@ of the created file:
   "Interactively prompt for a file from among those that link to
 the current file and open it."
   (interactive)
-  (zt-open (zt--completing-read-linking-files "Find file:" (zt--current-id))))
+  (zt-open (zt--completing-read-linking-files "Find file: " (zt--current-id))))
+
+(defun zt-insert-linking-file ()
+  "Interactively prompt for a file from among those that link to
+the current file. Insert a link to the selected file."
+  (interactive)
+  (insert (zt--completing-read-linking-files "Insert link: " (zt--current-id))))
+
+(defun zt-insert-linking-files ()
+  "Insert an index of all files that link to the current file. To
+insert only a single link, use `zt-insert-linking-file'. To
+insert an index of all files in the system, use
+`zt-insert-index'."
+  (interactive)
+  (mapc (lambda (link) (insert link "\n"))
+        (zt--available-linking-files (zt--current-id))))
 
 (defun zt-insert-index ()
   "Insert at point a list of links to each file in the current
-directory, including their titles."
+directory, including their titles. To include only files that
+link to the current file, use `zt-insert-linking-files' instead."
   (interactive)
   (mapc (lambda (link) (insert link "\n"))
         (zt--available-formatted-links)))
@@ -158,7 +174,8 @@ directory, including their titles."
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-o") 'zt-open-at-point)
     (define-key map (kbd "C-c C-t") 'zt-insert-new-id)
-    (define-key map (kbd "C-c C-l") 'zt-find-link)
+    (define-key map (kbd "C-c C-l") 'zt-insert-link)
+    (define-key map (kbd "C-c M-l") 'zt-insert-linking-file)
     (define-key map (kbd "C-c C-f") 'zt-find-file)
     (define-key map (kbd "C-c M-f") 'zt-find-linking-file)
     map))
