@@ -2,6 +2,7 @@ import std/os
 import std/nre
 import std/sugar
 import std/strutils
+import std/algorithm
 
 var dir = commandLineParams()[0]
 
@@ -47,6 +48,6 @@ let allIds = collect:
       if file.path.readFile.find(re(searchTerm)).isSome:
         id.get & " " & file.path.fileTitle
 
-for id in allIds:
+for id in allIds.sorted.reversed:
   echo id
 
