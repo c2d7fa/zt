@@ -31,7 +31,7 @@
   (match-string 0 filename))
 
 (defun zt--all-existing-ids-default-directory ()
-  (let* ((all-files (seq-filter 'zt--is-id (directory-files default-directory)))
+  (let* ((all-files (seq-filter 'zt--is-id (directory-files default-directory nil "^[[:digit:]]")))
          (all-ids (mapcar 'zt--find-id all-files)))
     all-ids))
 
