@@ -85,6 +85,13 @@
   (interactive)
   (zt-open-id (zt--find-id (zt--completing-read "Find file: "))))
 
+(defun zt-insert-index ()
+  "Insert at point a list of links to each file in the current
+   directory, including their titles."
+  (interactive)
+  (mapc (lambda (link) (insert link "\n"))
+        (zt--available-formatted-links)))
+
 (defconst zt--keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-o") 'zt-open-at-point)
