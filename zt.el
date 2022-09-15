@@ -86,7 +86,9 @@ inserted as a new link."
               (zt--all-existing-ids-default-directory)))
 
 (defun zt--available-formatted-links ()
-  (mapcar 'zt--format-link-id (zt--all-existing-ids-default-directory)))
+  (seq-filter 'zt--is-id
+              (split-string (shell-command-to-string "rg --no-heading --max-depth 1 -m1 . | sed 's|[^:0-9]\\+:| |'")
+                            "\n")))
 
 (defun zt--available-linking-files (id)
   (mapcar 'zt--format-link-id (zt--all-linking-ids id)))
