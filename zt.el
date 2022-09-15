@@ -75,14 +75,33 @@ inserted as a new link."
       (concat id " " (zt--file-title file))
     id))
 
+(defun zt--file-has-link (file id)
+  (with-temp-buffer
+    (insert-file-contents file)
+    (re-search-forward id nil t)))
+
+(defun zt--all-linking-ids (id)
+  (seq-filter (lambda (other-id)
+                (zt--file-has-link (zt--search-id other-id) id))
+              (zt--all-existing-ids-default-directory)))
+
 (defun zt--available-formatted-links ()
   (mapcar 'zt--format-link-id (zt--all-existing-ids-default-directory)))
+
+(defun zt--available-linking-files (id)
+  (mapcar 'zt--format-link-id (zt--all-linking-ids id)))
 
 (defun zt--completing-read (prompt)
   (completing-read prompt (zt--available-formatted-links)))
 
+(defun zt--completing-read-linking-files (prompt id)
+  (completing-read prompt (zt--available-linking-files id)))
+
 (defun zt--new-filename-id (id)
   (concat id ".txt"))
+
+(defun zt--current-id ()
+  (zt--find-id (buffer-name)))
 
 (defun zt-open (link)
   "Given a link to a file, optionally also followed by a title, go
@@ -122,6 +141,12 @@ of the created file:
   (interactive)
   (zt-open (zt--completing-read "Find file: ")))
 
+(defun zt-find-linking-file ()
+  "Interactively prompt for a file from among those that link to
+the current file and open it."
+  (interactive)
+  (zt-open (zt--completing-read-linking-files "Find file:" (zt--current-id))))
+
 (defun zt-insert-index ()
   "Insert at point a list of links to each file in the current
 directory, including their titles."
@@ -135,6 +160,7 @@ directory, including their titles."
     (define-key map (kbd "C-c C-t") 'zt-insert-new-id)
     (define-key map (kbd "C-c C-l") 'zt-find-link)
     (define-key map (kbd "C-c C-f") 'zt-find-file)
+    (define-key map (kbd "C-c M-f") 'zt-find-linking-file)
     map))
 
 (define-minor-mode zt-minor-mode "zt"
