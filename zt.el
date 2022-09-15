@@ -67,8 +67,10 @@ matching files, return `nil'."
   "Given the path to a FILE, return it's title as it would be
 inserted as a new link."
   (with-temp-buffer
-    (insert-file-contents file)
-    (buffer-substring (line-beginning-position) (line-end-position))))
+    (when (and (file-exists-p file)
+               (not (file-directory-p file)))
+      (insert-file-contents file)
+      (buffer-substring (line-beginning-position) (line-end-position)))))
 
 (defun zt--format-link-id (id)
   (if-let ((file (zt--search-id id)))
@@ -91,7 +93,11 @@ inserted as a new link."
                             "\n")))
 
 (defun zt--available-linking-files (id)
-  (mapcar 'zt--format-link-id (zt--all-linking-ids id)))
+  (mapcar (lambda (file)
+            (zt--format-link-id (zt--find-id file)))
+          (seq-filter 'zt--is-id
+            (split-string (shell-command-to-string (concat "rg --no-heading --max-depth 1 -l " (shell-quote-argument id)))
+                          "\n"))))
 
 (defun zt--completing-read (prompt)
   (completing-read prompt (zt--available-formatted-links)))
