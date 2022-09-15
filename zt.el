@@ -55,19 +55,19 @@
 
 (defun zt--search-id (id)
   "If a note with the given ID exists in the current directory,
-   return its full path; if no file exists, or there are multiple
-   matching files, return nil."
+return its full path. If no file exists, or there are multiple
+matching files, return `nil'."
   (let* ((all-files (directory-files default-directory))
          (has-id (lambda (file) (s-prefix? id file)))
          (id-files (seq-filter has-id all-files)))
     (when (= (length id-files) 1)
       (car id-files))))
 
-(defun zt--file-title (filename)
-  "Given the path to a file, return it's 'title' as it would be
-   inserted as a new link."
+(defun zt--file-title (file)
+  "Given the path to a FILE, return it's title as it would be
+inserted as a new link."
   (with-temp-buffer
-    (insert-file-contents filename)
+    (insert-file-contents file)
     (buffer-substring (line-beginning-position) (line-end-position))))
 
 (defun zt--format-link-id (id)
@@ -86,15 +86,17 @@
 
 (defun zt-open (link)
   "Given a link to a file, optionally also followed by a title, go
-   to the associated file if it exists, and otherwise create the
-   file with the optionally given title.
+to the associated file if it exists, and otherwise create the
+file with the optionally given title.
 
-  Finds or create the associated file:
+Finds or create the associated file:
+
     (zt-open \"20220912T201109\")
 
-  Find or create the associated file; if and only if it does not
-  already exist, insert the text \"New file\" on the first line
-  of the created file:
+Find or create the associated file. If and only if it does not
+already exist, insert the text \"New file\" on the first line
+of the created file:
+
     (zt-open \"20220912T201109 New file\")"
   (let* ((id (zt--find-id link))
          (title (zt--find-title link))
@@ -105,6 +107,7 @@
     (zt-minor-mode 1)))
 
 (defun zt-open-at-point ()
+  "Open the link at point, according to the same rules as `zt-open'."
   (interactive)
   (if-let ((id (or (zt--id-at-point)
                    (zt--formatted-link-at-point))))
@@ -121,7 +124,7 @@
 
 (defun zt-insert-index ()
   "Insert at point a list of links to each file in the current
-   directory, including their titles."
+directory, including their titles."
   (interactive)
   (mapc (lambda (link) (insert link "\n"))
         (zt--available-formatted-links)))
