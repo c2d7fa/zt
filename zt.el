@@ -22,13 +22,31 @@
   (let ((word (word-at-point t)))
     (when (zt--is-id word) word)))
 
+(defun zt--formatted-link-at-point ()
+  (let ((line (thing-at-point 'line t)))
+    (string-match (rx
+                   (group (= 8 digit)
+                          (? "T")
+                          (= 6 digit)
+                          (opt " " (+? any) line-end)))
+                  line)
+    (match-string 1 line)))
+
 (defun zt-insert-new-id ()
   (interactive)
   (insert (zt--generate-id)))
 
-(defun zt--find-id (filename)
-  (string-match zt--id-regexp filename)
-  (match-string 0 filename))
+(defun zt--find-id (string)
+  (string-match zt--id-regexp string)
+  (match-string 0 string))
+
+(defun zt--find-title (formatted-link)
+  (string-match (rx (+ (or digit "T"))
+                    " "
+                    (group (+? any))
+                    string-end)
+                formatted-link)
+  (match-string 1 formatted-link))
 
 (defun zt--all-existing-ids-default-directory ()
   (let* ((all-files (seq-filter 'zt--is-id (directory-files default-directory nil "^[[:digit:]]")))
@@ -66,15 +84,31 @@
 (defun zt--new-filename-id (id)
   (concat id ".txt"))
 
-(defun zt-open-id (id)
-  (find-file (or (zt--search-id id)
-                 (zt--new-filename-id id)))
-  (zt-minor-mode 1))
+(defun zt-open (link)
+  "Given a link to a file, optionally also followed by a title, go
+   to the associated file if it exists, and otherwise create the
+   file with the optionally given title.
+
+  Finds or create the associated file:
+    (zt-open \"20220912T201109\")
+
+  Find or create the associated file; if and only if it does not
+  already exist, insert the text \"New file\" on the first line
+  of the created file:
+    (zt-open \"20220912T201109 New file\")"
+  (let* ((id (zt--find-id link))
+         (title (zt--find-title link))
+         (file (zt--search-id id)))
+    (find-file (or file (zt--new-filename-id id)))
+    (when (and (not file) title)
+      (insert title))
+    (zt-minor-mode 1)))
 
 (defun zt-open-at-point ()
   (interactive)
-  (if-let ((id (zt--id-at-point)))
-      (zt-open-id id)
+  (if-let ((id (or (zt--id-at-point)
+                   (zt--formatted-link-at-point))))
+      (zt-open id)
     (message "zt: no link at point")))
 
 (defun zt-find-link ()
@@ -83,7 +117,7 @@
 
 (defun zt-find-file ()
   (interactive)
-  (zt-open-id (zt--find-id (zt--completing-read "Find file: "))))
+  (zt-open (zt--completing-read "Find file: ")))
 
 (defun zt-insert-index ()
   "Insert at point a list of links to each file in the current

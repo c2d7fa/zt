@@ -1,0 +1,5 @@
+Creating new note from title and link
+
+I created this note by placing the cursor at the end of the link and then
+pressing `C-c C-o', which created the new file and automatically inserted the
+title.
