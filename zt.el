@@ -8,8 +8,11 @@
     (zt--format-link-id (zt--id-at-point))))
 
 (defconst zt--link-face
-  '(face link
-         help-echo zt--link-help-echo))
+  (let ((link-keymap (make-sparse-keymap)))
+    (define-key link-keymap (kbd "RET") 'zt-open-at-point)
+    `(face link
+           help-echo zt--link-help-echo
+           keymap ,link-keymap)))
 
 ;; TODO: See documentation for `font-lock-keywords' about adding properties to
 ;; `font-lock-extra-managed-props' etc.
