@@ -127,12 +127,18 @@ of the created file:
       (insert title))
     (zt-minor-mode 1)))
 
-(defun zt-open-at-point ()
-  "Open the link at point, according to the same rules as `zt-open'."
-  (interactive)
+(defun zt-open-at-point (&optional prefix)
+  "Open the link at point, according to the same rules as
+`zt-open'. With a prefix argument, also insert a list of linking
+files in the opened file (see also `zt-insert-linking-files')."
+  (interactive "P")
   (if-let ((id (or (zt--id-at-point)
                    (zt--formatted-link-at-point))))
-      (zt-open id)
+      (progn
+        (zt-open id)
+        (when prefix
+          (insert "\n\n")
+          (zt-insert-linking-files)))
     (message "zt: no link at point")))
 
 (defun zt-insert-link ()
