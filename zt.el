@@ -2,7 +2,18 @@
                             (? "T")
                             (= 6 digit)))
 
-(defconst zt--keywords `((,zt--id-regexp 0 'link t)))
+(defun zt--link-help-echo (window object pos)
+  (save-excursion
+    (goto-char pos)
+    (zt--format-link-id (zt--id-at-point))))
+
+(defconst zt--link-face
+  '(face link
+         help-echo zt--link-help-echo))
+
+;; TODO: See documentation for `font-lock-keywords' about adding properties to
+;; `font-lock-extra-managed-props' etc.
+(defconst zt--keywords `((,zt--id-regexp 0 ',zt--link-face t)))
 
 (defun zt--generate-id ()
   (format-time-string "%Y%m%dT%H%M%S"))
