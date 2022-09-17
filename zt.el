@@ -10,9 +10,11 @@
 (defconst zt--link-face
   (let ((link-keymap (make-sparse-keymap)))
     (define-key link-keymap (kbd "RET") 'zt-open-at-point)
+    (define-key link-keymap (kbd "<mouse-1>") 'zt-open-at-point)
     `(face link
            help-echo zt--link-help-echo
-           keymap ,link-keymap)))
+           keymap ,link-keymap
+           mouse-face highlight)))
 
 ;; TODO: See documentation for `font-lock-keywords' about adding properties to
 ;; `font-lock-extra-managed-props' etc.
