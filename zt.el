@@ -117,6 +117,17 @@ inserted as a new link."
 (defun zt--current-id ()
   (zt--find-id (buffer-name)))
 
+(defun zt-change-file-extension (extension)
+  (interactive "MFile extension: ")
+  (save-buffer)
+  (let* ((old-file-name (buffer-file-name))
+         (new-file-name (concat (file-name-directory old-file-name)
+                                (file-name-base old-file-name)
+                                "." extension)))
+    (write-file new-file-name)
+    (delete-file old-file-name)
+    (zt-minor-mode 1)))
+
 (defun zt-kill-current-id ()
   "Add the ID of the current file to the kill ring, so that it
 can be yanked again with `yank', or, depending on your Emacs
@@ -208,6 +219,7 @@ link to the current file, use `zt-insert-linking-files' instead."
     (define-key map (kbd "f") 'zt-find-file)
     (define-key map (kbd "F") 'zt-find-linking-file)
     (define-key map (kbd "M-w") 'zt-kill-current-id)
+    (define-key map (kbd ".") 'zt-change-file-extension)
     map))
 
 (define-minor-mode zt-minor-mode "zt"
