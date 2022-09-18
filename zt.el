@@ -219,3 +219,17 @@ link to the current file, use `zt-insert-linking-files' instead."
   :keymap (list (cons (kbd "C-c z") zt--keymap))
   (if zt-minor-mode (zt--enable-minor-mode) (zt--disable-minor-mode)))
 
+;; ---------------------------------------------------------
+;; ORG MODE LINKS
+
+(require 'org)
+(require 'ol)
+
+(defun zt--org-handler (link)
+  (zt-open link))
+
+(org-link-set-parameters
+ "zt"
+ :follow 'zt--org-handler
+ :help-echo 'zt--link-help-echo)
+
