@@ -121,6 +121,13 @@ inserted as a new link."
 (defun zt--current-id ()
   (zt--find-id (buffer-name)))
 
+(defun zt-kill-current-id ()
+  "Add the ID of the current file to the kill ring, so that it
+can be yanked again with `yank', or, depending on your Emacs
+configuration, is copied to the clipboard."
+  (interactive)
+  (kill-new (zt--kill-current-id)))
+
 (defun zt-open (link)
   "Given a link to a file, optionally also followed by a title, go
 to the associated file if it exists, and otherwise create the
