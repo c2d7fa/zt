@@ -21,13 +21,13 @@ proc fileTitle(path: string): string =
   if path.endsWith(".md"):
     let content = path.readFile
 
-    let h1 = content.find(re"(?m)^# (.+)")
-    if h1.isSome:
-      return h1.get.captures[0]
-
     let title = content.find(re"(?m)^\s*title: (.+)(?s:.)+?---")
     if title.isSome:
       return title.get.captures[0]
+
+    let h1 = content.find(re"(?m)^# (.+)")
+    if h1.isSome:
+      return h1.get.captures[0]
 
     if pathTitle.isSome:
       return pathTitle.get.captures[0]
