@@ -203,16 +203,16 @@ link to the current file, use `zt-insert-linking-files' instead."
 
 (defconst zt--keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-o") 'zt-open-at-point)
-    (define-key map (kbd "C-c C-t") 'zt-insert-new-id)
-    (define-key map (kbd "C-c C-l") 'zt-insert-link)
-    (define-key map (kbd "C-c M-l") 'zt-insert-linking-file)
-    (define-key map (kbd "C-c C-f") 'zt-find-file)
-    (define-key map (kbd "C-c M-f") 'zt-find-linking-file)
+    (define-key map (kbd "o") 'zt-open-at-point)
+    (define-key map (kbd "t") 'zt-insert-new-id)
+    (define-key map (kbd "l") 'zt-insert-link)
+    (define-key map (kbd "L") 'zt-insert-linking-file)
+    (define-key map (kbd "f") 'zt-find-file)
+    (define-key map (kbd "F") 'zt-find-linking-file)
     map))
 
 (define-minor-mode zt-minor-mode "zt"
   :lighter " zt"
-  :keymap zt--keymap
+  :keymap (list (cons (kbd "C-c z") zt--keymap))
   (if zt-minor-mode (zt--enable-minor-mode) (zt--disable-minor-mode)))
 
