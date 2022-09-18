@@ -53,13 +53,16 @@ proc fileTitle(path: string): string =
 
   return path.readLines(1)[0]
 
-let allIds = collect:
-  for file in walkDir(dir):
-    let id = file.path.lastPathPart.matchId
-    if id.isSome:
-      if file.path.readFile.find(re(searchTerm)).isSome:
-        id.get & " " & file.path.fileTitle
+if dir.getFileInfo.kind == pcFile:
+  echo dir.fileTitle
+else:
+  let allIds = collect:
+    for file in walkDir(dir):
+      let id = file.path.lastPathPart.matchId
+      if id.isSome:
+        if file.path.readFile.find(re(searchTerm)).isSome:
+          id.get & " " & file.path.fileTitle
 
-for id in allIds.sorted.reversed:
-  echo id
+  for id in allIds.sorted.reversed:
+    echo id
 

@@ -82,11 +82,7 @@ matching files, return `nil'."
 (defun zt--file-title (file)
   "Given the path to a FILE, return it's title as it would be
 inserted as a new link."
-  (with-temp-buffer
-    (when (and (file-exists-p file)
-               (not (file-directory-p file)))
-      (insert-file-contents file)
-      (buffer-substring (line-beginning-position) (line-end-position)))))
+  (s-trim (shell-command-to-string (concat "ztf " (shell-quote-argument file)))))
 
 (defun zt--format-link-id (id)
   (if-let ((file (zt--search-id id)))
