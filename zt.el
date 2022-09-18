@@ -9,7 +9,7 @@
 
 (defconst zt--link-face
   (let ((link-keymap (make-sparse-keymap)))
-    (define-key link-keymap (kbd "RET") 'zt-open-at-point)
+    (define-key link-keymap (kbd "RET") 'zt--link-enter-key-pressed)
     (define-key link-keymap (kbd "<mouse-1>") 'zt-open-at-point)
     `(face link
            help-echo zt--link-help-echo
@@ -171,6 +171,13 @@ files in the opened file (see also `zt-insert-linking-files')."
           (insert "\n\n")
           (zt-insert-linking-files)))
     (message "zt: no link at point")))
+
+(defun zt--link-enter-key-pressed ()
+  (interactive)
+  (let ((is-actually-on-link (save-excursion
+                               (forward-char)
+                               (zt--id-at-point))))
+    (if is-actually-on-link (zt-open-at-point) (newline))))
 
 (defun zt-insert-link ()
   (interactive)
