@@ -126,7 +126,9 @@ inserted as a new link."
 can be yanked again with `yank', or, depending on your Emacs
 configuration, is copied to the clipboard."
   (interactive)
-  (kill-new (zt--kill-current-id)))
+  (let ((id (zt--current-id)))
+    (kill-new id)
+    (message (format "Added current ID '%s' to kill ring." id))))
 
 (defun zt-open (link)
   "Given a link to a file, optionally also followed by a title, go
@@ -209,6 +211,7 @@ link to the current file, use `zt-insert-linking-files' instead."
     (define-key map (kbd "L") 'zt-insert-linking-file)
     (define-key map (kbd "f") 'zt-find-file)
     (define-key map (kbd "F") 'zt-find-linking-file)
+    (define-key map (kbd "M-w") 'zt-kill-current-id)
     map))
 
 (define-minor-mode zt-minor-mode "zt"
