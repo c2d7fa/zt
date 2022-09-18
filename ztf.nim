@@ -36,6 +36,18 @@ proc fileTitle(path: string): string =
     if afterFrontmatter.isSome:
       return afterFrontmatter.get.captures[0]
 
+  if path.endsWith(".org"):
+    let content = path.readFile
+
+    let title = content.find(re"(?m)(?i)#\+title: (.+)$")
+    if title.isSome:
+      return title.get.captures[0]
+
+    let heading = content.find(re"(?m)^\* (.+?)(\s+:.+:)?$")
+    if heading.isSome:
+      return heading.get.captures[0]
+
+
   if pathTitle.isSome:
     return pathTitle.get.captures[0]
 
