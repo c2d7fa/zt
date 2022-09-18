@@ -216,6 +216,7 @@ link to the current file, use `zt-insert-linking-files' instead."
     (define-key map (kbd "t") 'zt-insert-new-id)
     (define-key map (kbd "l") 'zt-insert-link)
     (define-key map (kbd "L") 'zt-insert-linking-file)
+    (define-key map (kbd "M-l") 'zt-insert-linking-files)
     (define-key map (kbd "f") 'zt-find-file)
     (define-key map (kbd "F") 'zt-find-linking-file)
     (define-key map (kbd "M-w") 'zt-kill-current-id)
