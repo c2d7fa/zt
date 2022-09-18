@@ -16,15 +16,14 @@
            keymap ,link-keymap
            mouse-face highlight)))
 
-;; TODO: See documentation for `font-lock-keywords' about adding properties to
-;; `font-lock-extra-managed-props' etc.
-(defconst zt--keywords `((,zt--id-regexp 0 ',zt--link-face t)))
+(defconst zt--keywords `((,zt--id-regexp 0 ',zt--link-face)))
 
 (defun zt--generate-id ()
   (format-time-string "%Y%m%dT%H%M%S"))
 
 (defun zt--enable-minor-mode ()
   (font-lock-add-keywords nil zt--keywords)
+  (setq-local font-lock-extra-managed-props '(help-echo keymap mouse-face))
   (font-lock-fontify-buffer))
 
 (defun zt--disable-minor-mode ()
