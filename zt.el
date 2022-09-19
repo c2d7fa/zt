@@ -34,8 +34,8 @@
   (string-match zt--id-regexp string))
 
 (defun zt--id-at-point ()
-  (let ((word (word-at-point t)))
-    (when (zt--is-id word) word)))
+  (if-let ((word (word-at-point t)))
+      (when (zt--is-id word) word)))
 
 (defun zt--formatted-link-at-point ()
   (let ((line (thing-at-point 'line t)))
