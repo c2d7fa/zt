@@ -175,8 +175,9 @@ files in the opened file (see also `zt-insert-linking-files')."
 (defun zt--link-enter-key-pressed ()
   (interactive)
   (let ((is-actually-on-link (save-excursion
-                               (forward-char)
-                               (zt--id-at-point))))
+                               (when (not (= (point) (point-max)))
+                                 (forward-char)
+                                 (zt--id-at-point)))))
     (if is-actually-on-link (zt-open-at-point) (newline))))
 
 (defun zt-insert-link ()
