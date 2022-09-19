@@ -217,7 +217,7 @@ link to the current file, use `zt-insert-linking-files' instead."
   (mapc (lambda (link) (insert link "\n"))
         (zt--available-formatted-links)))
 
-(defconst zt-keymap
+(defconst zt-minor-mode-prefix-keymap
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "o") 'zt-open-at-point)
     (define-key map (kbd "t") 'zt-insert-new-id)
@@ -230,9 +230,18 @@ link to the current file, use `zt-insert-linking-files' instead."
     (define-key map (kbd ".") 'zt-change-file-extension)
     map))
 
+(defconst zt-minor-mode-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "C-c #") zt-minor-mode-prefix-keymap)
+    map))
+
+(defun zt-enable-recommended-keymap ()
+  (interactive)
+  (define-key zt-minor-mode-keymap (kbd "C-z") zt-minor-mode-prefix-keymap))
+
 (define-minor-mode zt-minor-mode "zt"
   :lighter " zt"
-  :keymap (list (cons (kbd "C-c C-z") zt-keymap))
+  :keymap zt-minor-mode-keymap
   (if zt-minor-mode (zt--enable-minor-mode) (zt--disable-minor-mode)))
 
 ;; ---------------------------------------------------------
