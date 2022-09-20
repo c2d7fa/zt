@@ -162,6 +162,7 @@ of the created file:
   "Open the link at point, according to the same rules at
 `zt-open'. In the newly created file, also insert a list of all
 linking files (see also `zt-insert-linking-files')."
+  (interactive)
   (if-let ((id (or (zt--id-at-point)
                    (zt--formatted-link-at-point))))
       (progn
