@@ -22,6 +22,7 @@
   (format-time-string "%Y%m%dT%H%M%S"))
 
 (defun zt--enable-minor-mode ()
+  (rename-buffer (zt--format-link-id (zt--current-id)) t)
   (font-lock-add-keywords nil zt--keywords)
   (setq-local font-lock-extra-managed-props '(help-echo keymap mouse-face))
   (font-lock-fontify-buffer))
