@@ -186,9 +186,15 @@ linking files (see also `zt-insert-linking-files')."
                                  (zt--id-at-point)))))
     (if is-actually-on-link (zt-open-at-point) (newline))))
 
-(defun zt-insert-link ()
-  (interactive)
-  (insert (zt--completing-read "Insert link: ")))
+(defun zt-insert-link (&optional prefix)
+  "Interactively select a note, and insert a link to the note at
+point. By default, also insert the linked file's title (if it
+exists). With prefix argument, insert just the link."
+  (interactive "P")
+  (let ((formatted-link (zt--completing-read "Insert link: ")))
+    (insert (if prefix
+                (zt--find-id formatted-link)
+              formatted-link))))
 
 (defun zt-find-file ()
   (interactive)
@@ -200,11 +206,15 @@ the current file and open it."
   (interactive)
   (zt-open (zt--completing-read-linking-files "Find file: " (zt--current-id))))
 
-(defun zt-insert-linking-file ()
+(defun zt-insert-linking-file (&optional prefix)
   "Interactively prompt for a file from among those that link to
-the current file. Insert a link to the selected file."
-  (interactive)
-  (insert (zt--completing-read-linking-files "Insert link: " (zt--current-id))))
+the current file. Insert a link to the selected file. Prefix
+argument has same effect as for `zt-insert-link'."
+  (interactive "P")
+  (let ((formatted-link (zt--completing-read-linking-files "Insert link: " (zt--current-id))))
+    (insert (if prefix
+                (zt--find-id formatted-link)
+              formatted-link))))
 
 (defun zt-insert-linking-files ()
   "Insert an index of all files that link to the current file. To
