@@ -164,6 +164,7 @@ linking files (see also `zt-insert-linking-files')."
   (if-let ((id (or (zt--id-at-point)
                    (zt--formatted-link-at-point))))
       (progn
+        (save-buffer)
         (zt-open id)
         (insert "\n\n")
         (zt-insert-linking-files))
