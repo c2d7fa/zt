@@ -21,11 +21,17 @@
 (defun zt--generate-id ()
   (format-time-string "%Y%m%dT%H%M%S"))
 
+(defun zt--update-buffer-name (&rest args)
+  (interactive)
+  (when zt-minor-mode
+    (rename-buffer (zt--format-link-id (zt--current-id)) t)))
+
 (defun zt--enable-minor-mode ()
-  (rename-buffer (zt--format-link-id (zt--current-id)) t)
+  (zt--update-buffer-name)
   (font-lock-add-keywords nil zt--keywords)
   (setq-local font-lock-extra-managed-props '(help-echo keymap mouse-face))
-  (font-lock-fontify-buffer))
+  (font-lock-fontify-buffer)
+  (advice-add 'save-buffer :after 'zt--update-buffer-name))
 
 (defun zt--disable-minor-mode ()
   (font-lock-remove-keywords nil zt--keywords)
@@ -105,7 +111,8 @@ inserted as a new link."
   (concat id ".txt"))
 
 (defun zt--current-id ()
-  (zt--find-id (buffer-name)))
+  (let ((id (zt--find-id (buffer-name))))
+    (when (zt--is-id id) id)))
 
 (defun zt-change-file-extension (extension)
   (interactive "MFile extension: ")
