@@ -89,16 +89,6 @@ inserted as a new link."
       (concat id " " (zt--file-title file))
     id))
 
-(defun zt--file-has-link (file id)
-  (with-temp-buffer
-    (insert-file-contents file)
-    (re-search-forward id nil t)))
-
-(defun zt--all-linking-ids (id)
-  (seq-filter (lambda (other-id)
-                (zt--file-has-link (zt--search-id other-id) id))
-              (zt--all-existing-ids-default-directory)))
-
 (defun zt--available-formatted-links ()
   (s-split "\n" (s-trim (shell-command-to-string "ztf ."))))
 
