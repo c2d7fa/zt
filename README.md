@@ -4,6 +4,8 @@ zt is a simple but highly opinionated Emacs package for building a
 Zettelkasten. To get started, continue reading from
 [Installation](#installation) below.
 
+**Table of contents**
+
 * [Motivation](#motivation)
 * [Installation](#installation)
 * [Configuration](#configuration)
