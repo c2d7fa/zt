@@ -1,3 +1,13 @@
+(require 's)
+
+(defcustom zt-ztf-executable-path "~/.local/share/zt/ztf"
+  "The path to the \"ztf\" executable. See the zt package's README
+for details on what this is and how to build it."
+  :type 'file
+  :group 'zt)
+
+(defconst zt--required-ztf-version "0")
+
 (defconst zt--id-regexp (rx (= 8 digit)
                             (? "T")
                             (= 6 digit)))
@@ -90,10 +100,29 @@ matching files, return `nil'."
     (when (= (length id-files) 1)
       (car id-files))))
 
+(defun zt--ztf-command (args)
+  (s-join " " (cons zt-ztf-executable-path
+                    (mapcar 'shell-quote-argument args))))
+
+(defun zt--ztf-needs-update ()
+  (or (not (file-exists-p zt-ztf-executable-path))
+      (not (equal zt--required-ztf-version
+                  (s-trim (shell-command-to-string (zt--ztf-command '("--version"))))))))
+
+(defun zt--interactively-update-ztf ()
+  (if (y-or-n-p "zt: Required executable 'ztf' is not installed or not latest version. Automatically download prebuilt executable for x86-64 Linux?")
+      (progn (error "zt: Automatically updating ztf currently isn't supported! See README for instructions on manually installing."))
+    (error "zt: You must manually install latest 'ztf' executable into 'zt-ztf-executable-path'. See README for more information.")))
+
+(defun zt--call-ztf (&rest args)
+  (when (zt--ztf-needs-update)
+    (zt--interactively-update-ztf))
+  (s-trim (shell-command-to-string (zt--ztf-command args))))
+
 (defun zt--file-title (file)
   "Given the path to a FILE, return it's title as it would be
 inserted as a new link."
-  (s-trim (shell-command-to-string (concat "ztf " (shell-quote-argument file)))))
+  (zt--call-ztf file))
 
 (defun zt--format-link-id (id)
   (if-let ((file (zt--search-id id)))
@@ -101,10 +130,10 @@ inserted as a new link."
     id))
 
 (defun zt--available-formatted-links ()
-  (s-split "\n" (s-trim (shell-command-to-string "ztf ."))))
+  (s-split "\n" (zt--call-ztf ".")))
 
 (defun zt--available-linking-files (id)
-  (s-split "\n" (s-trim (shell-command-to-string (concat "ztf . " (shell-quote-argument id))))))
+  (s-split "\n" (zt--call-ztf "." id)))
 
 (defun zt--completing-read (prompt)
   (let ((ivy-mode-enabled (and (boundp ivy-mode) ivy-mode)))

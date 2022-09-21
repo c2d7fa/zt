@@ -4,6 +4,8 @@ import std/sugar
 import std/strutils
 import std/algorithm
 
+let version = 0
+
 var dir = commandLineParams()[0]
 
 var searchTerm =
@@ -53,7 +55,9 @@ proc fileTitle(path: string): string =
 
   return path.readLines(1)[0]
 
-if dir.getFileInfo.kind == pcFile:
+if dir == "--version":
+  echo version
+elif dir.getFileInfo.kind == pcFile:
   echo dir.fileTitle
 else:
   let allIds = collect:
