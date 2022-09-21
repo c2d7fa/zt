@@ -22,9 +22,9 @@
   (format-time-string "%Y%m%dT%H%M%S"))
 
 (defun zt--insert-link (link &optional omit-title)
-  (if omit-title
-      (insert (zt--find-id link))
-    (insert link)))
+  (insert
+   (if (eq major-mode 'org-mode) "zt:" "")
+   (if omit-title (zt--find-id link) link)))
 
 (defun zt--update-buffer-name (&rest args)
   (interactive)
