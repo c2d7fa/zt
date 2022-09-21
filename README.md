@@ -1,12 +1,55 @@
 # zt
 
-==TODO: Brief introduction==
+==TODO: Brief introduction, maybe a screenshot?==
 
 ## Motivation
 
-==TODO: Briefly describe motivation for yet-another-Zettelkasten-package. See
-Comparison to other software below. Especially justification for using just IDs
-for filenames and handling titles as part of files themselves.==
+zt is [yet another](#comparison-to-other-software) Emacs package for building a
+Zettelkasten. Why another one? From a mechanistic viewpoint, zt is different
+from other solutions on a few parameters:
+
+1. zt does not (necessarily) store the title of a file in its filename; by
+   default files are named like `20220921T182341.txt`. You may optionally add
+   more stuff after the ID prefix if you want, but the ID prefix is required.
+2. However, zt *can* use the titles of files when searching for notes. For plain
+   text files, the title is the first line, for Markdown, it's the first heading
+   (or `title:` property in the YAML frontmatter), and for Org-mode it's the
+   `#+TITLE:` or first heading.
+3. This "logical title" is used to interactively (through `completing-read`) to
+   easily find files or insert links by their titles. It's also possible to
+   navigate via backlinks.
+4. Links are simply the ID of a note. Delimiters are not required. They can be
+   followed by clicking on them. By default, commands that insert links also
+   insert the title of the linked file. In Org-mode, the special `zt:` link type
+   may be used, e.g. `zt:20220921T182341`.
+
+The result of this is that a note can be renamed without changing its filename
+and without updating existing links to that file. You can also use special
+characters in titles without any issues.
+
+(Note that [The Archive](https://zettelkasten.de/the-archive/) and
+[Zettlr](https://www.zettlr.com/) actually do share basically the same features,
+except that links must be delimited by brackets. But The Archive is proprietary
+macOS-only software, and Zettlr supports only Markdown.)
+
+As for *why this actually matters*, well, it's mostly a matter of aesthetics. A
+Zettelkasten is supposed to be a simple system for building knowledge out of
+small notes in an organic way. By assigning special meaning to the filename, the
+author must make an important decision before they've even written the note, or
+else they are required to go through some special ceremony to change their
+decision later. From a technical standpoint, this doesn't matter that much, but
+it can subtly guide you towards taking notes in a more "top-down" manner, which
+goes against the spirit of Zettelkasten (see [*Best practices and
+philosophy*](#best-practices-and-philosophy) below).
+
+In my opinion, a plain text-based approach where the individual notes are
+represented as files on disk named after their IDs, and where links between
+notes are created by simply writing the ID of the relevant note, is the best
+replication of an analog Zettelkasten. Such a system can then be extended with
+tools for finding notes by their title, automatically finding backlinks of
+notes, automatically following note links, interoperation with other file
+formats like Markdown and Org-mode, and other digital-only features. This is the
+design philosophy that gave rise to Zt.
 
 ## Installation and configuration
 
@@ -21,7 +64,7 @@ caching).==
 ==TODO: Describe expected file layout, how to use titles, Markdown, plain text
 and Org files.==
 
-## Best practices
+## Best practices and philosophy
 
 ==TODO: Write introduction to Zettelkasten generally and how to apply to Zt.==
 See 20220918T031544 and related notes.
