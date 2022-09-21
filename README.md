@@ -120,10 +120,10 @@ Outline:
 - [Zettlr](https://www.zettlr.com/) has a similar design philosophy to The
   Archive, but it's free and open-source software and available on multiple
   platforms. Zettlr, like zt, does not care about the filenames of notes and
-  supports linking to notes by their title, even if the title is different from
-  the filename. It supports only Markdown. For most people, this would be my
-  second recommendation. If you're looking for something that's compatible with
-  plain text or Org-mode, keep reading.
+  supports finding notes by title, even if the title is different from the
+  filename. It supports only Markdown. For most people, this would be my second
+  recommendation. If you're looking for something that's compatible with plain
+  text or Org-mode, keep reading.
 - **zt** is an Emacs package designed for Zettelkasten with a simple
   design. It's compatible with multiple file-formats and handles links to other
   files by their IDs, such that renaming a note does not require any updates to
@@ -132,13 +132,13 @@ Outline:
   title in the filename optional.
 - [zk.el](https://github.com/localauthor/zk) is another Emacs package with a
   very similar design philosophy to zt. It's also inspired by The Archive, is
-  also designed for Zettelkasten and also values simplicity in its design. zk
-  stores the titles of files in their filenames for the purpose of selecting
-  files for linking with completion, so if you forget to update the filename,
-  you won't be able to find the file you want to link to. However, links are by
-  ID, so it's possible to rename files without needing to update existing
-  links. If you basically like zt but don't want to use it for some reason, this
-  is what I recommend.
+  also designed for plain text Zettelkasten and also values simplicity in its
+  design. zk stores the titles of files in their filenames for the purpose of
+  selecting files for linking with completion, so if you forget to update the
+  filename, you won't be able to easily find the file you want to link
+  to. However, links are stored by ID, so it's possible to rename files without
+  needing to update existing links. If you basically like zt but don't want to
+  use it for some reason, this is what I recommend.
 - [Denote](https://protesilaos.com/emacs/denote) is another simple note-taking
   package for Emacs. It's not designed specifically for Zettelkasten but it can
   certainly be used for that purpose. Denote expects you to assign tags to your
@@ -165,17 +165,18 @@ Outline:
   mechanisms, you're essentially locked in to using Org-mode forever. You can
   use Org-mode with zt, zk or Denote and get the best of both worlds.
 - [Org-roam](https://github.com/org-roam/org-roam) is essentially a port of
-  Obsidian to Emacs, designed for use with Org-mode. I have only briefly
-  evaluated it, but I think it has basically the same drawbacks as standard
-  Org-mode with additional overhead (notably, requiring a cache for
-  backlinking). The main advantage is that it adds backlinking support. For my
-  purposes (building a Zettelkasten), it was clumsy and over-designed, but, like
-  Obsidian, if you're building something more like a personal wiki, it might be
-  a perfect fit.
-- [emacs-zettelkasten](https://sr.ht/~ymherklotz/emacs-zettelkasten/): I haven't
-  tried it.
-- [Zetteldeft](https://github.com/EFLS/zetteldeft): I also haven't tried this;
-  it was the inspiration for zk.
+  Obsidian to Emacs, designed for use with Org-mode. It has more overhead than
+  plain Org-mode (notably, requiring a cache for backlinking), but provides a
+  more familiar experience for Obsidian users. It has quite a few features. For
+  my purposes (building a Zettelkasten), I found it somewhat clumsy, but it
+  may be well-suited if you want something more like a personal wiki.
+- [emacs-zettelkasten](https://sr.ht/~ymherklotz/emacs-zettelkasten/) seems to
+  have similar goals both zt and zk. I haven't tried it.
+- [Zetteldeft](https://github.com/EFLS/zetteldeft) is the package that zk is
+  based on. I haven't tried it either.
+- [Hyperbole](https://www.gnu.org/software/hyperbole/) is infamous for being
+  rather hard to grasp, but it seems very cool from a distance. It does a lot
+  more than zt, but I can't really give a useful comparison beyond that.
 
 ## License
 
