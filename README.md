@@ -10,6 +10,7 @@ Zettelkasten. To get started, continue reading from
 * [Tutorial](#tutorial)
 * [Best practices and philosophy](#best-practices-and-philosophy)
 * [Comparison to other software](#comparison-to-other-software)
+* [License](#license)
 
 ## Motivation
 
@@ -108,10 +109,6 @@ Outline:
 - Use structure notes to enable creative connections between distant notes
 - Use links sparingly; suprisingly, fewer links are better!
 
-## License
-
-==TODO: Release under AGPL.==
-
 ## Comparison to other software
 
 - [The Archive](https://zettelkasten.de/the-archive/) is a proprietary
@@ -177,3 +174,8 @@ Outline:
   tried it.
 - [Zetteldeft](https://github.com/EFLS/zetteldeft): I also haven't tried this;
   it was the inspiration for zk.
+
+## License
+
+zt is licensed under the terms of the GNU AGPLv3 or any later version as
+described in `LICENSE.md`.
