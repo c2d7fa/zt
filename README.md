@@ -1,6 +1,14 @@
 # zt
 
-==TODO: Brief introduction, maybe a screenshot?==
+zt is a simple but highly opinionated Emacs package for building a
+Zettelkasten. To understand why zt exists, continue reading
+[*Motivation*](#motivation) below; to get started with the software, read
+[*Getting started*](#getting-started); to find alternatives, see [*Comparison to
+other software*](#comparison-to-other-software); and to get some tips for
+building a sucessful Zettelkasten, read the section on [*Best practices and
+philosophy*](#best-practices-and-philosophy).
+
+**TODO: Screenshot**
 
 ## Motivation
 
@@ -15,22 +23,20 @@ from other solutions on a few parameters:
    text files, the title is the first line, for Markdown, it's the first heading
    (or `title:` property in the YAML frontmatter), and for Org-mode it's the
    `#+TITLE:` or first heading.
-3. This "logical title" is used to interactively (through `completing-read`) to
-   easily find files or insert links by their titles. It's also possible to
+3. This "logical title" is used to interactively (through `completing-read`)
+   find notes for navigation or linking by their titles. It's also possible to
    navigate via backlinks.
-4. Links are simply the ID of a note. Delimiters are not required. They can be
-   followed by clicking on them. By default, commands that insert links also
-   insert the title of the linked file. In Org-mode, the special `zt:` link type
-   may be used, e.g. `zt:20220921T182341`.
+4. Links are simply the ID of a note. Delimiters are not required. By default,
+   commands that insert links also insert the title of the linked file and
+   optionally a link back to the originating context. In Org-mode, the special
+   `zt:` link type may be used, e.g. `zt:20220921T182341`.
 
 The result of this is that a note can be renamed without changing its filename
 and without updating existing links to that file. You can also use special
-characters in titles without any issues.
-
-(Note that [The Archive](https://zettelkasten.de/the-archive/) and
-[Zettlr](https://www.zettlr.com/) actually do share basically the same features,
-except that links must be delimited by brackets. But The Archive is proprietary
-macOS-only software, and Zettlr supports only Markdown.)
+characters in titles without any issues. (Note that [The
+Archive](https://zettelkasten.de/the-archive/) and
+[Zettlr](https://www.zettlr.com/) work in the same way, but The Archive is
+proprietary macOS-only software, and Zettlr supports only Markdown.)
 
 As for *why this actually matters*, well, it's mostly a matter of aesthetics. A
 Zettelkasten is supposed to be a simple system for building knowledge out of
@@ -49,15 +55,13 @@ replication of an analog Zettelkasten. Such a system can then be extended with
 tools for finding notes by their title, automatically finding backlinks of
 notes, automatically following note links, interoperation with other file
 formats like Markdown and Org-mode, and other digital-only features. This is the
-design philosophy that gave rise to Zt.
+design philosophy that gave rise to zt.
 
-## Installation and configuration
+## Getting started
 
 ==TODO: Describe installation instructions. Figure out how to properly
 distribute ztf. Justify use of ztf for titles (over, say, Org-roam-style
 caching).==
-
-## Getting started
 
 ==TODO: Describe recommended keybinding setup.==
 
