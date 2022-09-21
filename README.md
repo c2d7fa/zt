@@ -65,24 +65,23 @@ First, install the zt package itself. You can use a package manager like
 you, or you can do it manually with:
 
 ```emacs-lisp
-;; Installation
+;; Download files
 (make-directory "~/.emacs.d/load" t)
 (require 'url)
 (url-copy-file "https://raw.githubusercontent.com/c2d7fa/zt/main/zt.el" "~/.emacs.d/load/zt.el" t)
 
-;; Configuration
+;; Load package (add this to init.el)
 (add-to-list 'load-path "~/.emacs.d/load")
 (require 'zt)
 ```
 
-Unfortunately, to use zt, you must also install a separate program called
-`ztf`. This is necessary because Emacs' built-in file loading just isn't fast
-enough to support fast backlinking and search. Thus, `ztf` is used for title
-resolution and backlinking.
+Unfortunately, zt also requires a companion program called `ztf`. This is
+necessary because Emacs' built-in file loading just isn't fast enough to support
+backlinking and search, so `ztf` is used for title resolution and backlinking.
 
-If you're running x86-64 Linux, a prebuilt executable will be downloaded the
-first time you use zt. Otherwise, you'll have to do it yourself by running `nim
-c -d:release ./ztf.nim` and copying the resulting executable to
+If you're running x86-64 Linux, a prebuilt executable will be downloaded from
+GitHub the first time it's needed. Otherwise, you'll have to build it yourself
+by running `nim c -d:release ./ztf.nim` and copying the resulting executable to
 `~/.local/share/zt/ztf` or whatever `zt-zft-executable-path` is set to.
 
 ## Tutorial
