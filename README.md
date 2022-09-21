@@ -8,6 +8,7 @@ Zettelkasten. To get started, continue reading from
 
 * [Motivation](#motivation)
 * [Installation](#installation)
+  * [Non-Linux platforms](#non-linux-platforms-installation-of-ztf-companion)
 * [Configuration](#configuration)
 * [Tutorial](#tutorial)
 * [Best practices and philosophy](#best-practices-and-philosophy)
@@ -78,14 +79,28 @@ you, or you can do it manually with:
 (require 'zt)
 ```
 
+If you're using x68-64 Linux, you can skip ahead to the [Tutorial](#tutorial)
+now; otherwise, read the next section.
+
+#### Non-Linux platforms: Installation of `ztf` companion
+
 Unfortunately, zt also requires a companion program called `ztf`. This is
 necessary because Emacs' built-in file loading just isn't fast enough to support
 backlinking and search, so `ztf` is used for title resolution and backlinking.
 
-If you're running x86-64 Linux, a prebuilt executable will be downloaded from
-GitHub the first time it's needed. Otherwise, you'll have to build it yourself
-by running `nim c -d:release ./ztf.nim` and copying the resulting executable to
-`~/.local/share/zt/ztf` or whatever `zt-zft-executable-path` is set to.
+If you're running x86-64 Linux, zt will ask to download a prebuilt executable
+from the internet the first time it's needed. Its checksum is verified against a
+hardcoded value, but obviously you must trust me to not be actively distributing
+malware.
+
+Other platforms are not explicitly supported, but you should be able to build it
+yourself by running `nim c -d:release ./ztf.nim` and copying the resulting
+executable to `~/.local/share/zt/ztf` or whatever `zt-zft-executable-path` is
+set to.
+
+Otherwise, consider just porting [ztf.nim](./ztf.nim) yourself. It's a very
+short program. You can also replace this program to change how title extraction
+works, for example to support a custom file format.
 
 ## Tutorial
 
