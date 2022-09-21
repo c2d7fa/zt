@@ -107,7 +107,10 @@ inserted as a new link."
   (s-split "\n" (s-trim (shell-command-to-string (concat "ztf . " (shell-quote-argument id))))))
 
 (defun zt--completing-read (prompt)
-  (completing-read prompt (zt--available-formatted-links)))
+  (let ((ivy-mode-enabled (and (boundp ivy-mode) ivy-mode)))
+    (if ivy-mode-enabled
+        (ivy-read prompt (zt--available-formatted-links) :preselect (zt--current-id))
+      (completing-read prompt (zt--available-formatted-links)))))
 
 (defun zt--completing-read-linking-files (prompt id)
   (completing-read prompt (zt--available-linking-files id)))
