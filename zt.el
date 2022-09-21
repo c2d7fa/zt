@@ -1,12 +1,15 @@
 (require 's)
+(require 'url)
 
-(defcustom zt-ztf-executable-path "~/.local/share/zt/ztf"
+(defcustom zt-ztf-executable-path (concat (getenv "HOME") "/.local/share/zt/ztf")
   "The path to the \"ztf\" executable. See the zt package's README
 for details on what this is and how to build it."
   :type 'file
   :group 'zt)
 
-(defconst zt--required-ztf-version "0")
+(defconst zt--required-ztf-version "1")
+(defconst zt--ztf-expected-sha256 "8878b8a6133dfcdb62637c3e1e9db5f45518109b93312b67aec234e50bc6fbbb")
+(defconst zt--ztf-download-url "https://johv.dk/public/ztf-1-amd64-linux")
 
 (defconst zt--id-regexp (rx (= 8 digit)
                             (? "T")
@@ -111,7 +114,17 @@ matching files, return `nil'."
 
 (defun zt--interactively-update-ztf ()
   (if (y-or-n-p "zt: Required executable 'ztf' is not installed or not latest version. Automatically download prebuilt executable for x86-64 Linux?")
-      (progn (error "zt: Automatically updating ztf currently isn't supported! See README for instructions on manually installing."))
+      (progn
+        (make-directory (file-name-directory zt-ztf-executable-path) t)
+        (url-copy-file zt--ztf-download-url zt-ztf-executable-path t)
+        (let ((ztf-executable-buffer (find-file-noselect zt-ztf-executable-path)))
+          (when (not (equal zt--ztf-expected-sha256 (secure-hash 'sha256 (find-file-noselect zt-ztf-executable-path))))
+            (error "zt: sha256 hash didn't match! Refusing to continue."))
+          (kill-buffer ztf-executable-buffer))
+        (shell-command (concat "chmod +x " (shell-quote-argument zt-ztf-executable-path)))
+        (when (zt--ztf-needs-update)
+          (error "zt: Downloading executable didn't work. Perhaps you're not using x86-64 Linux? Otherwise, this is a bug."))
+        (message "zt: Sucessfully downloaded prebuilt executable."))
     (error "zt: You must manually install latest 'ztf' executable into 'zt-ztf-executable-path'. See README for more information.")))
 
 (defun zt--call-ztf (&rest args)

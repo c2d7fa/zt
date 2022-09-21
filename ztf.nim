@@ -4,7 +4,7 @@ import std/sugar
 import std/strutils
 import std/algorithm
 
-let version = 0
+let version = 1
 
 var dir = commandLineParams()[0]
 
