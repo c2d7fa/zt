@@ -1,4 +1,0 @@
-Test note
-
-This is a note that's used in 20220914T230840 for testing. It also has a sibling
-20220914T231017, which has its title in the filename.
