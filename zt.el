@@ -21,6 +21,11 @@
 (defun zt--generate-id ()
   (format-time-string "%Y%m%dT%H%M%S"))
 
+(defun zt--insert-link (link &optional omit-title)
+  (if omit-title
+      (insert (zt--find-id link))
+    (insert link)))
+
 (defun zt--update-buffer-name (&rest args)
   (interactive)
   (when zt-minor-mode
@@ -56,7 +61,7 @@
 
 (defun zt-insert-new-id ()
   (interactive)
-  (insert (zt--generate-id)))
+  (zt--insert-link (zt--generate-id)))
 
 (defun zt--find-id (string)
   (string-match zt--id-regexp string)
@@ -200,9 +205,7 @@ point. By default, also insert the linked file's title (if it
 exists). With prefix argument, insert just the link."
   (interactive "P")
   (let ((formatted-link (zt--completing-read "Insert link: ")))
-    (insert (if prefix
-                (zt--find-id formatted-link)
-              formatted-link))))
+    (zt--insert-link formatted-link prefix)))
 
 (defun zt-find-file ()
   (interactive)
@@ -220,9 +223,7 @@ the current file. Insert a link to the selected file. Prefix
 argument has same effect as for `zt-insert-link'."
   (interactive "P")
   (let ((formatted-link (zt--completing-read-linking-files "Insert link: " (zt--current-id))))
-    (insert (if prefix
-                (zt--find-id formatted-link)
-              formatted-link))))
+    (zt--insert-link formatted-link prefix)))
 
 (defun zt-insert-linking-files ()
   "Insert an index of all files that link to the current file. To
