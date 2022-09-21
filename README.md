@@ -89,27 +89,33 @@ by running `nim c -d:release ./ztf.nim` and copying the resulting executable to
 
 ## Tutorial
 
-**TODO: Describe recommended keybinding setup.**
+**TODO: This section hasn't been written yet!**
 
-**TODO: Briefly describe file layout, how to use titles, Markdown, plain text
-and Org files.**
+Outline:
+
+- Recommended keybinding setup.
+- Reference to (currently unwritten) manual.
+- Briefly describe file layout, title parsing.
+- Describe workflow for inserting link to new file.
 
 ## Best practices and philosophy
 
-==TODO: Write introduction to Zettelkasten generally and how to apply to Zt.==
-See 20220918T031544 and related notes.
+**TODO: This section hasn't been written yet!**
 
 Outline:
 
 - Understand what a Zettelkasten is and isn't. Consider using a different
-  system, which can still be integrated with zt by sharing file naming scheme.
+  system, which can still be integrated with zt by sharing file naming
+  scheme. Org-mode is suited to journal, calendar, project/task management, etc.
 - Keep filenames and titles separate; prefer plain text, only use Org when you
-  need it (mention `C-c # .`)
+  actually need it (mention `zt-change-file-extension`).
 - Don't rely on automatic backlinks (although zt does support them)
 - Do use Folgezettel to avoid overhead of adding everything to indexes and allow
-  for serendipitous discovery later
-- Use structure notes to enable creative connections between distant notes
+  for serendipitous discovery later. Describe Folgezettel in Zt and how they
+  relate to Luhmanns numbering system. Add screenshot to demonstrate idea.
 - Use links sparingly; suprisingly, fewer links are better!
+- Use structure notes to enable creative connections between distant notes. You
+  should specifically avoid making indexes of obviously related notes.
 
 ## Comparison to other software
 
