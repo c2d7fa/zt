@@ -68,7 +68,7 @@ First, install the zt package itself. You can use a package manager like
 you, or you can do it manually with:
 
 ```emacs-lisp
-;; Download files
+;; Download files (run once, and again when updating zt)
 (make-directory "~/.emacs.d/load" t)
 (require 'url)
 (url-copy-file "https://raw.githubusercontent.com/c2d7fa/zt/main/zt.el" "~/.emacs.d/load/zt.el" t)
