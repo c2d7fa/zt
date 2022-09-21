@@ -7,9 +7,29 @@ for details on what this is and how to build it."
   :type 'file
   :group 'zt)
 
+(defcustom zt-fontify-plain-text-title t
+  "When `zt-minor-mode' is enabled in a `text-mode' buffer, add
+fontification for the first line."
+  :type 'boolean
+  :group 'zt)
+
+(defface zt-plain-text-title '((t (:inherit org-document-title)))
+  "The face used to highlight titles in plain text files when))))
+`zt-fontify-plain-text-title' is enabled.")
+
 (defconst zt--required-ztf-version "1")
 (defconst zt--ztf-expected-sha256 "8878b8a6133dfcdb62637c3e1e9db5f45518109b93312b67aec234e50bc6fbbb")
 (defconst zt--ztf-download-url "https://johv.dk/public/ztf-1-amd64-linux")
+
+(defun zt--fontify-first-line (limit)
+  (let ((end-of-first-line
+         (save-excursion
+           (beginning-of-buffer)
+           (end-of-line)
+           (point))))
+    (if (<= (point) end-of-first-line)
+        (re-search-forward ".*?\n" limit t)
+      nil)))
 
 (defconst zt--id-regexp (rx (= 8 digit)
                             (? "T")
@@ -47,6 +67,8 @@ for details on what this is and how to build it."
 (defun zt--enable-minor-mode ()
   (zt--update-buffer-name)
   (font-lock-add-keywords nil zt--keywords)
+  (when (and zt-fontify-plain-text-title (equal major-mode 'text-mode))
+    (font-lock-add-keywords nil '((zt--fontify-first-line 0 'zt-plain-text-title))))
   (setq-local font-lock-extra-managed-props '(help-echo keymap mouse-face))
   (font-lock-fontify-buffer)
   (advice-add 'save-buffer :after 'zt--update-buffer-name))
