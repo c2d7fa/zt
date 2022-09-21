@@ -44,9 +44,10 @@ Outline:
 
 ## Comparison to other software
 
-- [The Archive](https://zettelkasten.de/the-archive/) is a proprietary software
-  for macOS. It's designed for Zettelkasten and values simple design. If you use
-  macOS and don't mind using proprietary software, this is what I recommend.
+- [The Archive](https://zettelkasten.de/the-archive/) is a proprietary
+  application for macOS. It's designed for Zettelkasten and values simple
+  design. If you use macOS and don't mind using proprietary software, this is
+  what I recommend.
 - [Zettlr](https://www.zettlr.com/) has a similar design philosophy to The
   Archive, but it's free and open-source software and available on multiple
   platforms. Zettlr, like zt, does not care about the filenames of notes and
