@@ -9,7 +9,6 @@ Zettelkasten. To get started, continue reading from
 * [Motivation](#motivation)
 * [Installation](#installation)
   * [Non-Linux platforms](#non-linux-platforms-installation-of-ztf-companion)
-* [Configuration](#configuration)
 * [Tutorial](#tutorial)
 * [Best practices and philosophy](#best-practices-and-philosophy)
 * [Comparison to other software](#comparison-to-other-software)
