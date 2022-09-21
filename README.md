@@ -1,15 +1,15 @@
 # zt
 
 zt is a simple but highly opinionated Emacs package for building a
-Zettelkasten. To understand why zt exists, continue reading
-[*Motivation*](#motivation) below; to get started with the software, follow the
-instructions in [*Installation*](#installation) and walk through the
-[*Tutorial*](#tutorial); to find alternatives, see [*Comparison to other
-software*](#comparison-to-other-software); and to get some tips for building a
-sucessful Zettelkasten, read the section on [*Best practices and
-philosophy*](#best-practices-and-philosophy).
+Zettelkasten. To get started, continue reading from
+[Installation](#installation) below.
 
-**TODO: Screenshot**
+* [Motivation](#motivation)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Tutorial](#tutorial)
+* [Best practices and philosophy](#best-practices-and-philosophy)
+* [Comparison to other software](#comparison-to-other-software)
 
 ## Motivation
 
@@ -65,7 +65,7 @@ First, install the zt package itself. You can use a package manager like
 you, or you can do it manually with:
 
 ```emacs-lisp
-;; Installation:
+;; Installation
 (make-directory "~/.emacs.d/load" t)
 (require 'url)
 (url-copy-file "https://raw.githubusercontent.com/c2d7fa/zt/main/zt.el" "~/.emacs.d/load/zt.el" t)
