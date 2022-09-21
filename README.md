@@ -2,10 +2,11 @@
 
 zt is a simple but highly opinionated Emacs package for building a
 Zettelkasten. To understand why zt exists, continue reading
-[*Motivation*](#motivation) below; to get started with the software, read
-[*Getting started*](#getting-started); to find alternatives, see [*Comparison to
-other software*](#comparison-to-other-software); and to get some tips for
-building a sucessful Zettelkasten, read the section on [*Best practices and
+[*Motivation*](#motivation) below; to get started with the software, follow the
+instructions in [*Installation*](#installation) and walk through the
+[*Tutorial*](#tutorial); to find alternatives, see [*Comparison to other
+software*](#comparison-to-other-software); and to get some tips for building a
+sucessful Zettelkasten, read the section on [*Best practices and
 philosophy*](#best-practices-and-philosophy).
 
 **TODO: Screenshot**
@@ -57,16 +58,39 @@ notes, automatically following note links, interoperation with other file
 formats like Markdown and Org-mode, and other digital-only features. This is the
 design philosophy that gave rise to zt.
 
-## Getting started
+## Installation
 
-==TODO: Describe installation instructions. Figure out how to properly
-distribute ztf. Justify use of ztf for titles (over, say, Org-roam-style
-caching).==
+First, install the zt package itself. You can use a package manager like
+[straight.el](https://github.com/radian-software/straight.el) to do this for
+you, or you can do it manually with:
 
-==TODO: Describe recommended keybinding setup.==
+```emacs-lisp
+;; Installation:
+(make-directory "~/.emacs.d/load" t)
+(require 'url)
+(url-copy-file "https://raw.githubusercontent.com/c2d7fa/zt/main/zt.el" "~/.emacs.d/load/zt.el" t)
 
-==TODO: Describe expected file layout, how to use titles, Markdown, plain text
-and Org files.==
+;; Configuration
+(add-to-list 'load-path "~/.emacs.d/load")
+(require 'zt)
+```
+
+Unfortunately, to use zt, you must also install a separate program called
+`ztf`. This is necessary because Emacs' built-in file loading just isn't fast
+enough to support fast backlinking and search. Thus, `ztf` is used for title
+resolution and backlinking.
+
+If you're running x86-64 Linux, a prebuilt executable will be downloaded the
+first time you use zt. Otherwise, you'll have to do it yourself by running `nim
+c -d:release ./ztf.nim` and copying the resulting executable to
+`~/.local/share/zt/ztf` or whatever `zt-zft-executable-path` is set to.
+
+## Tutorial
+
+**TODO: Describe recommended keybinding setup.**
+
+**TODO: Briefly describe file layout, how to use titles, Markdown, plain text
+and Org files.**
 
 ## Best practices and philosophy
 

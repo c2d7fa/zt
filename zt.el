@@ -289,3 +289,4 @@ link to the current file, use `zt-insert-linking-files' instead."
  :follow 'zt--org-handler
  :help-echo 'zt--link-help-echo)
 
+(provide 'zt)
