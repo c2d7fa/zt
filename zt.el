@@ -380,19 +380,19 @@ be a useful binding to define:
   :keymap zt-minor-mode-map
   (if zt-minor-mode (zt--enable-minor-mode) (zt--disable-minor-mode)))
 
-;; ---------------------------------------------------------
-;; ORG MODE LINKS
+;; Org-mode links
 
-(require 'org)
-(require 'ol)
+(eval-after-load 'org
+  (progn
+    (require 'ol)
 
-(defun zt--org-handler (link)
-  (zt-open link))
+    (defun zt--org-handler (link)
+      (zt-open link))
 
-(org-link-set-parameters
- "zt"
- :follow 'zt--org-handler
- :help-echo 'zt--link-help-echo)
+    (org-link-set-parameters
+     "zt"
+     :follow 'zt--org-handler
+     :help-echo 'zt--link-help-echo)))
 
 (provide 'zt)
 ;;; zt.el ends here
