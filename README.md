@@ -161,7 +161,38 @@ though the filename is just an ID. Using a completion framework such as
 
 #### Branch off into a follower note
 
-**TODO: This section has not yet been written!**
+We could continue creating independent notes using this same method, but a
+Zettelkasten is all about linking your notes. I recommend using an approach,
+where you "chain" notes together to build up a kind of tree structure. When you
+get a new idea, you insert a link to a so-called follower note (*Folgezettel*),
+and then you open the new note and continue there.
+
+At the bottom of the note you created in the last step, try calling
+`zt-insert-new-id` (`C-c # t`). Then, after the ID, type a title for the new
+note that you want to create. At this point, your buffer should look something
+like this example (with `|` representing the point (cursor)):
+
+```
+File names and titles in zt
+
+In zt, files are named after their IDs. Notes can have titles, which are
+extracted from the file, and which are used when finding files with
+`zt-find-file' or linking to them with `zt-insert-link`.
+
+20220922T222825 Inserting links and backlinks in zt|
+```
+
+Now, with the point at the end of the line, call `zt-open-follower-at-point`
+(`C-c # O`, or equivalently `C-u zt-open-at-point` (`C-u C-c # o`)). This will
+create a new note with both the title and a link to the previous note inserted
+automatically.
+
+From there, you can continue writing, and you can repeat the procces to create
+more follower notes. You may choose to insert them at the end of the sequence,
+or to go back to a previous note and start a new branch. You can navigate back
+and forth in the tree by clicking the "backward" links at the top of each note
+and the "forward" links at the bottom. Once you've written a few notes like
+this, move on to the next section.
 
 #### Add a structure note
 
