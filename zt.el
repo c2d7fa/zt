@@ -7,6 +7,13 @@ for details on what this is and how to build it."
   :type 'file
   :group 'zt)
 
+(defcustom zt-default-file-extension ".txt"
+  "The default file extension used when creating new files. You can
+also change this after files have been created by calling
+`zt-change-file-extension'."
+  :type 'string
+  :group 'zt)
+
 (defcustom zt-fontify-plain-text-title t
   "When `zt-minor-mode' is enabled in a `text-mode' buffer, add
 fontification for the first line."
@@ -179,7 +186,7 @@ inserted as a new link."
   (completing-read prompt (zt--available-linking-files id)))
 
 (defun zt--new-filename-id (id)
-  (concat id ".txt"))
+  (concat id zt-default-file-extension))
 
 (defun zt--current-id ()
   (let ((id (zt--find-id (buffer-name))))
