@@ -10,6 +10,10 @@ Zettelkasten. To get started, continue reading from
 * [Installation](#installation)
   * [Non-Linux platforms](#non-linux-platforms-installation-of-ztf-companion)
 * [Tutorial](#tutorial)
+  * [Configure keybindings](#configure-keybindings)
+  * [Create your first note](#create-your-first-note)
+  * [Branch off into a follower-note](#branch-off-into-a-follower-note)
+  * [Add a structure note](#add-a-structure-note)
 * [Best practices and philosophy](#best-practices-and-philosophy)
 * [Comparison to other software](#comparison-to-other-software)
 * [License](#license)
@@ -103,6 +107,11 @@ works, for example to support a custom file format.
 
 ## Tutorial
 
+In this section, I'll walk you through configuring zt, starting a new
+Zettelkasten and branching off with new notes.
+
+#### Configure keybindings
+
 By default, zt exports a keymap `zt-minor-mode-prefix-map`, which is bound
 (inside `zt-minor-mode-map`) to the prefix `C-c #`. It's *strongly* recommended
 that you change this to something more convenient, and also that you remap some
@@ -126,13 +135,17 @@ of the more common commands. For example, this is my configuration with
 (Note that this remaps some built-in keys.) In the following, the default
 mappings (prefixed with `C-c #`) are given, but you really should change them!
 
-**TODO: This section hasn't been written yet!**
+#### Create your first note
 
-Outline:
+**TODO: This section has not yet been written!**
 
-- Reference to (currently unwritten) manual.
-- Briefly describe file layout, title parsing.
-- Describe workflow for inserting link to new file.
+#### Branch off into a follower note
+
+**TODO: This section has not yet been written!**
+
+#### Add a structure note
+
+**TODO: This section has not yet been written!**
 
 ## Best practices and philosophy
 
