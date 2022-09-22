@@ -205,24 +205,29 @@ section.
 
 #### Add a structure note
 
-**TODO: This section is missing an introduction!**
+The sequences that we built up in the last step work well as a staging area for
+new ideas. Just start writing; as long as you make sure to add links in both
+directions, there is no risk of notes getting "lost", and no need to have some
+kind of "inbox" for your Zettelkasten.
+
+As your Zettelkasten grows, you'll want to add a second layer to your
+Zettelkasten: the [structure
+note](https://zettelkasten.de/posts/three-layers-structure-zettelkasten/). A
+structure note is essentially like a table of contents -- it's a view of the
+entire Zettelkasten if it were designed to answer a very specific
+question. Let's look at how to actually create these structure notes with zt.
 
 To insert a link to a note you already wrote, use `zt-insert-link` (`C-c # l`).
 By default, this will insert both the ID and title of the selected note, which
-is useful when building lists of notes.
+is useful when building lists of notes. Try using this functionality to create
+an interesting overview of some of the notes you just wrote. Don't worry about
+adding every relevant note to the index -- focus on making it useful and
+interesting by not adding two notes that are too similar.
 
-Of course, you should not use links only when writing structure notes. When you
-reference an idea from another note, you should also insert a link to that note
-so that you can find it again in the future. When doing this, you may want to
-insert only the ID of the chosen file by calling `zt-insert-link` with a prefix
-argument (`C-u C-c # l`). By adding links, it also becomes possible to find
-releted notes via `zt-find-linking-file` (`C-c # F`), which shows only those
-files that link to the current note.
-
-Below is a longer, more realistic example of what a structure note may actually
-look like in practice. I wrote this note to summarize and index a previous
-sequence of notes, and then added it to an overarching topic note, which I
-inserted a backlink to with `zt-insert-linking-file` (`C-c # L`).
+Below is a realistic example of what a structure note may actually look like in
+practice. I wrote this note to summarize and index a previous sequence of notes,
+and then added it to an overarching topic note, to which I inserted a backlink
+with `zt-insert-linking-file` (`C-c # L`).
 
 ```
 Folgezettel vs. index-oriented approaches to Zettelkasten
@@ -251,6 +256,18 @@ When and how to use indexes
     20220918T163155 Meta-index for integrated Zettelkasten/GTD/journal system in Emacs
     20220921T010536 Don't add multiple notes about the same idea to one index
 ```
+
+Of course, you should not use links only when writing structure notes. When you
+reference an idea from another note, you should also insert a link to that note
+so that you can find it again in the future. When doing this, you may want to
+insert only the ID of the chosen file by calling `zt-insert-link` with a prefix
+argument (`C-u C-c # l`). By adding links, it also becomes possible to find
+releted notes via `zt-find-linking-file` (`C-c # F`), which shows only those
+files that link to the current note.
+
+That's it for the tutorial. You now know everything you need to use zt. If you
+want some extra tips on how to use the Zettelkasten methodology most effectively
+(in my opinion), check out the section below.
 
 ## Best practices and philosophy
 
