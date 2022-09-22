@@ -212,8 +212,8 @@ Outline:
   selecting files for linking with completion, so if you forget to update the
   filename, you won't be able to easily find the file you want to link
   to. However, links are stored by ID, so it's possible to rename files without
-  needing to update existing links. If you basically like zt but don't want to
-  use it for some reason, this is what I recommend.
+  needing to update existing links. A major advantage of zk compared to zt is
+  that it doesn't have any dependencies on external programs.
 - [Denote](https://protesilaos.com/emacs/denote) is another simple note-taking
   package for Emacs. It's not designed specifically for Zettelkasten but it can
   certainly be used for that purpose. Denote expects you to assign tags to your
