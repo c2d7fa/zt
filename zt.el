@@ -29,14 +29,9 @@ fontification for the first line."
 (defconst zt--ztf-download-url "https://johv.dk/public/ztf-1-amd64-linux")
 
 (defun zt--fontify-first-line (limit)
-  (let ((end-of-first-line
-         (save-excursion
-           (beginning-of-buffer)
-           (end-of-line)
-           (point))))
-    (if (<= (point) end-of-first-line)
-        (re-search-forward ".*?\n" limit t)
-      nil)))
+  (if (= (point) 1)
+      (re-search-forward ".*?\n" limit t)
+    nil))
 
 (defconst zt--id-regexp (rx (= 8 digit)
                             (? "T")
