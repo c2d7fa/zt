@@ -198,21 +198,59 @@ follower notes. You may choose to insert them at the end of the current
 sequence, or to go back to a previous note and start a new branch. You can
 navigate back and forth in the tree by clicking the "backward" links at the top
 of each note and the "forward" links at the bottom. You can jump directly to an
-existing note with `zt-find-file` (`C-c # f`); to search only among the files
-that link to this one, use `zt-find-linking-file` (`C-c # F`).
-
-To insert a link to a note you already wrote, call `zt-insert-link` (`C-c # l`).
-By default, this will insert both the ID and title of the selected note; to
-insert only the ID, call the command with a prefix argument (`C-u C-c # l`). You
-can use `zt-insert-linking-file` (`C-c # L`) to pick only from files that link
-to the current note.
+existing note with `zt-find-file` (`C-c # f`)
 
 Once you've built up a little tree of notes like this, move on to the next
 section.
 
 #### Add a structure note
 
-**TODO: This section has not yet been written!**
+**TODO: This section is missing an introduction!**
+
+To insert a link to a note you already wrote, use `zt-insert-link` (`C-c # l`).
+By default, this will insert both the ID and title of the selected note, which
+is useful when building lists of notes.
+
+Of course, you should not use links only when writing structure notes. When you
+reference an idea from another note, you should also insert a link to that note
+so that you can find it again in the future. When doing this, you may want to
+insert only the ID of the chosen file by calling `zt-insert-link` with a prefix
+argument (`C-u C-c # l`). By adding links, it also becomes possible to find
+releted notes via `zt-find-linking-file` (`C-c # F`), which shows only those
+files that link to the current note.
+
+Below is a longer, more realistic example of what a structure note may actually
+look like in practice. I wrote this note to summarize and index a previous
+sequence of notes, and then added it to an overarching topic note, which I
+inserted a backlink to with `zt-insert-linking-file` (`C-c # L`).
+
+```
+Folgezettel vs. index-oriented approaches to Zettelkasten
+
+20220918T031544 Zettelkasten
+
+By forcing yourself to add every note to an index, you risk creating bloated
+indexes 20220913T214836, which reduces trust in the system 20220428T185922. The
+Folgezettel-oriented approach more effectively induces the "conversation
+partner" quality of the Zettelkasten 20220922T113137, and also removes the need
+for a dedicated inbox.
+
+Folgezettel in Luhmann's system
+    20220124T000002 Luhmann wrote many linear chains of thought
+    20220914T025344 Emulating Antinet numbering system in digital Zettelkasten
+        20220914T184826 Using two-way "hard" links for branching
+    20220914T024106 Disadvantages of digital Zettelkästen
+
+Importance of simplicity
+    20220920T233524 The different purposes of Zettelkasten and GTD
+    20220920T233259 Zettelkasten is the wrong tool for managing collections of reference material
+    20220920T003710 Collector's Fallacy
+
+When and how to use indexes
+    20220921T004228 Use structure notes to create "wormholes" between distant clusters
+    20220918T163155 Meta-index for integrated Zettelkasten/GTD/journal system in Emacs
+    20220921T010536 Don't add multiple notes about the same idea to one index
+```
 
 ## Best practices and philosophy
 
