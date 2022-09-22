@@ -289,69 +289,77 @@ Outline:
 ## Comparison to other software
 
 - [The Archive](https://zettelkasten.de/the-archive/) is a proprietary
-  application for macOS. It's designed for Zettelkasten and values simple
-  design. If you use macOS and don't mind using proprietary software, this is
-  what I recommend.
+  application for macOS. It's designed for buliding Zettelkästen and values
+  simple design. Its authors are the same as those of the excellent
+  [zettelkasten.de](https://zettelkasten.de/) resource. If you use macOS
+  exclusively and don't mind using proprietary software, I strongly recommend
+  this!
 - [Zettlr](https://www.zettlr.com/) has a similar design philosophy to The
   Archive, but it's free and open-source software and available on multiple
-  platforms. Zettlr, like zt, does not care about the filenames of notes and
+  platforms. Zettlr, like zt, does't care about the filenames of notes and
   supports finding notes by title, even if the title is different from the
-  filename. It supports only Markdown. For most people, this would be my second
-  recommendation. If you're looking for something that's compatible with plain
-  text or Org-mode, keep reading.
-- **zt** is an Emacs package designed for Zettelkasten with a simple
+  filename. It supports only Markdown. For the average person, this would be my
+  second recommendation. If you're looking for something that's compatible with
+  plain text or Org-mode, or just want to use Emacs, keep reading.
+- **zt** is an Emacs package designed for Zettelkästen and valuing simple
   design. It's compatible with multiple file-formats and handles links to other
   files by their IDs, such that renaming a note does not require any updates to
   filenames or existing links. It lets you interactively find files by their
   "logical" title (in plain text, Markdown and Org), and makes including the
-  title in the filename optional.
+  title in the filename optional. The biggest disadvantage is the requirement of
+  an external program `ztf` that's only officially available on Linux (but can
+  be built for other platforms).
 - [zk.el](https://github.com/localauthor/zk) is another Emacs package with a
   very similar design philosophy to zt. It's also inspired by The Archive, is
-  also designed for plain text Zettelkasten and also values simplicity in its
+  also designed for plain text Zettelkästen and also values simplicity in its
   design. zk stores the titles of files in their filenames for the purpose of
   selecting files for linking with completion, so if you forget to update the
-  filename, you won't be able to easily find the file you want to link
-  to. However, links are stored by ID, so it's possible to rename files without
-  needing to update existing links. A major advantage of zk compared to zt is
-  that it doesn't have any dependencies on external programs.
+  filename, you won't be able to select the right file. However, links are
+  stored by ID, so it is at least possible to rename files without needing to
+  update existing links. A major advantage of zk compared to zt is that it
+  doesn't have any dependencies on external programs.
 - [Denote](https://protesilaos.com/emacs/denote) is another simple note-taking
-  package for Emacs. It's not designed specifically for Zettelkasten but it can
-  certainly be used for that purpose. Denote expects you to assign tags to your
-  files. Like zk, and unlike zt, Denote requires you to keep filenames in sync
-  with thier titles; like both zk and zt, you don't need to update existing
+  package for Emacs. Denote expects you to assign tags to your files. Like zk,
+  and unlike zt, Denote requires you to keep filenames in sync with thier titles
+  for searching; like both zk and zt, however, you don't need to update existing
   links whenever you change the title of a note. If you're trying to build a
-  Zettelkasten, I recommend using zk or zt over Denote. Note that zt is
-  specifically designed to be interoperable with Denote by using the same ID
-  format, so if you're using Org-mode, transitioning between these two is just a
-  matter of `s/zt:/denote:/g`.
+  Zettelkasten, I recommend using zk or zt over Denote, but Denote may be
+  well-suited for more general note-taking purposes. Note that zt is designed to
+  be interoperable with Denote by using the same ID format, so if you're using
+  Org-mode, transitioning between these two is just a matter of
+  `s/zt:/denote:/g`.
 - [Logseq](https://logseq.com/), [Obsidian](https://obsidian.md/), [Roam
   Research](https://roamresearch.com/) and others *can* be used to implement a
-  Zettelkasten system, but they are not really designed for it. You must
-  manually assign unique titles to all files. Obsidian has a Zettelkasten
-  plugin, but it still requires you to link to files with verbose links that
-  include the entire title. Whenever you change the title of a note, you must
-  also update all links to it (which can be done automatically, of course). If
-  you don't mind this – or especially if you want to build something more like
-  a personal wiki than a Zettelkasten in a strict sense – these are all good
-  solutions.
+  Zettelkasten system, but they aren't really designed for it. You must manually
+  assign unique titles to all files. Obsidian has a Zettelkasten plugin, but it
+  still requires you to link to files with verbose links that include the entire
+  title. Whenever you change the title of a note, you must also update all links
+  to it (which can be done automatically, of course, but only from inside
+  Obsidian itself). If you don't mind this – or especially if you want to build
+  something more like a personal wiki than a strict Zettelkasten – these are all
+  good solutions.
 - [Org-mode](https://orgmode.org/) can be used on its own to build a
-  Zettelkasten by simply linking between files by their IDs. A lot of people
-  characterize Org-mode as "plain text", but if you rely on its ID-based linking
-  mechanisms, you're essentially locked in to using Org-mode forever. You can
-  use Org-mode with zt, zk or Denote and get the best of both worlds.
+  Zettelkasten by simply linking between files by their IDs. Although frequently
+  characterized as "plain text", Org-mode in fact uses a totally proprietary
+  ID-based linking format that isn't interoperable with any other software to my
+  knowledge. You can use Org-mode with zt, zk or Denote and get the best of both
+  worlds.
 - [Org-roam](https://github.com/org-roam/org-roam) is essentially a port of
   Obsidian to Emacs, designed for use with Org-mode. It has more overhead than
   plain Org-mode (notably, requiring a cache for backlinking), but provides a
-  more familiar experience for Obsidian users. It has quite a few features. For
-  my purposes (building a Zettelkasten), I found it somewhat clumsy, but it
-  may be well-suited if you want something more like a personal wiki.
+  more familiar experience for Obsidian users. It has quite a few features. It
+  shares all the same disadvantages of plain Org-mode, and for my purposes
+  (building a Zettelkasten), I found it somewhat clumsy, but it may be
+  well-suited if you want something more like a personal wiki and if you're
+  willing to commit to using Emacs long-term.
 - [emacs-zettelkasten](https://sr.ht/~ymherklotz/emacs-zettelkasten/) seems to
   have similar goals both zt and zk. I haven't tried it.
 - [Zetteldeft](https://github.com/EFLS/zetteldeft) is the package that zk is
   based on. I haven't tried it either.
 - [Hyperbole](https://www.gnu.org/software/hyperbole/) is infamous for being
-  rather hard to grasp, but it seems very cool from a distance. It does a lot
-  more than zt, but I can't really give a useful comparison beyond that.
+  rather hard to grasp, but it does seem very cool, at least from a distance!
+  It does a lot more than zt and isn't really designed with Zettelkästen in
+  mind. I can't give a more useful comparison beyond that.
 
 ## License
 
