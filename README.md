@@ -108,8 +108,8 @@ works, for example to support a custom file format.
 
 ## Tutorial
 
-In this section, I'll walk you through configuring zt, starting a new
-Zettelkasten and branching off with new notes.
+In this section, we'll see how to configure zt, begin a new Zettelkasten, and
+use follower and structure notes to start building up a library.
 
 #### Configure keybindings
 
@@ -138,7 +138,24 @@ mappings (prefixed with `C-c #`) are given, but you really should change them!
 
 #### Create your first note
 
-**TODO: This section has not yet been written!**
+Usually, you'll be creating notes from other notes. But to create your first
+note, call `zt-create-in-directory`, and enter a directory where you would like
+to store all your notes. This will open a new plain text file.
+
+Try saving it, and notice that it has a filename that looks like
+`20220922T200758.txt`. In zt, all files are prefixed with an ID; this is how zt
+keeps track of them, and it's necessary for using zt.
+
+By default, zt creates plain text files. If you want to use, say, Markdown
+instead, call `zt-change-file-extension` (`C-c # .`) and enter `md`. You can
+also change the default file format by customizing `zt-default-file-extension`,
+but this is not recommended! Keep most of your notes in plain text, and mix in
+other formats when you need the more advanced features.
+
+zt treats the first line of the file as its title. Try changing this, saving the
+buffer, and then calling `zt-find-file` (`C-c # f`). Notice how in the
+completion buffer, zt extracts the title from the file automatically, even
+though the filename is just an ID.
 
 #### Branch off into a follower note
 
