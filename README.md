@@ -184,15 +184,21 @@ extracted from the file, and which are used when finding files with
 
 Now, with the point at the end of the line, call `zt-open-follower-at-point`
 (`C-c # O`, or equivalently `C-u zt-open-at-point` (`C-u C-c # o`)). This will
-create a new note with both the title and a link to the previous note inserted
-automatically.
+create a new note with both the title you wrote as well as a link back to the
+previous note inserted automatically, like this:
 
-From there, you can continue writing, and you can repeat the procces to create
-more follower notes. You may choose to insert them at the end of the sequence,
-or to go back to a previous note and start a new branch. You can navigate back
-and forth in the tree by clicking the "backward" links at the top of each note
-and the "forward" links at the bottom. Once you've written a few notes like
-this, move on to the next section.
+```
+Inserting links and backlinks in zt
+
+20220922T222648 File names and titles in zt|
+```
+
+From here, you can continue writing, and then repeat the procces to create more
+follower notes. You may choose to insert them at the end of the current
+sequence, or to go back to a previous note and start a new branch. You can
+navigate back and forth in the tree by clicking the "backward" links at the top
+of each note and the "forward" links at the bottom. Once you've built up a
+little tree of notes like this, move on to the next section.
 
 #### Add a structure note
 
