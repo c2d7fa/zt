@@ -326,6 +326,7 @@ link to the current file, use `zt-insert-linking-files' instead."
 (defconst zt-minor-mode-prefix-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "o") 'zt-open-at-point)
+    (define-key map (kbd "O") 'zt-open-follower-at-point)
     (define-key map (kbd "t") 'zt-insert-new-id)
     (define-key map (kbd "l") 'zt-insert-link)
     (define-key map (kbd "L") 'zt-insert-linking-file)
