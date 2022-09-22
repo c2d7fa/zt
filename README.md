@@ -4,7 +4,7 @@ zt is a simple but highly opinionated Emacs package for building a
 Zettelkasten. To get started, continue reading from
 [Installation](#installation) below.
 
-**Table of contents**
+#### Table of contents
 
 * [Motivation](#motivation)
 * [Installation](#installation)
@@ -68,8 +68,9 @@ design philosophy that gave rise to zt.
 ## Installation
 
 First, install the zt package itself. You can use a package manager like
-[straight.el](https://github.com/radian-software/straight.el) to do this for
-you, or you can do it manually with:
+[straight.el](https://github.com/radian-software/straight.el) (as [shown
+below](#configure-keybindings)) to do this for you, or you can do it manually
+with:
 
 ```emacs-lisp
 ;; Download files (run once, and again when updating zt)
