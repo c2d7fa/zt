@@ -323,6 +323,24 @@ link to the current file, use `zt-insert-linking-files' instead."
   (mapc (lambda (link) (insert link "\n"))
         (zt--available-formatted-links)))
 
+;;;###autoload
+(defun zt-create-in-directory (directory)
+  "Create a new note in the given directory."
+  (interactive "DDirectory: ")
+  (zt-open-in-directory (zt--generate-id) directory))
+
+;;;###autoload
+(defun zt-open-in-directory (link directory)
+  "Open the whose ID corresponds to LINK in DIRECTORY. For example,
+if you have an index note with ID \"20220922T193931\", this may
+be a useful binding to define:
+
+  (global-set-key (kbd \"C-c z\")
+                  (lambda (interactive)
+                    (zt-open-in-directory \"20220922T193931\" \"~/zt\")))"
+  (let ((default-directory directory))
+    (zt-open link)))
+
 (defconst zt-minor-mode-prefix-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "o") 'zt-open-at-point)
