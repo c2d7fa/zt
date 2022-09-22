@@ -78,7 +78,7 @@ you, or you can do it manually with:
 (require 'zt)
 ```
 
-If you're using x68-64 Linux, you can skip ahead to the [Tutorial](#tutorial)
+If you're using x86-64 Linux, you can skip ahead to the [Tutorial](#tutorial)
 now; otherwise, read the next section.
 
 #### Non-Linux platforms: Installation of `ztf` companion
