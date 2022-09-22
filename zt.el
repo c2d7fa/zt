@@ -337,14 +337,6 @@ link to the current file, use `zt-insert-linking-files' instead."
     (define-key map (kbd "C-c #") zt-minor-mode-prefix-map)
     map))
 
-;;;###autoload
-(defun zt-enable-recommended-keymap ()
-  (interactive)
-  (define-key zt-minor-mode-map (kbd "C-z") zt-minor-mode-prefix-map) 
-  (define-key zt-minor-mode-map (kbd "C-z C-l") 'zt-insert-link)
-  (define-key zt-minor-mode-map (kbd "C-z C-S-l") 'zt-insert-linking-file)
-  (define-key zt-minor-mode-map (kbd "C-z C-f") 'zt-find-file))
-
 (define-minor-mode zt-minor-mode "zt"
   :lighter " zt"
   :keymap zt-minor-mode-map
