@@ -231,10 +231,14 @@ of the created file:
     (zt-minor-mode 1)))
 
 ;;;###autoload
-(defun zt-open-at-point-and-insert-linking-files ()
-  "Open the link at point, according to the same rules at
-`zt-open'. In the newly created file, also insert a list of all
-linking files (see also `zt-insert-linking-files')."
+(defun zt-open-follower-at-point ()
+  "Open the link at point or before the point, according to the
+same rules at `zt-open'. In the newly created file, insert not
+only the title but also a list of all linking files (see also
+`zt-insert-linking-files').
+
+The \"follower\" refers to a Folgezettel-style link where a
+backlink from the newly created follower-note is also inserted."
   (interactive)
   (if-let ((id (or (zt--id-at-point)
                    (zt--formatted-link-at-point))))
@@ -249,10 +253,10 @@ linking files (see also `zt-insert-linking-files')."
 (defun zt-open-at-point (&optional prefix)
   "Open the link at point, according to the same rules as
 `zt-open'. With a prefix argument, instead do the same as
-`zt-create-at-point-and-insert-linking-files'."
+`zt-open-follower-at-point'."
   (interactive "P")
   (if prefix
-      (zt-open-at-point-and-insert-linking-files)
+      (zt-open-follower-at-point)
     (if-let ((id (or (zt--id-at-point)
                      (zt--formatted-link-at-point))))
         (progn

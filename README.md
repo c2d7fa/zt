@@ -119,7 +119,7 @@ of the more common commands. For example, this is my configuration with
          ("C-f" . zt-find-file)
          ("M-f" . zt-find-linking-file)
          ("C-o" . zt-insert-new-id)
-         ("M-o" . zt-open-at-point-and-insert-linking-files))
+         ("M-o" . zt-open-follower-at-point))
   :bind-keymap ("C-z" . zt-minor-mode-prefix-map))
 ```
 
