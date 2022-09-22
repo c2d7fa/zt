@@ -189,6 +189,7 @@ inserted as a new link."
 
 ;;;###autoload
 (defun zt-change-file-extension (extension)
+  "Change the file extension of the current file."
   (interactive "MFile extension: ")
   (save-buffer)
   (let* ((old-file-name (buffer-file-name))
