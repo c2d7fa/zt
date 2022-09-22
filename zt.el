@@ -375,6 +375,7 @@ be a useful binding to define:
     (define-key map (kbd "C-c #") zt-minor-mode-prefix-map)
     map))
 
+;;;###autoload
 (define-minor-mode zt-minor-mode "zt"
   :lighter " zt"
   :keymap zt-minor-mode-map
