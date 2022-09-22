@@ -193,12 +193,22 @@ Inserting links and backlinks in zt
 20220922T222648 File names and titles in zt|
 ```
 
-From here, you can continue writing, and then repeat the procces to create more
+From here, you can continue writing, and then repeat the process to create more
 follower notes. You may choose to insert them at the end of the current
 sequence, or to go back to a previous note and start a new branch. You can
 navigate back and forth in the tree by clicking the "backward" links at the top
-of each note and the "forward" links at the bottom. Once you've built up a
-little tree of notes like this, move on to the next section.
+of each note and the "forward" links at the bottom. You can jump directly to an
+existing note with `zt-find-file` (`C-c # f`); to search only among the files
+that link to this one, use `zt-find-linking-file` (`C-c # F`).
+
+To insert a link to a note you already wrote, call `zt-insert-link` (`C-c # l`).
+By default, this will insert both the ID and title of the selected note; to
+insert only the ID, call the command with a prefix argument (`C-u C-c # l`). You
+can use `zt-insert-linking-file` (`C-c # L`) to pick only from files that link
+to the current note.
+
+Once you've built up a little tree of notes like this, move on to the next
+section.
 
 #### Add a structure note
 
