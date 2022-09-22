@@ -1,8 +1,8 @@
 # zt
 
 zt is a simple but highly opinionated Emacs package for building a
-[Zettelkasten](https://zettelkasten.de/posts/overview/). To get started,
-continue reading from [Installation](#installation) below.
+[Zettelkasten](https://zettelkasten.de/posts/overview/). To get started, skip
+ahead to [Installation](#installation) below.
 
 #### Table of contents
 
@@ -17,6 +17,10 @@ continue reading from [Installation](#installation) below.
 * [Best practices and philosophy](#best-practices-and-philosophy)
 * [Comparison to other software](#comparison-to-other-software)
 * [License](#license)
+
+#### Screenshot
+
+<img src="./screenshot.png?raw=true" width="400px"/>
 
 ## Motivation
 
