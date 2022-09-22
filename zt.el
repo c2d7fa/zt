@@ -119,9 +119,7 @@ fontification for the first line."
   "If a note with the given ID exists in the current directory,
 return its full path. If no file exists, or there are multiple
 matching files, return `nil'."
-  (let* ((all-files (directory-files default-directory))
-         (has-id (lambda (file) (s-prefix? id file)))
-         (id-files (seq-filter has-id all-files)))
+  (let* ((id-files (directory-files default-directory nil (rx bos (literal id)))))
     (when (= (length id-files) 1)
       (car id-files))))
 
