@@ -27,14 +27,12 @@ from other solutions on a few parameters:
 1. zt does not (necessarily) store the title of a file in its filename; by
    default files are named like `20220921T182341.txt`. You may optionally add
    more stuff after the ID prefix if you want, but the ID prefix is required.
-2. However, zt *can* use the titles of files when searching for notes. For plain
-   text files, the title is the first line, for Markdown, it's the first heading
-   (or `title:` property in the YAML frontmatter), and for Org-mode it's the
-   `#+TITLE:` or first heading.
-3. This "logical title" is used to interactively (through `completing-read`)
-   find notes for navigation or linking by their titles. It's also possible to
-   navigate via backlinks.
-4. Links are simply the ID of a note. Delimiters are not required. By default,
+2. However, zt *does* support "logical titles" when selecting notes
+   interactively (for example when inserting links). For plain text files, the
+   title is the first line, for Markdown, it's the first heading (or `title:`
+   property in the YAML frontmatter), and for Org-mode it's the `#+TITLE:` or
+   first heading.
+3. Links are just the ID of a note. Delimiters are not required. By default,
    commands that insert links also insert the title of the linked file and
    optionally a link back to the originating context. In Org-mode, the special
    `zt:` link type may be used, e.g. `zt:20220921T182341`.
@@ -213,14 +211,14 @@ kind of "inbox" for your Zettelkasten.
 As your Zettelkasten grows, you'll want to add a second layer to your
 Zettelkasten: the [structure
 note](https://zettelkasten.de/posts/three-layers-structure-zettelkasten/). A
-structure note is essentially like a table of contents -- it's a view of the
+structure note is essentially like a table of contents – it's a view of the
 entire Zettelkasten if it were designed to answer a very specific question.
 
 To create these structure notes in zt, use `zt-insert-link` (`C-c # l`) to
 insert a link to an existing note.  By default, this will insert both the ID and
 title of the selected note, which is useful when building lists of notes. Try
 using this functionality to create an interesting overview of some of the notes
-you just wrote. Don't worry about adding every relevant note to the index --
+you just wrote. Don't worry about adding every relevant note to the index –
 focus on making it useful and interesting by not adding two notes that are too
 similar.
 
@@ -333,8 +331,8 @@ Outline:
   plugin, but it still requires you to link to files with verbose links that
   include the entire title. Whenever you change the title of a note, you must
   also update all links to it (which can be done automatically, of course). If
-  you don't mind this -- or especially if you want to build something more like
-  a personal wiki than a Zettelkasten in a strict sense -- these are all good
+  you don't mind this – or especially if you want to build something more like
+  a personal wiki than a Zettelkasten in a strict sense – these are all good
   solutions.
 - [Org-mode](https://orgmode.org/) can be used on its own to build a
   Zettelkasten by simply linking between files by their IDs. A lot of people
