@@ -103,11 +103,33 @@ works, for example to support a custom file format.
 
 ## Tutorial
 
+By default, zt exports a keymap `zt-minor-mode-prefix-map`, which is bound
+(inside `zt-minor-mode-map`) to the prefix `C-c #`. It's *strongly* recommended
+that you change this to something more convenient, and also that you remap some
+of the more common commands. For example, this is my configuration with
+[use-package](https://github.com/jwiegley/use-package) and
+[straight.el](https://github.com/radian-software/straight.el):
+
+```emacs-lisp
+(use-package zt
+  :straight (:host github :repo "c2d7fa/zt")
+  :bind (:map zt-minor-mode-map
+         ("C-a" . zt-insert-link)
+         ("M-a" . zt-insert-linking-file)
+         ("C-f" . zt-find-file)
+         ("M-f" . zt-find-linking-file)
+         ("C-o" . zt-insert-new-id)
+         ("M-o" . zt-open-at-point-and-insert-linking-files))
+  :bind-keymap ("C-z" . zt-minor-mode-prefix-map))
+```
+
+(Note that this remaps some built-in keys.) In the following, the default
+mappings (prefixed with `C-c #`) are given, but you really should change them!
+
 **TODO: This section hasn't been written yet!**
 
 Outline:
 
-- Recommended keybinding setup.
 - Reference to (currently unwritten) manual.
 - Briefly describe file layout, title parsing.
 - Describe workflow for inserting link to new file.
