@@ -94,6 +94,7 @@ fontification for the first line."
                   line)
     (match-string 1 line)))
 
+;;;###autoload
 (defun zt-insert-new-id ()
   (interactive)
   (zt--insert-link (zt--generate-id)))
@@ -184,6 +185,7 @@ inserted as a new link."
   (let ((id (zt--find-id (buffer-name))))
     (when (zt--is-id id) id)))
 
+;;;###autoload
 (defun zt-change-file-extension (extension)
   (interactive "MFile extension: ")
   (save-buffer)
@@ -195,6 +197,7 @@ inserted as a new link."
     (delete-file old-file-name)
     (zt-minor-mode 1)))
 
+;;;###autoload
 (defun zt-kill-current-id ()
   "Add the ID of the current file to the kill ring, so that it
 can be yanked again with `yank', or, depending on your Emacs
@@ -204,6 +207,7 @@ configuration, is copied to the clipboard."
     (kill-new id)
     (message (format "Added current ID '%s' to kill ring." id))))
 
+;;;###autoload
 (defun zt-open (link)
   "Given a link to a file, optionally also followed by a title, go
 to the associated file if it exists, and otherwise create the
@@ -226,6 +230,7 @@ of the created file:
       (insert title))
     (zt-minor-mode 1)))
 
+;;;###autoload
 (defun zt-open-at-point-and-insert-linking-files ()
   "Open the link at point, according to the same rules at
 `zt-open'. In the newly created file, also insert a list of all
@@ -240,6 +245,7 @@ linking files (see also `zt-insert-linking-files')."
         (zt-insert-linking-files))
     (message "zt: no link at point")))
 
+;;;###autoload
 (defun zt-open-at-point (&optional prefix)
   "Open the link at point, according to the same rules as
 `zt-open'. With a prefix argument, instead do the same as
@@ -264,6 +270,7 @@ linking files (see also `zt-insert-linking-files')."
                                  (zt--id-at-point)))))
     (if is-actually-on-link (zt-open-at-point) (newline))))
 
+;;;###autoload
 (defun zt-insert-link (&optional prefix)
   "Interactively select a note, and insert a link to the note at
 point. By default, also insert the linked file's title (if it
@@ -272,16 +279,19 @@ exists). With prefix argument, insert just the link."
   (let ((formatted-link (zt--completing-read "Insert link: ")))
     (zt--insert-link formatted-link prefix)))
 
+;;;###autoload
 (defun zt-find-file ()
   (interactive)
   (zt-open (zt--completing-read "Find file: ")))
 
+;;;###autoload
 (defun zt-find-linking-file ()
   "Interactively prompt for a file from among those that link to
 the current file and open it."
   (interactive)
   (zt-open (zt--completing-read-linking-files "Find file: " (zt--current-id))))
 
+;;;###autoload
 (defun zt-insert-linking-file (&optional prefix)
   "Interactively prompt for a file from among those that link to
 the current file. Insert a link to the selected file. Prefix
@@ -290,6 +300,7 @@ argument has same effect as for `zt-insert-link'."
   (let ((formatted-link (zt--completing-read-linking-files "Insert link: " (zt--current-id))))
     (zt--insert-link formatted-link prefix)))
 
+;;;###autoload
 (defun zt-insert-linking-files ()
   "Insert an index of all files that link to the current file. To
 insert only a single link, use `zt-insert-linking-file'. To
@@ -299,6 +310,7 @@ insert an index of all files in the system, use
   (mapc (lambda (link) (insert link "\n"))
         (zt--available-linking-files (zt--current-id))))
 
+;;;###autoload
 (defun zt-insert-index ()
   "Insert at point a list of links to each file in the current
 directory, including their titles. To include only files that
@@ -325,6 +337,7 @@ link to the current file, use `zt-insert-linking-files' instead."
     (define-key map (kbd "C-c #") zt-minor-mode-prefix-map)
     map))
 
+;;;###autoload
 (defun zt-enable-recommended-keymap ()
   (interactive)
   (define-key zt-minor-mode-map (kbd "C-z") zt-minor-mode-prefix-map) 
