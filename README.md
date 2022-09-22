@@ -123,18 +123,19 @@ of the more common commands. For example, this is my configuration with
 ```emacs-lisp
 (use-package zt
   :straight (:host github :repo "c2d7fa/zt")
+  :bind-keymap ("C-z" . zt-minor-mode-prefix-map)
   :bind (:map zt-minor-mode-map
          ("C-a" . zt-insert-link)
          ("M-a" . zt-insert-linking-file)
          ("C-f" . zt-find-file)
          ("M-f" . zt-find-linking-file)
          ("C-o" . zt-insert-new-id)
-         ("M-o" . zt-open-follower-at-point))
-  :bind-keymap ("C-z" . zt-minor-mode-prefix-map))
+         ("M-o" . zt-open-follower-at-point)))
 ```
 
-(Note that this remaps some built-in keys.) In the following, the default
-mappings (prefixed with `C-c #`) are given, but you really should change them!
+Note that this remaps some built-in keys. In the following, the default mappings
+(prefixed with `C-c #`) are given, but you really should change them!  You can
+use `describe-keymap` with `zt-minor-mode-map` to see the default keybindings.
 
 #### Create your first note
 
@@ -155,7 +156,8 @@ other formats when you need the more advanced features.
 zt treats the first line of the file as its title. Try changing this, saving the
 buffer, and then calling `zt-find-file` (`C-c # f`). Notice how in the
 completion buffer, zt extracts the title from the file automatically, even
-though the filename is just an ID.
+though the filename is just an ID. Using a completion framework such as
+[Ivy](https://github.com/abo-abo/swiper) is more or less a requirement for zt!
 
 #### Branch off into a follower note
 
