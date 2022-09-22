@@ -214,15 +214,15 @@ As your Zettelkasten grows, you'll want to add a second layer to your
 Zettelkasten: the [structure
 note](https://zettelkasten.de/posts/three-layers-structure-zettelkasten/). A
 structure note is essentially like a table of contents -- it's a view of the
-entire Zettelkasten if it were designed to answer a very specific
-question. Let's look at how to actually create these structure notes with zt.
+entire Zettelkasten if it were designed to answer a very specific question.
 
-To insert a link to a note you already wrote, use `zt-insert-link` (`C-c # l`).
-By default, this will insert both the ID and title of the selected note, which
-is useful when building lists of notes. Try using this functionality to create
-an interesting overview of some of the notes you just wrote. Don't worry about
-adding every relevant note to the index -- focus on making it useful and
-interesting by not adding two notes that are too similar.
+To create these structure notes in zt, use `zt-insert-link` (`C-c # l`) to
+insert a link to an existing note.  By default, this will insert both the ID and
+title of the selected note, which is useful when building lists of notes. Try
+using this functionality to create an interesting overview of some of the notes
+you just wrote. Don't worry about adding every relevant note to the index --
+focus on making it useful and interesting by not adding two notes that are too
+similar.
 
 Below is a realistic example of what a structure note may actually look like in
 practice. I wrote this note to summarize and index a previous sequence of notes,
