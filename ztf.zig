@@ -1,17 +1,14 @@
 const std = @import("std");
 
-fn readTitle(buffer: []u8, file: std.fs.File, name: []const u8) ![]const u8 {
-  var len = try file.read(buffer);
-  if (len >= buffer.len) len = buffer.len - 1;
-
+fn readTitle(buffer: []u8, name: []const u8) ![]const u8 {
   var bestFound: u8 = 0;
 
   var inFrontmatter = false;
   var start: u64 = 0;
-  var end: u64 = len;
+  var end: u64 = buffer.len;
 
   var i: u64 = 0;
-  while (i < len) {
+  while (i < buffer.len) {
     if (i == 0 and std.mem.startsWith(u8, buffer, "---\n")) {
       inFrontmatter = true;
       i += 4;
@@ -101,6 +98,13 @@ fn readTitle(buffer: []u8, file: std.fs.File, name: []const u8) ![]const u8 {
   return buffer[start..end];
 }
 
+pub fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
+  for (buffer) |char, i| {
+    if (char == searchTerm[0] and buffer[i+1] == searchTerm[1] and std.mem.startsWith(u8, buffer[i..], searchTerm)) return true;
+  }
+  return false;
+}
+
 const InvalidIdError = error { InvalidId };
 
 pub fn parseId(name: []const u8) anyerror![]const u8 {
@@ -118,18 +122,31 @@ pub fn main() !void {
   const args = try std.process.argsAlloc(allocator);
   const dirPath = args[1];
 
+  if (std.mem.eql(u8, dirPath, "--version")) {
+    try stdout.print("{s}\n", .{"2"});
+    return;
+  }
+
   const path = try std.fs.path.resolve(allocator, &.{dirPath});
   var dir = try std.fs.openDirAbsolute(path, .{.iterate = true});
   defer dir.close();
 
-  var buffer: [2048]u8 = [_]u8{0} ** 2048;
+  var fileBuffer: []u8 = try allocator.alloc(u8, 1048576);
 
   var iterator = dir.iterate();
   while (try iterator.next()) |entry| {
     if (entry.kind != std.fs.Dir.Entry.Kind.File) continue;
     var file = dir.openFile(entry.name, .{}) catch { continue; };
     defer file.close();
-    const title = try readTitle(&buffer, file, entry.name);
+
+    var len = try file.read(fileBuffer);
+    if (len >= fileBuffer.len) len = fileBuffer.len - 1;
+
+    if (args.len > 2 and !doesMatch(fileBuffer[0..len], args[2])) {
+      continue;
+    }
+
+    const title = try readTitle(fileBuffer[0..len], entry.name);
     const id = parseId(entry.name) catch { continue; };
     try stdout.print("{s} {s}\n", .{id, title});
   }
