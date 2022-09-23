@@ -100,13 +100,9 @@ hardcoded value, but obviously you must trust me to not be actively distributing
 malware.
 
 Other platforms are not explicitly supported, but you should be able to build it
-yourself by running `nim c -d:release ./ztf.nim` and copying the resulting
-executable to `~/.local/share/zt/ztf` or whatever `zt-zft-executable-path` is
-set to.
-
-Otherwise, consider just porting [ztf.nim](./ztf.nim) yourself. It's a very
-short program. You can also replace this program to change how title extraction
-works, for example to support a custom file format.
+yourself; see [build-ztf.sh](./build-ztf.sh) for more information. Copy the
+resulting executable to `~/.local/share/zt/ztf` or whatever
+`zt-zft-executable-path` is set to.
 
 ## Tutorial
 
