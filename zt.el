@@ -37,8 +37,8 @@ fontification for the first line."
 `zt-fontify-plain-text-title' is enabled.")
 
 (defconst zt--required-ztf-version "1")
-(defconst zt--ztf-expected-sha256 "8878b8a6133dfcdb62637c3e1e9db5f45518109b93312b67aec234e50bc6fbbb")
-(defconst zt--ztf-download-url "https://johv.dk/public/ztf-1-amd64-linux")
+(defconst zt--ztf-expected-sha256 "ee09b1e740d5c7db5437256ff145905dc6145ffeaaeb30cc6f9c018a1c953e74")
+(defconst zt--ztf-download-url "https://johv.dk/public/ztf-1-x86_64-linux")
 
 (defun zt--fontify-first-line (limit)
   (if (= (point) 1)
