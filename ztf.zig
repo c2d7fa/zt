@@ -112,7 +112,7 @@ fn parseId(name: []const u8) anyerror![]const u8 {
   return name[0..15];
 }
 
-fn cmpId(context: void, a: [1024]u8, b: [1024]u8) bool {
+fn cmpId(context: void, a: [:0]u8, b: [:0]u8) bool {
   std.io.getStdOut().writer().print("{s} ~ {s}\n", .{a, b}) catch {};
 
   _ = context;
@@ -167,7 +167,7 @@ pub fn main() !void {
   };
   defer dir.close();
 
-  var outputLines = try allocator.alloc([1024]u8, 4096);
+  var outputLines = try allocator.alloc([:0]u8, 4096);
   var outputI: u64 = 0;
 
   var iterator = dir.iterate();
@@ -186,15 +186,15 @@ pub fn main() !void {
     const title = try readTitle(fileBuffer[0..len], entry.name);
     const id = parseId(entry.name) catch { continue; };
 
-    std.mem.copy(u8, outputLines[outputI][0..1024], id);
+    outputLines[outputI] = try allocator.allocSentinel(u8, id.len + 1 + title.len, 0);
+    std.mem.copy(u8, outputLines[outputI], id);
     outputLines[outputI][id.len] = ' ';
-    std.mem.copy(u8, outputLines[outputI][id.len + 1..1024], title);
-    if (id.len + title.len + 1 < 1024) outputLines[outputI][id.len + title.len + 1] = 0;
+    std.mem.copy(u8, outputLines[outputI][id.len + 1..], title);
 
     outputI += 1;
   }
 
-  std.sort.sort([1024]u8, outputLines[0..outputI], {}, cmpId);
+  std.sort.sort([:0]u8, outputLines[0..outputI], {}, cmpId);
 
   for (outputLines[0..outputI]) |line| {
     _ = try stdout.write(line[0..]);
