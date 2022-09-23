@@ -127,11 +127,28 @@ pub fn main() !void {
     return;
   }
 
-  const path = try std.fs.path.resolve(allocator, &.{dirPath});
-  var dir = try std.fs.openDirAbsolute(path, .{.iterate = true});
-  defer dir.close();
-
   var fileBuffer: []u8 = try allocator.alloc(u8, 1048576);
+
+  const path = try std.fs.path.resolve(allocator, &.{dirPath});
+  var dir = std.fs.openDirAbsolute(path, .{.iterate = true}) catch {
+    // I couldn't figure out how to actually check the kind of a path, so instead
+    // we do this to guess if we're dealing with a file.
+    var file = std.fs.openFileAbsolute(dirPath, .{}) catch {
+      // Actual error.
+      try stdout.print("{s}\n", .{dirPath});
+      return;
+    };
+    defer file.close();
+
+    var len = try file.read(fileBuffer);
+    if (len >= fileBuffer.len) len = fileBuffer.len - 1;
+
+    const title = try readTitle(fileBuffer[0..len], std.fs.path.basename(dirPath));
+    try stdout.print("{s}\n", .{title});
+
+    return;
+  };
+  defer dir.close();
 
   var iterator = dir.iterate();
   while (try iterator.next()) |entry| {
