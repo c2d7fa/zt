@@ -37,8 +37,36 @@ fontification for the first line."
 `zt-fontify-plain-text-title' is enabled.")
 
 (defconst zt--required-ztf-version "1")
-(defconst zt--ztf-expected-sha256 "ee09b1e740d5c7db5437256ff145905dc6145ffeaaeb30cc6f9c018a1c953e74")
-(defconst zt--ztf-download-url "https://johv.dk/public/ztf-1-x86_64-linux")
+
+(defun zt--system-configuration-has (s)
+  (s-contains? s system-configuration))
+
+(defun zt--platform ()
+  (let* ((cpu (cond ((zt--system-configuration-has "x86_64") "x86_64")
+                    ((zt--system-configuration-has "aarch64") "aarch64")
+                    ((zt--system-configuration-has "arm") "aarch64")
+                    (t nil)))
+         (os (cond ((zt--system-configuration-has "linux") "linux")
+                   ((zt--system-configuration-has "win") "windows")
+                   ((zt--system-configuration-has "mac") "macos")
+                   ((zt--system-configuration-has "darwin") "macos")
+                   ((zt--system-configuration-has "apple") "macos")
+                   (t nil))))
+    (when (and cpu os)
+      (concat cpu "-" os))))
+
+(defun zt--download-url ()
+  (concat "https://johv.dk/public/ztf-1-" (zt--platform) (if (zt--system-configuration-has "win") ".exe" "")))
+
+(defun zt--expected-sha256 ()
+  (alist-get (zt--platform)
+             '(("aarch64-linux" . "50d34326f6c9b286c56971231491a8babcbfc99e1eb7ac7e4723cff41549f9b9")
+               ("aarch64-macos" . "a2f1969297594f3454fc013556dcfb606cde44444761e6184909ef8b88530e4c")
+               ("aarch64-windows" . "10f9456412951e66ae6cf8fe51973e28745c07aabbcab0f579dea878a5f302b4")
+               ("x86_64-linux" . "ee09b1e740d5c7db5437256ff145905dc6145ffeaaeb30cc6f9c018a1c953e74")
+               ("x86_64-macos" . "acd91eaf9be8010119cf136cb86d4990933e171b1373bd05d8b7e216d43e74da")
+               ("x86_64-windows" . "9fd756e1a0e45527178fd9aaabc932897a87ab991c991c6179378f60b5d66c98"))
+   nil nil 'equal))
 
 (defun zt--fontify-first-line (limit)
   (if (= (point) 1)
@@ -145,17 +173,18 @@ matching files, return `nil'."
                   (s-trim (shell-command-to-string (zt--ztf-command '("--version"))))))))
 
 (defun zt--interactively-update-ztf ()
-  (if (y-or-n-p "zt: Required executable 'ztf' is not installed or not latest version. Automatically download prebuilt executable for x86-64 Linux?")
+  (if (y-or-n-p (concat "zt: Required companion ztf v. " zt--required-ztf-version
+                        " not available. Automatically download prebuilt executable for " (zt--platform) "?"))
       (progn
         (make-directory (file-name-directory zt-ztf-executable-path) t)
-        (url-copy-file zt--ztf-download-url zt-ztf-executable-path t)
+        (url-copy-file (zt--download-url) zt-ztf-executable-path t)
         (let ((ztf-executable-buffer (find-file-noselect zt-ztf-executable-path)))
-          (when (not (equal zt--ztf-expected-sha256 (secure-hash 'sha256 (find-file-noselect zt-ztf-executable-path))))
+          (when (not (equal (zt--expected-sha256) (secure-hash 'sha256 (find-file-noselect zt-ztf-executable-path))))
             (error "zt: sha256 hash didn't match! Refusing to continue."))
           (kill-buffer ztf-executable-buffer))
         (shell-command (concat "chmod +x " (shell-quote-argument zt-ztf-executable-path)))
         (when (zt--ztf-needs-update)
-          (error "zt: Downloading executable didn't work. Perhaps you're not using x86-64 Linux? Otherwise, this is a bug."))
+          (error "zt: Downloading executable didn't work. Make sure you're running the latest version of this package."))
         (message "zt: Sucessfully downloaded prebuilt executable."))
     (error "zt: You must manually install latest 'ztf' executable into 'zt-ztf-executable-path'. See README for more information.")))
 
