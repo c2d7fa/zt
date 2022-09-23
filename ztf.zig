@@ -107,9 +107,26 @@ pub fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
 
 const InvalidIdError = error { InvalidId };
 
-pub fn parseId(name: []const u8) anyerror![]const u8 {
+fn parseId(name: []const u8) anyerror![]const u8 {
   if (name.len < 17) return InvalidIdError.InvalidId;
   return name[0..15];
+}
+
+fn cmpId(context: void, a: [1024]u8, b: [1024]u8) bool {
+  std.io.getStdOut().writer().print("{s} ~ {s}\n", .{a, b}) catch {};
+
+  _ = context;
+
+  var i: u64 = 0;
+  while (i < 15) {
+    if (a[i] < b[i]) {
+      return true;
+    } else if (a[i] > b[i]) {
+      return false;
+    }
+    i += 1;
+  }
+  return false;
 }
 
 pub fn main() !void {
@@ -150,6 +167,9 @@ pub fn main() !void {
   };
   defer dir.close();
 
+  var outputLines = try allocator.alloc([1024]u8, 4096);
+  var outputI: u64 = 0;
+
   var iterator = dir.iterate();
   while (try iterator.next()) |entry| {
     if (entry.kind != std.fs.Dir.Entry.Kind.File) continue;
@@ -165,7 +185,24 @@ pub fn main() !void {
 
     const title = try readTitle(fileBuffer[0..len], entry.name);
     const id = parseId(entry.name) catch { continue; };
-    try stdout.print("{s} {s}\n", .{id, title});
+
+    std.mem.copy(u8, outputLines[outputI][0..1024], id);
+    outputLines[outputI][id.len] = ' ';
+    std.mem.copy(u8, outputLines[outputI][id.len + 1..1024], title);
+    if (id.len + title.len + 1 < 1024) outputLines[outputI][id.len + title.len + 1] = 0;
+
+    outputI += 1;
   }
+
+  std.sort.sort([1024]u8, outputLines[0..outputI], {}, cmpId);
+
+  for (outputLines[0..outputI]) |line| {
+    _ = try stdout.write(line[0..]);
+    _ = try stdout.write("\n");
+  }
+
+  //for (outputLines.items) |line| {
+  //  _ = try stdout.write(line);
+  //}
 }
 
