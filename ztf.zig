@@ -10,13 +10,13 @@ fn readTitle(buffer: []u8, file: std.fs.File) anyerror![]u8 {
 
   var i: u64 = 0;
   while (i < len) {
-    if (i == 0 and buffer[i] == '-' and buffer[i + 1] == '-' and buffer[i + 2] == '-' and buffer[i + 3] == '\n') {
+    if (i == 0 and std.mem.startsWith(u8, buffer, "---\n")) {
       inFrontmatter = true;
       i += 4;
       continue;
     }
 
-    if (inFrontmatter and buffer[i] == '\n' and buffer[i + 1] == '-' and buffer[i + 2] == '-' and buffer[i + 3] == '-' and buffer[i + 4] == '\n') {
+    if (inFrontmatter and std.mem.startsWith(u8, buffer[i..], "\n---\n")) {
       inFrontmatter = false;
       i += 5;
       start = i;
