@@ -105,11 +105,8 @@ fontification for the first line."
 
 (defun zt--formatted-link-at-point ()
   (let ((line (thing-at-point 'line t)))
-    (string-match (rx
-                   (group (= 8 digit)
-                          (? "T")
-                          (= 6 digit)
-                          (opt " " (+? any) line-end)))
+    (string-match (rx (group (regexp zt--id-regexp)
+                             (opt " " (+? any) line-end)))
                   line)
     (match-string 1 line)))
 
@@ -129,11 +126,6 @@ fontification for the first line."
                     string-end)
                 formatted-link)
   (match-string 1 formatted-link))
-
-(defun zt--all-existing-ids-default-directory ()
-  (let* ((all-files (seq-filter 'zt--is-id (directory-files default-directory nil "^[[:digit:]]")))
-         (all-ids (mapcar 'zt--find-id all-files)))
-    all-ids))
 
 (defun zt--search-id (id)
   "If a note with the given ID exists in the current directory,
