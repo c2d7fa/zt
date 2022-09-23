@@ -49,10 +49,15 @@ fontification for the first line."
                             (? "T")
                             (= 6 digit)))
 
+(defvar zt--link-help-echo-cache (cons "" ""))
 (defun zt--link-help-echo (window object pos)
   (save-excursion
     (goto-char pos)
-    (zt--format-link-id (zt--id-at-point))))
+    (let ((current-id (zt--id-at-point)))
+      (if (equal (car zt--link-help-echo-cache) current-id)
+          (cdr zt--link-help-echo-cache)
+        (setq zt--link-help-echo-cache (cons current-id (zt--format-link-id current-id)))
+        (cdr zt--link-help-echo-cache)))))
 
 (defconst zt--link-face
   (let ((link-keymap (make-sparse-keymap)))
