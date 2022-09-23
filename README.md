@@ -95,14 +95,18 @@ necessary because Emacs' built-in file loading just isn't fast enough to support
 backlinking and search, so `ztf` is used for title resolution and backlinking.
 
 If you're running x86-64 Linux, zt will ask to download a prebuilt executable
-from the internet the first time it's needed. Its checksum is verified against a
-hardcoded value, but obviously you must trust me to not be actively distributing
-malware.
+from the internet the first time it's needed. Otherwise, you must manually
+download another executable and install it at `~/.local/share/zt/ztf` or
+whatever `zt-ztf-executable-path` is set to:
+
+* [ztf-1-x86_64-macos](https://johv.dk/public/ztf-1-x86_64-macos)
+* [ztf-1-x86_64-windows.exe](https://johv.dk/public/ztf-1-x86_64-windows.exe)
+* [ztf-1-aarch64-linux](https://johv.dk/public/ztf-1-aarch64-linux)
+* [ztf-1-aarch64-macos](https://johv.dk/public/ztf-1-aarch64-macos)
+* [ztf-1-aarch64-windows.exe](https://johv.dk/public/ztf-1-aarch64-windows.exe)
 
 Other platforms are not explicitly supported, but you should be able to build it
-yourself; see [build-ztf.sh](./build-ztf.sh) for more information. Copy the
-resulting executable to `~/.local/share/zt/ztf` or whatever
-`zt-zft-executable-path` is set to.
+yourself; see [build-ztf.sh](./build-ztf.sh) for more information.
 
 ## Tutorial
 
