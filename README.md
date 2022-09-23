@@ -14,7 +14,7 @@ ahead to [Installation](#installation) below.
   * [Create your first note](#create-your-first-note)
   * [Branch off into a follower-note](#branch-off-into-a-follower-note)
   * [Add a structure note](#add-a-structure-note)
-* [Best practices and philosophy](#best-practices-and-philosophy)
+* [Best practices](#best-practices)
 * [Comparison to other software](#comparison-to-other-software)
 * [License](#license)
 
@@ -55,8 +55,8 @@ author must make an important decision before they've even written the note, or
 else they are required to go through some special ceremony to change their
 decision later. From a technical standpoint, this doesn't matter that much, but
 it can subtly guide you towards taking notes in a more "top-down" manner, which
-goes against the spirit of Zettelkasten (see [*Best practices and
-philosophy*](#best-practices-and-philosophy) below).
+goes against the spirit of Zettelkasten (see [*Best practices*](#best-practices)
+below).
 
 In my opinion, a plain text-based approach where the individual notes are
 represented as files on disk named after their IDs, and where links between
@@ -271,24 +271,9 @@ That's it for the tutorial. You now know everything you need to use zt. If you
 want some extra tips on how to use the Zettelkasten methodology most effectively
 (in my opinion), check out the section below.
 
-## Best practices and philosophy
+## Best practices
 
-**TODO: This section hasn't been written yet!**
-
-Outline:
-
-- Understand what a Zettelkasten is and isn't. Consider using a different
-  system, which can still be integrated with zt by sharing file naming
-  scheme. Org-mode is suited to journal, calendar, project/task management, etc.
-- Keep filenames and titles separate; prefer plain text, only use Org when you
-  actually need it (mention `zt-change-file-extension`).
-- Don't rely on automatic backlinks (although zt does support them)
-- Do use Folgezettel to avoid overhead of adding everything to indexes and allow
-  for serendipitous discovery later. Describe Folgezettel in Zt and how they
-  relate to Luhmanns numbering system. Add screenshot to demonstrate idea.
-- Use links sparingly; suprisingly, fewer links are better!
-- Use structure notes to enable creative connections between distant notes. You
-  should specifically avoid making indexes of obviously related notes.
+**This section hasn't been written yet!**
 
 ## Comparison to other software
 
