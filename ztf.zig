@@ -127,7 +127,7 @@ pub fn main() !void {
   var iterator = dir.iterate();
   while (try iterator.next()) |entry| {
     if (entry.kind != std.fs.Dir.Entry.Kind.File) continue;
-    var file = try dir.openFile(entry.name, .{});
+    var file = dir.openFile(entry.name, .{}) catch { continue; };
     defer file.close();
     const title = try readTitle(&buffer, file, entry.name);
     const id = parseId(entry.name) catch { continue; };
