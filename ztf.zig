@@ -1,13 +1,42 @@
 const std = @import("std");
 
-fn readTitle(buffer: []u8, file: std.fs.File) std.os.ReadError![]u8 {
-  _ = try file.read(buffer);
+fn readTitle(buffer: []u8, file: std.fs.File) anyerror![]u8 {
+  var len = try file.read(buffer);
+  if (len >= buffer.len) len = buffer.len - 1;
 
-  for (buffer) |*char, i| {
-    if (char.* == '\n') return buffer[0..i];
+  var inFrontmatter = false;
+  var start: u64 = 0;
+  var end: u64 = len;
+
+  var i: u64 = 0;
+  while (i < len) {
+    if (i == 0 and buffer[i] == '-' and buffer[i + 1] == '-' and buffer[i + 2] == '-' and buffer[i + 3] == '\n') {
+      inFrontmatter = true;
+      i += 4;
+      continue;
+    }
+
+    if (inFrontmatter and buffer[i] == '\n' and buffer[i + 1] == '-' and buffer[i + 2] == '-' and buffer[i + 3] == '-' and buffer[i + 4] == '\n') {
+      inFrontmatter = false;
+      i += 5;
+      start = i;
+      continue;
+    }
+
+    if (!inFrontmatter and buffer[i] == '\n') {
+      if (i == start) {
+        i += 1;
+        start = i;
+        continue;
+      }
+      end = i;
+      break;
+    }
+
+    i += 1;
   }
 
-  return buffer[0..1024];
+  return buffer[start..end];
 }
 
 pub fn main() !void {
