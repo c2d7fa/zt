@@ -53,7 +53,7 @@ pub fn main() !void {
   var dir = try std.fs.openDirAbsolute(path, .{.iterate = true});
   defer dir.close();
 
-  var buffer: [1024]u8 = [_]u8{0} ** 1024;
+  var buffer: [2048]u8 = [_]u8{0} ** 2048;
 
   var iterator = dir.iterate();
   while (try iterator.next()) |entry| {
