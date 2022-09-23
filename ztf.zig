@@ -133,7 +133,7 @@ pub fn main() !void {
   var dir = std.fs.openDirAbsolute(path, .{.iterate = true}) catch {
     // I couldn't figure out how to actually check the kind of a path, so instead
     // we do this to guess if we're dealing with a file.
-    var file = std.fs.openFileAbsolute(dirPath, .{}) catch {
+    var file = std.fs.openFileAbsolute(path, .{}) catch {
       // Actual error.
       try stdout.print("{s}\n", .{dirPath});
       return;
@@ -143,7 +143,7 @@ pub fn main() !void {
     var len = try file.read(fileBuffer);
     if (len >= fileBuffer.len) len = fileBuffer.len - 1;
 
-    const title = try readTitle(fileBuffer[0..len], std.fs.path.basename(dirPath));
+    const title = try readTitle(fileBuffer[0..len], std.fs.path.basename(path));
     try stdout.print("{s}\n", .{title});
 
     return;
