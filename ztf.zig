@@ -113,15 +113,13 @@ fn parseId(name: []const u8) anyerror![]const u8 {
 }
 
 fn cmpId(context: void, a: [:0]u8, b: [:0]u8) bool {
-  std.io.getStdOut().writer().print("{s} ~ {s}\n", .{a, b}) catch {};
-
   _ = context;
 
   var i: u64 = 0;
   while (i < 15) {
-    if (a[i] < b[i]) {
+    if (a[i] > b[i]) {
       return true;
-    } else if (a[i] > b[i]) {
+    } else if (a[i] < b[i]) {
       return false;
     }
     i += 1;
