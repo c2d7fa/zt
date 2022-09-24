@@ -72,10 +72,15 @@ notably [The Archive](https://zettelkasten.de/the-archive/) and
 
 ## Installation
 
-First, install the zt package itself. You can use a package manager like
-[straight.el](https://github.com/radian-software/straight.el) (as [shown
-below](#configure-keybindings)) to do this for you, or you can do it manually
-with:
+First, install the zt package itself. If you're using
+[straight.el](https://github.com/radian-software/straight.el), add this to your
+`init.el`:
+
+```emacs-lisp
+(straight-use-package 'zt '(:host github :repo "c2d7fa/zt"))
+```
+
+Otherwise, install zt manually with:
 
 ```emacs-lisp
 ;; Download files (run once, and again when updating zt)
