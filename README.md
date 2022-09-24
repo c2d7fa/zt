@@ -43,29 +43,32 @@ from other solutions on a few parameters:
 
 The result of this is that a note can be renamed without changing its filename
 and without updating existing links to that file. You can also use special
-characters in titles without any issues. (Note that [The
-Archive](https://zettelkasten.de/the-archive/) and
-[Zettlr](https://www.zettlr.com/) work in the same way, but The Archive is
-proprietary macOS-only software, and Zettlr supports only Markdown.)
+characters in titles without any issues.
 
 As for *why this actually matters*, well, it's mostly a matter of aesthetics. A
 Zettelkasten is supposed to be a simple system for building knowledge out of
-small notes in an organic way. By assigning special meaning to the filename, the
-author must make an important decision before they've even written the note, or
-else they are required to go through some special ceremony to change their
-decision later. From a technical standpoint, this doesn't matter that much, but
-it can subtly guide you towards taking notes in a more "top-down" manner, which
-goes against the spirit of Zettelkasten (see [*Best practices*](#best-practices)
-below).
+small notes in an organic way. The [simplest possible
+Zettelkasten](https://zettelkasten.de/posts/introduction-antinet-zettelkasten/)
+is implemented in terms of slips of paper which are assigned identifiers for
+linking between them.
 
-In my opinion, a plain text-based approach where the individual notes are
-represented as files on disk named after their IDs, and where links between
-notes are created by simply writing the ID of the relevant note, is the best
-replication of an analog Zettelkasten. Such a system can then be extended with
-tools for finding notes by their title, automatically finding backlinks of
-notes, automatically following note links, interoperation with other file
-formats like Markdown and Org-mode, and other digital-only features. This is the
-design philosophy that gave rise to zt.
+In a digital system, the most straight-forward emulation of such a system is
+with files whose filenames are unique IDs, and links that are simply the IDs
+themselves. Many note-taking applications assume a model that is fundamentally
+incompatible with such an approach, usually because they conflate titles with
+filenames (as [Denote](https://github.com/protesilaos/denote) and
+[zk.el](https://github.com/localauthor/zk) do), or even with IDs, as
+[Obsidian](https://obsidian.md/) does! zt, in contrast, takes these simple,
+plain-text foundations as its base, and then adds extra digital-only
+functionality on top to make it an actually useful system.
+
+If you have a directory of files named like `20220922T200758.txt` which refer to
+each other by their IDs, then your system is already compatible with zt. From
+there, zt adds support for following links by clicking on them, easily linking
+to existing items by their title, finding backlinks to notes, and more, but at
+it's core, it's simply a collection of uniquely named text files. Some software,
+notably [The Archive](https://zettelkasten.de/the-archive/) and
+[Zettlr](https://www.zettlr.com/) do share this design philosophy.
 
 ## Installation
 
@@ -90,14 +93,18 @@ now; otherwise, read the next section.
 
 #### Non-Linux platforms: Installation of `ztf` companion
 
-Unfortunately, zt also requires a companion program called `ztf`. This is
-necessary because Emacs' built-in file loading just isn't fast enough to support
-backlinking and search, so `ztf` is used for title resolution and backlinking.
+Unfortunately, zt also requires a companion program called `ztf`. Since we
+insist on not storing meaningful information in file names, we are forced to
+actually examine the file contents to find the title of each note. Emacs' native
+file operations aren't fast enough to be usable with more than a few hundred
+notes. Therefore, we call out to this external program when listing files by
+titles and also when finding backlinks.
 
 If you're running x86-64 Linux, zt will ask to download a prebuilt executable
 from the internet the first time it's needed. Otherwise, you must manually
 download another executable and install it at `~/.local/share/zt/ztf` or
-whatever `zt-ztf-executable-path` is set to:
+whatever `zt-ztf-executable-path` is set to; such executables can be downloaded
+from the following URLs:
 
 * [ztf-1-x86_64-macos](https://johv.dk/public/ztf-1-x86_64-macos)
 * [ztf-1-x86_64-windows.exe](https://johv.dk/public/ztf-1-x86_64-windows.exe)
@@ -153,21 +160,21 @@ By default, zt creates plain text files. If you want to use, say, Markdown
 instead, call `zt-change-file-extension` (`C-c # .`) and enter `md`. You can
 also change the default file format by customizing `zt-default-file-extension`,
 but this is not recommended! Keep most of your notes in plain text, and mix in
-other formats when you need the more advanced features.
+other formats only when you actually need the more advanced features.
 
-zt treats the first line of the file as its title. Try changing this, saving the
-buffer, and then calling `zt-find-file` (`C-c # f`). Notice how in the
-completion buffer, zt extracts the title from the file automatically, even
-though the filename is just an ID. Using a completion framework such as
-[Ivy](https://github.com/abo-abo/swiper) is more or less a requirement for zt!
+zt treats the first line of the file as its title. Try writing something, saving
+the buffer, and then calling `zt-find-file` (`C-c # f`) to see how the title is
+extracted from the file automatically, even though the filename is just an
+ID. In order to use this functionality, a completion framework such as
+[Ivy](https://github.com/abo-abo/swiper) is more or less a requirement!
 
 #### Branch off into a follower note
 
 We could continue creating independent notes using this same method, but a
-Zettelkasten is all about linking your notes. I recommend using an approach,
+Zettelkasten is all about linking your notes. I recommend using an approach
 where you "chain" notes together to build up a kind of tree structure. When you
-get a new idea, you insert a link to a so-called follower note (*Folgezettel*),
-and then you open the new note and continue there.
+get a new idea, insert a link to a so-called follower note (*Folgezettel*), and
+then you open the new note and continue there.
 
 At the bottom of the note you created in the last step, try calling
 `zt-insert-new-id` (`C-c # t`). Then, after the ID, type a title for the new
@@ -185,9 +192,9 @@ extracted from the file, and which are used when finding files with
 ```
 
 Now, with the point at the end of the line, call `zt-open-follower-at-point`
-(`C-c # O`, or equivalently `C-u zt-open-at-point` (`C-u C-c # o`)). This will
-create a new note with both the title you wrote as well as a link back to the
-previous note inserted automatically, like this:
+(`C-c # O`), or, equivalently, call `zt-open-at-point` with a prefix argument
+(`C-u C-c # o`). This will create a new note with both the follower note's title
+as well as a link back to the previous note inserted automatically, like this:
 
 ```
 Inserting links and backlinks in zt
@@ -197,10 +204,11 @@ Inserting links and backlinks in zt
 
 From here, you can continue writing, and then repeat the process to create more
 follower notes. You may choose to insert them at the end of the current
-sequence, or to go back to a previous note and start a new branch. You can
-navigate back and forth in the tree by clicking the "backward" links at the top
-of each note and the "forward" links at the bottom. You can jump directly to an
-existing note with `zt-find-file` (`C-c # f`)
+sequence, or you can go back to a previous note and start a new branch from
+there. Browsing your notes consists of selecting an arbitrary starting point and
+then using the "backward" links at the top of each note and the "forward" links
+at the bottom to navigate the tree. You can jump directly to an existing note
+with `zt-find-file` (`C-c # f`)
 
 Once you've built up a little tree of notes like this, move on to the next
 section.
@@ -208,28 +216,29 @@ section.
 #### Add a structure note
 
 The sequences that we built up in the last step work well as a staging area for
-new ideas. Just start writing; as long as you make sure to add links in both
-directions, there is no risk of notes getting "lost", and no need to have some
-kind of "inbox" for your Zettelkasten.
+new ideas. The advantage of such an approach is that you can just start writing
+somewhere, and as long as you make sure to add links in both directions, there
+is no risk of notes getting "lost". This reduces friction in the system; for
+example, there is no need for any kind of inbox with this approach.
 
-As your Zettelkasten grows, you'll want to add a second layer to your
-Zettelkasten: the [structure
-note](https://zettelkasten.de/posts/three-layers-structure-zettelkasten/). A
+But as your Zettelkasten grows, you'll eventually want to introduce a second
+layer: [structure
+notes](https://zettelkasten.de/posts/three-layers-structure-zettelkasten/). A
 structure note is essentially like a table of contents – it's a view of the
 entire Zettelkasten if it were designed to answer a very specific question.
 
-To create these structure notes in zt, use `zt-insert-link` (`C-c # l`) to
-insert a link to an existing note.  By default, this will insert both the ID and
-title of the selected note, which is useful when building lists of notes. Try
-using this functionality to create an interesting overview of some of the notes
-you just wrote. Don't worry about adding every relevant note to the index –
-focus on making it useful and interesting by not adding two notes that are too
-similar.
+To create these structure notes in zt, use `zt-insert-link` (`C-c # l`), which
+inserts a link to an existing note.  By default, this will insert both the ID
+and title of the selected note, which is useful when building lists of
+notes. Try using this functionality to create an interesting overview of some of
+the notes you just wrote. Don't worry about adding every relevant note to the
+index – focus on making it useful and interesting by not adding two notes that
+are too similar.
 
-Below is a realistic example of what a structure note may actually look like in
-practice. I wrote this note to summarize and index a previous sequence of notes,
-and then added it to an overarching topic note, to which I inserted a backlink
-with `zt-insert-linking-file` (`C-c # L`).
+Below is a realistic example of what a useful structure note may actually look
+like in practice. I wrote this note to summarize and index a previous sequence
+of notes, and then added it to an overarching topic note, to which I inserted a
+backlink with `zt-insert-linking-file` (`C-c # L`).
 
 ```
 Folgezettel vs. index-oriented approaches to Zettelkasten
@@ -259,13 +268,13 @@ When and how to use indexes
     20220921T010536 Don't add multiple notes about the same idea to one index
 ```
 
-Of course, you should not use links only when writing structure notes. When you
-reference an idea from another note, you should also insert a link to that note
-so that you can find it again in the future. When doing this, you may want to
-insert only the ID of the chosen file by calling `zt-insert-link` with a prefix
-argument (`C-u C-c # l`). By adding links, it also becomes possible to find
-releted notes via `zt-find-linking-file` (`C-c # F`), which shows only those
-files that link to the current note.
+Of course, links aren't only used for writing structure notes. Whenever you
+reference an idea from another note, insert a link to that note so you can find
+it again in the future. When doing this, you may want to insert only the ID of
+the chosen file by calling `zt-insert-link` with a prefix argument (`C-u C-c # l`).
+By adding links, it also becomes possible to find releted notes via
+`zt-find-linking-file` (`C-c # F`), which shows only those files that link to
+the current note.
 
 That's it for the tutorial. You now know everything you need to use zt. If you
 want some extra tips on how to use the Zettelkasten methodology most effectively
@@ -277,78 +286,87 @@ want some extra tips on how to use the Zettelkasten methodology most effectively
 
 ## Comparison to other software
 
-- [The Archive](https://zettelkasten.de/the-archive/) is a proprietary
-  application for macOS. It's designed for buliding Zettelkästen and values
-  simple design. Its authors are the same as those of the excellent
-  [zettelkasten.de](https://zettelkasten.de/) resource. If you use macOS
-  exclusively and don't mind using proprietary software, I strongly recommend
-  this!
-- [Zettlr](https://www.zettlr.com/) has a similar design philosophy to The
-  Archive, but it's free and open-source software and available on multiple
-  platforms. Zettlr, like zt, does't care about the filenames of notes and
-  supports finding notes by title, even if the title is different from the
-  filename. It supports only Markdown. For the average person, this would be my
-  second recommendation. If you're looking for something that's compatible with
-  plain text or Org-mode, or just want to use Emacs, keep reading.
-- **zt** is an Emacs package designed for Zettelkästen and valuing simple
-  design. It's compatible with multiple file-formats and handles links to other
-  files by their IDs, such that renaming a note does not require any updates to
-  filenames or existing links. It lets you interactively find files by their
-  "logical" title (in plain text, Markdown and Org), and makes including the
-  title in the filename optional. The biggest disadvantage is the requirement of
-  an external program `ztf` that's only officially available on Linux (but can
-  be built for other platforms).
-- [zk.el](https://github.com/localauthor/zk) is another Emacs package with a
-  very similar design philosophy to zt. It's also inspired by The Archive, is
-  also designed for plain text Zettelkästen and also values simplicity in its
-  design. zk stores the titles of files in their filenames for the purpose of
-  selecting files for linking with completion, so if you forget to update the
-  filename, you won't be able to select the right file. However, links are
-  stored by ID, so it is at least possible to rename files without needing to
-  update existing links. A major advantage of zk compared to zt is that it
-  doesn't have any dependencies on external programs.
-- [Denote](https://protesilaos.com/emacs/denote) is another simple note-taking
-  package for Emacs. Denote expects you to assign tags to your files. Like zk,
-  and unlike zt, Denote requires you to keep filenames in sync with thier titles
-  for searching; like both zk and zt, however, you don't need to update existing
-  links whenever you change the title of a note. If you're trying to build a
-  Zettelkasten, I recommend using zk or zt over Denote, but Denote may be
-  well-suited for more general note-taking purposes. Note that zt is designed to
-  be interoperable with Denote by using the same ID format, so if you're using
-  Org-mode, transitioning between these two is just a matter of
-  `s/zt:/denote:/g`.
-- [Logseq](https://logseq.com/), [Obsidian](https://obsidian.md/), [Roam
-  Research](https://roamresearch.com/) and others *can* be used to implement a
-  Zettelkasten system, but they aren't really designed for it. You must manually
-  assign unique titles to all files. Obsidian has a Zettelkasten plugin, but it
-  still requires you to link to files with verbose links that include the entire
-  title. Whenever you change the title of a note, you must also update all links
-  to it (which can be done automatically, of course, but only from inside
-  Obsidian itself). If you don't mind this – or especially if you want to build
-  something more like a personal wiki than a strict Zettelkasten – these are all
-  good solutions.
-- [Org-mode](https://orgmode.org/) can be used on its own to build a
-  Zettelkasten by simply linking between files by their IDs. Although frequently
-  characterized as "plain text", Org-mode in fact uses a totally proprietary
-  ID-based linking format that isn't interoperable with any other software to my
-  knowledge. You can use Org-mode with zt, zk or Denote and get the best of both
-  worlds.
-- [Org-roam](https://github.com/org-roam/org-roam) is essentially a port of
-  Obsidian to Emacs, designed for use with Org-mode. It has more overhead than
-  plain Org-mode (notably, requiring a cache for backlinking), but provides a
-  more familiar experience for Obsidian users. It has quite a few features. It
-  shares all the same disadvantages of plain Org-mode, and for my purposes
-  (building a Zettelkasten), I found it somewhat clumsy, but it may be
-  well-suited if you want something more like a personal wiki and if you're
-  willing to commit to using Emacs long-term.
-- [emacs-zettelkasten](https://sr.ht/~ymherklotz/emacs-zettelkasten/) seems to
-  have similar goals both zt and zk. I haven't tried it.
-- [Zetteldeft](https://github.com/EFLS/zetteldeft) is the package that zk is
-  based on. I haven't tried it either.
-- [Hyperbole](https://www.gnu.org/software/hyperbole/) is infamous for being
-  rather hard to grasp, but it does seem very cool, at least from a distance!
-  It does a lot more than zt and isn't really designed with Zettelkästen in
-  mind. I can't give a more useful comparison beyond that.
+[The Archive](https://zettelkasten.de/the-archive/) is a proprietary application
+for macOS. It's designed for buliding Zettelkästen and values simple design. Its
+authors are the same as those of the excellent
+[zettelkasten.de](https://zettelkasten.de/) resource. If you use macOS
+exclusively and don't mind using proprietary software, I strongly recommend
+this!
+
+[Zettlr](https://www.zettlr.com/) has a similar design philosophy to The
+Archive, but it's free and open-source software and available on multiple
+platforms. Zettlr, like zt, does't care about the filenames of notes and
+supports finding notes by title, even if the title is different from the
+filename. It supports only Markdown. For the average person, this would be my
+second recommendation. If you're looking for something that's compatible with
+plain text or Org-mode, or just want to use Emacs, keep reading.
+
+**zt** is an Emacs package designed for Zettelkästen and valuing simple
+design. It's compatible with multiple file-formats and handles links to other
+files by their IDs, such that renaming a note does not require any updates to
+filenames or existing links. It lets you interactively find files by their
+"logical" title (in plain text, Markdown and Org), and makes including the title
+in the filename optional. The biggest disadvantage is the requirement of an
+external program `ztf` that's only officially available on Linux (but can be
+built for other platforms).
+
+[zk.el](https://github.com/localauthor/zk) is another Emacs package with a very
+similar design philosophy to zt. It's also inspired by The Archive, is also
+designed for plain text Zettelkästen and also values simplicity in its
+design. zk stores the titles of files in their filenames for the purpose of
+selecting files for linking with completion. If you aren't careful about keeping
+filenames and titles in sync, then zk won't be able to help you when inserting
+links. However, the links themselves are stored by ID, so it is at least
+possible to rename files without needing to update existing links. A major
+advantage of zk compared to zt is that it doesn't have any dependencies on
+external programs.
+
+[Denote](https://protesilaos.com/emacs/denote) is another simple note-taking
+package for Emacs. Denote expects you to assign tags to your files. Like zk, and
+unlike zt, Denote requires you to keep filenames in sync with thier titles for
+searching; like both zk and zt, however, you don't need to update existing links
+whenever you change the title of a note. If you're trying to build a
+Zettelkasten, I recommend using zk or zt over Denote, but Denote may be
+well-suited for more general note-taking purposes. Note that zt is designed to
+be interoperable with Denote by using the same ID format, so if you're using
+Org-mode, transitioning between these two is just a matter of `s/zt:/denote:/g`.
+
+[Logseq](https://logseq.com/), [Obsidian](https://obsidian.md/), [Roam
+Research](https://roamresearch.com/) and others *can* be used to implement a
+Zettelkasten system, but they aren't really designed for it. These programs
+conflate titles with IDs, so you must manually assign unique titles to all
+files. Obsidian has a Zettelkasten plugin which just adds a unique timestamp to
+each file, but it still requires you to link to files with verbose links that
+include the entire title. Whenever you change the title of a note, you must also
+update all links to it (which can be done automatically, of course, but only
+from inside Obsidian itself). If you don't mind this – or especially if you want
+to build something more like a personal wiki than a strict Zettelkasten – these
+are all good solutions.
+
+[Org-mode](https://orgmode.org/) can be used on its own to build a Zettelkasten
+by simply linking between files by their IDs. Although frequently characterized
+as "plain text", Org-mode in fact uses a totally proprietary ID-based linking
+format that isn't interoperable with any other software to my knowledge. You can
+use Org-mode with zt, zk or Denote and get the best of both worlds.
+
+[Org-roam](https://github.com/org-roam/org-roam) is essentially a port of
+Obsidian to Emacs, designed for use with Org-mode. It has the advantages of
+plain Org-mode together with the advantages of Obsidian. But it also has the
+disadvantages of both. It has quite a few features. It shares all the same
+disadvantages of plain Org-mode, and for the purpose of building a Zettelkasten,
+I found it somewhat clumsy (not least due to its caching system for storing
+backlinks), but it may be well-suited if you want something more like a personal
+wiki and if you're willing to commit to using Emacs long-term.
+
+[emacs-zettelkasten](https://sr.ht/~ymherklotz/emacs-zettelkasten/) seems to
+have similar goals both zt and zk, but I haven't tried
+it. [Zetteldeft](https://github.com/EFLS/zetteldeft) is the package that zk is
+based on, but I haven't tried it either.
+
+[Hyperbole](https://www.gnu.org/software/hyperbole/) is infamous for being
+rather hard to grasp, but it does seem very cool, at least from a distance!  It
+does a lot more than zt and isn't really designed with Zettelkästen in mind. I
+can't give a more useful comparison beyond that.
 
 ## License
 
