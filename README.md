@@ -179,7 +179,7 @@ We could continue creating independent notes using this same method, but a
 Zettelkasten is all about linking your notes. I recommend using an approach
 where you "chain" notes together to build up a kind of tree structure. When you
 get a new idea, insert a link to a so-called follower note (*Folgezettel*), and
-then you open the new note and continue there.
+open the new note and continue from there.
 
 At the bottom of the note you created in the last step, try calling
 `zt-insert-new-id` (`C-c # t`). Then, after the ID, type a title for the new
@@ -356,12 +356,12 @@ use Org-mode with zt, zk or Denote and get the best of both worlds.
 
 [Org-roam](https://github.com/org-roam/org-roam) is essentially a port of
 Obsidian to Emacs, designed for use with Org-mode. It has the advantages of
-plain Org-mode together with the advantages of Obsidian. But it also has the
-disadvantages of both. It has quite a few features. It shares all the same
-disadvantages of plain Org-mode, and for the purpose of building a Zettelkasten,
-I found it somewhat clumsy (not least due to its caching system for storing
-backlinks), but it may be well-suited if you want something more like a personal
-wiki and if you're willing to commit to using Emacs long-term.
+plain Org-mode together with the advantages of Obsidian and has quite a few
+features. But it also has the disadvantages of both, and for the purpose of
+building a Zettelkasten, I found it somewhat clumsy (not least due to its
+caching system for storing backlinks), but it may be well-suited if you want
+something more like a personal wiki and if you're willing to commit to using
+Emacs long-term.
 
 [emacs-zettelkasten](https://sr.ht/~ymherklotz/emacs-zettelkasten/) seems to
 have similar goals both zt and zk, but I haven't tried
