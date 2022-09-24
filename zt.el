@@ -6,7 +6,7 @@
 ;; URL: https://github.com/c2d7fa/zt
 ;; Created: 22 Sep 2022
 ;; Version: 1.0.0
-;; Package-Requires: ((emacs "26.0") (s "0.5"))
+;; Package-Requires: ((emacs "26.0") (s "1.13.1"))
 
 ;;; Code:
 
