@@ -96,7 +96,7 @@ fontification for the first line."
            keymap ,link-keymap
            mouse-face highlight)))
 
-(defconst zt--keywords `((,zt--id-regexp 0 ',zt--link-face)))
+(defconst zt--keywords `((,zt--id-regexp 0 ',zt--link-face t)))
 
 (defun zt--generate-id ()
   (format-time-string "%Y%m%dT%H%M%S"))
