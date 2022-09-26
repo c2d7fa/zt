@@ -15,6 +15,9 @@ ahead to [Installation](#installation) below.
   * [Branch off into a follower-note](#branch-off-into-a-follower-note)
   * [Add a structure note](#add-a-structure-note)
 * [Best practices](#best-practices)
+  * [You may need a tool for remembering, but Zettelkasten isn't it](#zettelkasten-isnt-for-remembering)
+  * [If you're having trouble organizing everything, try using these three tools](#three-tools)
+  * [Use zt to integrate these different tools](#zt-for-integrated-tools)
 * [Comparison to other software](#comparison-to-other-software)
 * [License](#license)
 
@@ -291,6 +294,7 @@ The following are some of my recommendations for how to get the most out of your
 Zettelkasten, based on my experience. I don't claim that this is *the* way to
 use Zettelkästen; these are just some tips that have worked for me.
 
+<a id="zettelkasten-isnt-for-remembering"></a>
 #### You may need a tool for remembering, but Zettelkasten isn't it.
 
 In fact, I like to think of Zettelkasten as a kind of "tool for forgetting". You
@@ -305,6 +309,7 @@ elsewhere – whatever you do, don't use the Zettelkasten to store things such a
 reminders, calendars, project reference material, todo-lists, or other
 information that's actually important for you to remember!
 
+<a id="three-tools"></a>
 #### If you're having trouble organizing everything, try using these three tools.
 
 I rely on three distinct "tools": one for thinking, one for remembering, and one
@@ -338,6 +343,7 @@ remembering-tool for later. This approach is inspired by the daily log in the
 [Bullet Journal](https://bulletjournal.com/), although I don't use the other
 parts.
 
+<a id="zt-for-integrated-tools"/></a>
 #### Use zt to integrate these different tools.
 
 zt is designed primarily with Zettelkasten in mind, but it's simple enough that
