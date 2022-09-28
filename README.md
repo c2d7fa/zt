@@ -15,8 +15,8 @@ ahead to [Installation](#installation) below.
   * [Branch off into a follower-note](#branch-off-into-a-follower-note)
   * [Add a structure note](#add-a-structure-note)
 * [Best practices](#best-practices)
-  * [Zettelkasten isn't designed for keeping track of things](#zettelkasten-isnt-for-organization)
-  * [My suggestion for an organizational system that uses Zettelkasten](#three-tools)
+  * [Don't use a Zettelkasten to keep track of things](#zettelkasten-isnt-for-organization)
+  * [Integrate your Zettelkasten with your organizational system](#three-tools)
 * [Comparison to other software](#comparison-to-other-software)
 * [License](#license)
 
@@ -290,39 +290,44 @@ want some extra tips on how to use the Zettelkasten methodology most effectively
 ## Best practices
 
 The following are some of my recommendations for how to get the most out of your
-Zettelkasten, based on my experience. I don't claim that this is *the*
-Zettelkasten methodology; these are just some tips that have worked for me.
+Zettelkasten, based on my own experience. I don't claim that this is *the*
+Zettelkasten methodology; these are just some recommendations that make sense to
+me.
 
 <a id="zettelkasten-isnt-for-organization"></a>
-#### Zettelkasten isn't designed for keeping track of things
+#### Don't use Zettelkasten a Zettelkasten to keep track of things
 
 Zettelkasten is designed for research and writing, not as an organizational
 system. In fact, I like to think of Zettelkasten as a kind of "tool for
 forgetting". You can use the Zettelkasten to think through complex problems in a
 structured way, completely forget about everything you just wrote down, and then
 wait for the Zettelkasten to bring those ideas up to you again, as though it
-were a kind of conversation partner. Later, the little slips can be stictched
-together into a publishable piece.
+were a kind of conversation partner. Later, the individual notes can be
+stictched together into a larger publishable piece.
 
 However, this process isn't magical. It isn't entirely reliable, and it
 certainly isn't timely. So if you need a tool for organizing your life, look
-elsewhere – Zettelkästen are completely unsuitable for storing things such as
+elsewhere – Zettelkästen are not the right tool for storing things such as
 reminders, calendars, project reference material, todo-lists, or other
-information that's actually important for you to remember!
+information that's actually important for you to remember.
 
 <a id="three-tools"></a>
-#### My suggestion for an organizational system that integrates Zettelkasten
+#### Integrate your Zettelkasten with your organizational system
 
-If you *do* need an organizational system, here is my suggestion for an approach
-that uses zt to integrate your Zettelkasten with two other systems. I think
-about it as three distinct "tools": one for thinking and writing (Zettelkasten),
-one for remembering and keeping track of things, and one for planning out my day
-(daily log).
+If you *do* need an organizational system, you're welcome to take some
+inspiration from my approach that uses zt to integrate Zettelkasten with two
+other systems. It consists of three different "tools": one for thinking and
+writing (Zettelkasten), one for remembering and keeping track of things, and one
+for planning out each day (daily log).
 
 *The Zettelkasten:* When there's something that I want to rediscover later, but
-forget about in the meantime, I add it to the Zettelkasten. Luhmann's original
-formulation is basically perfect for this purpose, and my digital Zettelkasten
-implementation is designed to emulate it as closely as practically possible.
+forget about in the meantime, I add it to the Zettelkasten. This includes not
+only research notes and snippets of writing, but also ideas for future projects,
+interesting bookmarks and articles that I haven't yet read, and anything else
+that I want to find again but which isn't in itself critically
+important. Luhmann's original formulation is basically perfect for this purpose,
+and my digital Zettelkasten implementation is designed to emulate it as closely
+as practically possible.
 
 *The big list:* If Zettelkasten is a [tool for
 forgetting](#zettelkasten-isnt-for-organization), then this is my "tool for
@@ -330,9 +335,8 @@ remembering". I just have a big list of items, separated into three sections
 called *daily*, *weekly* and *monthly*. Each day, week or month respectively, I
 look through each list, copy relevant items to my daily log (see below) and
 remove items that are no longer relevant. This is how I handle stuff like task
-lists and calendar events. Items may link to other items, in which case I follow
-the links of the items I picked out and repeat the process recursively – that's
-how I do project management. This list-based approach is very loosely based on
+lists and calendar events. To manage larger projects, I add links to sublists
+that I follow recursively. This list-based approach is very loosely based on
 [GTD](https://gettingthingsdone.com/), although without the focus on *next
 actions* and with many other aspects removed.
 
