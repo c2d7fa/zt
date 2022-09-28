@@ -17,6 +17,9 @@ ahead to [Installation](#installation) below.
 * [Best practices](#best-practices)
   * [Don't use a Zettelkasten to keep track of things](#zettelkasten-isnt-for-organization)
   * [Integrate your Zettelkasten with your organizational system](#three-tools)
+  * [Don't rely on an inbox, comprehensive indexes, or backlinks](#avoid-inbox-indexes-backlinks)
+  * [Use follower notes to chain notes together](#use-folgezettel)
+  * [Write structure notes that are focused and interesting, not comprehensive](#structure-notes-best-practices)
 * [Comparison to other software](#comparison-to-other-software)
 * [License](#license)
 
@@ -292,10 +295,11 @@ want some extra tips on how to use the Zettelkasten methodology most effectively
 The following are some of my recommendations for how to get the most out of your
 Zettelkasten, based on my own experience. I don't claim that this is *the*
 Zettelkasten methodology; these are just some recommendations that make sense to
-me.
+me. As another resource, I recommend
+[zettelkasten.de](https://zettelkasten.de/).
 
 <a id="zettelkasten-isnt-for-organization"></a>
-#### Don't use Zettelkasten a Zettelkasten to keep track of things
+#### Don't use a Zettelkasten to keep track of things
 
 Zettelkasten is designed for research and writing, not as an organizational
 system. In fact, I like to think of Zettelkasten as a kind of "tool for
@@ -314,7 +318,7 @@ information that's actually important for you to remember.
 <a id="three-tools"></a>
 #### Integrate your Zettelkasten with your organizational system
 
-If you *do* need an organizational system, you're welcome to take some
+If you *do* need an organizational system, you may consider taking some
 inspiration from my approach that uses zt to integrate Zettelkasten with two
 other systems. It consists of three different "tools": one for thinking and
 writing (Zettelkasten), one for remembering and keeping track of things, and one
@@ -324,10 +328,11 @@ for planning out each day (daily log).
 forget about in the meantime, I add it to the Zettelkasten. This includes not
 only research notes and snippets of writing, but also ideas for future projects,
 interesting bookmarks and articles that I haven't yet read, and anything else
-that I want to find again but which isn't in itself critically
-important. Luhmann's original formulation is basically perfect for this purpose,
-and my digital Zettelkasten implementation is designed to emulate it as closely
-as practically possible.
+that I want to find again but which isn't in itself critically important. To
+increase the chances of finding something again, try distributing it throughout
+the Zettelkasten – for example, instead of having a big list of bookmarks about
+some topic, sprinkle in a link here and there, where you might end up clicking
+on it again in the future when you stumble upon it.
 
 *The big list:* If Zettelkasten is a [tool for
 forgetting](#zettelkasten-isnt-for-organization), then this is my "tool for
@@ -347,6 +352,115 @@ a kind of inbox. At the end of the day, I look through all the non-completed
 items, and for each item, I either drop it or move it to the big list for
 later. This approach is inspired by the daily log in the [Bullet
 Journal](https://bulletjournal.com/), although I don't use the other parts.
+
+<a id="avoid-inbox-indexes-backlinks"></a>
+#### Don't rely on an inbox, comprehensive indexes, or backlinks
+
+When writing notes for your Zettelkasten, it's natural to feel some anxiety
+about whether you're just writing into the void, or whether you'll actually
+stumble across those notes again in the future. To relieve this anxiety, there
+are at least three tempting solutions that seem to make sense on the surface,
+but which tend to fall apart in the long term.
+
+*Inbox:* Whenever you write a new note, just park it in the inbox until you can
+add it somewhere it belongs. The problem with this approach is that it adds a
+lot of unnecessary overhead to your Zettelkasten. Now every time you write a new
+note, you're giving yourself extra work to do later. It's demoralizing,
+impractical, and it goes against the spirit of the Zettelkasten, which is to
+make it fun and easy to just sit down and start writing.
+
+*Comprehensive indexes:* Whenever you write a new note, add it to some relevant
+index. With this approach, every note can be reached from the top-level index by
+following some path of sub-indexes. However, this approach also creates a lot of
+unnecessary overhead and makes it harder to add new notes. Even more
+problematically, the Zettelkasten is supposed to be all about building knowledge
+from the bottom up. If you need to decide in advance what these indexes should
+look like, you're robbing yourself of your own creative freedom. Indexes (or
+[structure notes](#add-a-structure-note)) should arise naturally as you start to
+gain an understanding of the topic you're writing about; they shouldn't be laid
+down in advance – and rather than containing every single note about some topic,
+they should instead contain just a small, interesting selection of notes that
+you actually want to read. The kind of indexes that are created by proactively
+adding every note in the system as you write it just aren't interesting to read.
+
+*Backlinks:* Other tools, such as Obsidian and its descendants, place a great
+emphasis on backlinks for exploring your notes. zt does support backlinks (with
+`zt-find-linking-file` (`C-c # F`)), but they should not be the primary way of
+navigating your Zettelkasten. There is [a good article on zettelkasten.de about
+this topic](https://zettelkasten.de/posts/backlinks-are-bad-links/), but in
+short, backlinking as an organizational mechanism fails because backlinks lack
+context, priority and meaning.
+
+How then *should* you structure your Zettelkasten to make sure you will actually
+discover your notes again in the future? [I suggest relying primarily on
+follower notes](#use-folgezettel), together with a [selection of small, focused
+structure notes.](#structure-notes-best-practices)
+
+<a id="use-folgezettel"></a>
+#### Use follower notes to chain notes together
+
+When it works well, browsing a Zettelkasten should feel like having a
+conversation with another person, who can bring up ideas and make connections
+that you had yourself forgotten about. In my experience, a necessary condition
+to achieve this is that every note must be linked to every other note through
+some path, however circuitous.
+
+My recommendation for how to actually do this, is to follow a method that is
+closely based on Luhmann's original *Folgezettel* (loosely translated as
+"follower notes" here). By assigning each note a numeric ID, Luhmann would place
+each new note at some specific location in the sequence of notes. These IDs were
+not assigned in sequence, but in an organic way where each new note could be
+placed anywhere in the sequence. Luhmann would use this to always place new
+notes near old related notes, as a kind of addtional linking mechanism.
+
+In zt, the analogous method is to create notes only by first inserting a link
+and then, from the new note, insert a link back to the originating note, as
+described [in the tutorial above](#branch-off-into-a-follower-note). If you
+follow this technique rigorously, then there will never be any note in your
+Zettelkasten that can't be reached in some way – even if it doesn't have any
+backlinks and doesn't appear in any index. Every note is reachable from every
+other note, however indirectly.
+
+Don't worry about finding exactly the right spot to branch off into a new
+follower note. Usually the right spot is whatever you were looking at when you
+got a new idea – other relevant notes can always be linked to explicitly, or
+placed in some shared structure note. If you didn't get the idea while looking
+at your Zettelkasten, just find some vaguely related note and start there. It
+doesn't have to be the best possible spot, or even be that relevant at all; the
+important part is that you pick *some* location for it.
+
+<a id="structure-notes-best-practices"></a>
+#### Make structure notes that are focused and interesting, not comprehensive
+
+*Structure note* is a loose term that just refers to any normal note that acts
+mostly as a sort of collection of other notes, usually grouped by a topic. It
+may be tempting to attempt to classify and organize all the notes in your
+Zettelkasten into structure notes, [but this impulse should be
+supressed](#avoid-inbox-indexes-backlinks).
+
+On the contrary, you should specifically *avoid* placing multiple very similar
+notes in the same structure note! Remember that structure notes should be
+designed to be useful, and nobody wants to read the same idea restated in a
+dozen slightly different variations. For each idea that you want to include in
+the structure note, pick one related note. If you're not sure which note is
+"best", either combine the candidates into a newly written note, or just pick
+one arbitrarily. Adding too links will make your notes *less* useful, not more,
+since it reduces the value of each individual link.
+
+I like to think of structure notes as a kind of wormhole from one "side" of the
+Zettelkasten to the other. If you're using the [follower note
+approach](#use-folgezettel), then your notes are already chained together in
+some way via the two-way links that are added to each note. So the primary
+function of a structure note is to let you jump directly from one chain of notes
+to another one that is very far away – there is little point in adding notes
+that are already close together in the sequence.
+
+Creating structure notes should feel like a creative exercise in compiling
+seemingly disparate ideas that actually have some hidden connection. Write each
+structure note like a table of contents for a small book about some very
+specific topic; if it's a book you actually want to read from one end to the
+other, then the structure note is successful. If writing the structure note
+feels feels like chore, then you're doing something wrong.
 
 ## Comparison to other software
 
