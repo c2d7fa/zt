@@ -82,7 +82,7 @@ First, install the zt package itself. If you're using
 `init.el`:
 
 ```emacs-lisp
-(straight-use-package 'zt '(:host github :repo "c2d7fa/zt"))
+(straight-use-package '(zt :host github :repo "c2d7fa/zt"))
 ```
 
 Otherwise, install zt manually with:
