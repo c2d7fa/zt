@@ -48,6 +48,7 @@ fontification for the first line."
                     (t nil)))
          (os (cond ((zt--system-configuration-has "linux") "linux")
                    ((zt--system-configuration-has "win") "windows")
+                   ((zt--system-configuration-has "mingw") "windows")
                    ((zt--system-configuration-has "mac") "macos")
                    ((zt--system-configuration-has "darwin") "macos")
                    ((zt--system-configuration-has "apple") "macos")
@@ -56,7 +57,8 @@ fontification for the first line."
       (concat cpu "-" os))))
 
 (defun zt--download-url ()
-  (concat "https://johv.dk/public/ztf-1-" (zt--platform) (if (zt--system-configuration-has "win") ".exe" "")))
+  (let ((windows? (s-contains? "windows" (zt--platform))))
+    (concat "https://johv.dk/public/ztf-1-" (zt--platform) (if windows? ".exe" ""))))
 
 (defun zt--expected-sha256 ()
   (alist-get (zt--platform)
