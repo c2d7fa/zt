@@ -32,7 +32,7 @@ fontification for the first line."
   :type 'boolean
   :group 'zt)
 
-(defface zt-plain-text-title '((t (:inherit org-document-title)))
+(defface zt-plain-text-title '((t (:weight bold)))
   "The face used to highlight titles in plain text files when))))
 `zt-fontify-plain-text-title' is enabled.")
 
