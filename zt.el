@@ -212,7 +212,7 @@ inserted as a new link."
   (s-split "\n" (zt--call-ztf "." id)))
 
 (defun zt--completing-read (prompt)
-  (let ((ivy-mode-enabled (and (boundp ivy-mode) ivy-mode)))
+  (let ((ivy-mode-enabled (and (boundp 'ivy-mode) ivy-mode)))
     (if ivy-mode-enabled
         (ivy-read prompt (zt--available-formatted-links) :preselect (zt--current-id))
       (completing-read prompt (zt--available-formatted-links)))))
