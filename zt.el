@@ -116,7 +116,7 @@ fontification for the first line."
 (defun zt--enable-minor-mode ()
   (zt--update-buffer-name)
   (font-lock-add-keywords nil zt--keywords)
-  (when (and zt-fontify-plain-text-title (equal major-mode 'text-mode))
+  (when (and zt-fontify-plain-text-title (derived-mode-p 'text-mode))
     (font-lock-add-keywords nil '((zt--fontify-first-line 0 'zt-plain-text-title))))
   (setq-local font-lock-extra-managed-props '(help-echo keymap mouse-face))
   (font-lock-fontify-buffer)
