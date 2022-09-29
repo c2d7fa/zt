@@ -92,7 +92,7 @@ fontification for the first line."
 (defconst zt--link-face
   (let ((link-keymap (make-sparse-keymap)))
     (define-key link-keymap (kbd "RET") 'zt--link-enter-key-pressed)
-    (define-key link-keymap (kbd "<mouse-1>") 'zt-open-at-point)
+    (define-key link-keymap (kbd "<mouse-1>") 'zt--link-mouse-pressed)
     `(face link
            help-echo zt--link-help-echo
            keymap ,link-keymap
@@ -309,13 +309,19 @@ backlink from the newly created follower-note is also inserted."
             (zt-insert-linking-files)))
       (message "zt: no link at point"))))
 
+(defun zt--is-point-really-on-link ()
+  (save-excursion
+    (when (not (= (point) (point-max)))
+      (forward-char)
+      (zt--id-at-point))))
+
+(defun zt--link-mouse-pressed ()
+  (interactive)
+  (when (zt--is-point-really-on-link) (zt-open-at-point)))
+
 (defun zt--link-enter-key-pressed ()
   (interactive)
-  (let ((is-actually-on-link (save-excursion
-                               (when (not (= (point) (point-max)))
-                                 (forward-char)
-                                 (zt--id-at-point)))))
-    (if is-actually-on-link (zt-open-at-point) (newline))))
+  (if (zt--is-point-really-on-link) (zt-open-at-point) (newline)))
 
 ;;;###autoload
 (defun zt-insert-link (&optional prefix)
