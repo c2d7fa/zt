@@ -130,7 +130,7 @@ fontification for the first line."
   (string-match zt--id-regexp string))
 
 (defun zt--id-at-point ()
-  (if-let ((word (word-at-point t)))
+  (if-let ((word (thing-at-point 'word t)))
       (when (zt--is-id word) word)))
 
 (defun zt--formatted-link-at-point ()
