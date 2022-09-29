@@ -410,7 +410,11 @@ be a useful binding to define:
     map))
 
 ;;;###autoload
-(define-minor-mode zt-minor-mode "zt"
+(define-minor-mode zt-minor-mode
+  "Toggle zt minor mode.
+
+Keymap:
+\\{zt-minor-mode-map}"
   :lighter " zt"
   :keymap zt-minor-mode-map
   (if zt-minor-mode (zt--enable-minor-mode) (zt--disable-minor-mode)))
