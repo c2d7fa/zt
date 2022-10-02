@@ -5,7 +5,7 @@
 ;; Author: Jonas Hvid <mail@johv.dk>
 ;; URL: https://github.com/c2d7fa/zt
 ;; Created: 22 Sep 2022
-;; Version: 1.0.1
+;; Version: 1.0.2
 ;; Package-Requires: ((emacs "26.0") (s "1.13.1"))
 
 ;;; Code:
@@ -32,7 +32,7 @@ fontification for the first line."
   :type 'boolean
   :group 'zt)
 
-(defface zt-plain-text-title '((t (:inherit org-document-title)))
+(defface zt-plain-text-title '((t (:weight bold)))
   "The face used to highlight titles in plain text files when))))
 `zt-fontify-plain-text-title' is enabled.")
 
@@ -92,7 +92,7 @@ fontification for the first line."
 (defconst zt--link-face
   (let ((link-keymap (make-sparse-keymap)))
     (define-key link-keymap (kbd "RET") 'zt--link-enter-key-pressed)
-    (define-key link-keymap (kbd "<mouse-1>") 'zt-open-at-point)
+    (define-key link-keymap (kbd "<mouse-1>") 'zt--link-mouse-pressed)
     `(face link
            help-echo zt--link-help-echo
            keymap ,link-keymap
@@ -116,7 +116,7 @@ fontification for the first line."
 (defun zt--enable-minor-mode ()
   (zt--update-buffer-name)
   (font-lock-add-keywords nil zt--keywords)
-  (when (and zt-fontify-plain-text-title (equal major-mode 'text-mode))
+  (when (and zt-fontify-plain-text-title (derived-mode-p 'text-mode))
     (font-lock-add-keywords nil '((zt--fontify-first-line 0 'zt-plain-text-title))))
   (setq-local font-lock-extra-managed-props '(help-echo keymap mouse-face))
   (font-lock-fontify-buffer)
@@ -309,13 +309,19 @@ backlink from the newly created follower-note is also inserted."
             (zt-insert-linking-files)))
       (message "zt: no link at point"))))
 
+(defun zt--is-point-really-on-link ()
+  (save-excursion
+    (when (not (= (point) (point-max)))
+      (forward-char)
+      (zt--id-at-point))))
+
+(defun zt--link-mouse-pressed ()
+  (interactive)
+  (when (zt--is-point-really-on-link) (zt-open-at-point)))
+
 (defun zt--link-enter-key-pressed ()
   (interactive)
-  (let ((is-actually-on-link (save-excursion
-                               (when (not (= (point) (point-max)))
-                                 (forward-char)
-                                 (zt--id-at-point)))))
-    (if is-actually-on-link (zt-open-at-point) (newline))))
+  (if (zt--is-point-really-on-link) (zt-open-at-point) (newline)))
 
 ;;;###autoload
 (defun zt-insert-link (&optional prefix)
@@ -404,7 +410,11 @@ be a useful binding to define:
     map))
 
 ;;;###autoload
-(define-minor-mode zt-minor-mode "zt"
+(define-minor-mode zt-minor-mode
+  "Toggle zt minor mode.
+
+Keymap:
+\\{zt-minor-mode-map}"
   :lighter " zt"
   :keymap zt-minor-mode-map
   (if zt-minor-mode (zt--enable-minor-mode) (zt--disable-minor-mode)))
