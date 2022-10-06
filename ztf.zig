@@ -105,7 +105,7 @@ pub fn main() !void {
     return;
   }
 
-  var fileBuffer: []u8 = try allocator.alloc(u8, 8192);
+  var fileBuffer: []u8 = try allocator.alloc(u8, 1048576);
 
   const path = try std.fs.path.resolve(allocator, &.{dirPath});
   var dir = std.fs.openDirAbsolute(path, .{.iterate = true}) catch {
@@ -150,7 +150,12 @@ pub fn main() !void {
     defer file.close();
     const len = file.read(fileBuffer) catch { continue; };
 
+    if (args.len > 2 and !doesMatch(fileBuffer[0..len], args[2])) {
+      continue;
+    }
+
     const title = readTitle(fileBuffer[0..len], filename) catch { continue; };
+
     _ = try stdout.write(id);
     _ = try stdout.write(" ");
     _ = try stdout.write(title);
