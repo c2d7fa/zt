@@ -19,48 +19,56 @@ fn readTitleFromName(name: []const u8) []const u8 {
 }
 
 fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
-  var inFrontmatter = false;
-
   const isMarkdown = std.mem.endsWith(u8, name, ".md");
   const isOrg = std.mem.endsWith(u8, name, ".org");
 
-  var mainStart: u64 = 0;
+  var textBuffer = buffer;
 
-  var i: u64 = 0;
-  while (i < buffer.len) {
-    const line = firstLine(buffer[i..]);
+  if (isMarkdown) {
+    var inFrontmatter = false;
 
-    if (isMarkdown and std.mem.startsWith(u8, line, "---")) {
-      inFrontmatter = !inFrontmatter;
-      if (!inFrontmatter) {
-        mainStart = i + line.len;
-        while (mainStart < buffer.len and buffer[mainStart] == '\n') { mainStart += 1; }
+    var i: u64 = 0;
+    while (i < buffer.len) {
+      const line = firstLine(buffer[i..]);
+
+      if (std.mem.startsWith(u8, line, "---")) {
+        inFrontmatter = !inFrontmatter;
+        if (!inFrontmatter) {
+          textBuffer = buffer[i + line.len + 1..];
+        }
       }
-    }
 
-    if (inFrontmatter) {
-      if (std.mem.startsWith(u8, line, "title: ")) {
+      if (inFrontmatter and std.mem.startsWith(u8, line, "title: ")) {
         return line[7..];
-      }
-    } else {
-      if (isMarkdown and std.mem.startsWith(u8, line, "# ")) {
+      } else if (!inFrontmatter and std.mem.startsWith(u8, line, "# ")) {
         return line[2..];
-      } else if (isOrg and std.mem.startsWith(u8, line, "* ")) {
+      }
+
+      i += line.len + 1;
+    }
+  } else if (isOrg) {
+    var i: u64 = 0;
+    while (i < buffer.len) {
+      const line = firstLine(buffer[i..]);
+
+      if (std.mem.startsWith(u8, line, "* ")) {
         return line[2..];
       } else if (std.mem.startsWith(u8, line, "#+TITLE: ") or std.mem.startsWith(u8, line, "#+title: ")) {
         return line[9..];
       }
-    }
 
-   i += line.len + 1;
+      i += line.len + 1;
+    }
   }
 
   const nameTitle = readTitleFromName(name);
   if (nameTitle.len > 0) {
     return nameTitle;
-  } else {
-    return firstLine(buffer[mainStart..]);
   }
+
+  var i: u64 = 0;
+  while (i < textBuffer.len and textBuffer[i] == '\n') { i += 1; }
+  return firstLine(textBuffer[i..]);
 }
 
 fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
