@@ -60,7 +60,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   return name[16..nameEnd];
 }
 
-pub fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
+fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
   for (buffer) |char, i| {
     if (char == searchTerm[0] and buffer[i+1] == searchTerm[1] and std.mem.startsWith(u8, buffer[i..], searchTerm)) return true;
   }
@@ -69,12 +69,13 @@ pub fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
 
 const InvalidIdError = error { InvalidId };
 
-fn parseId(name: []const u8) anyerror![]const u8 {
+fn parseId(name: []const u8) InvalidIdError![]const u8 {
   if (name.len < 17) return InvalidIdError.InvalidId;
+  if (name[0] != '2' or name[8] != 'T') return InvalidIdError.InvalidId;
   return name[0..15];
 }
 
-fn cmpId(context: void, a: [:0]u8, b: [:0]u8) bool {
+fn cmpId(context: void, a: []const u8, b: []const u8) bool {
   _ = context;
 
   var i: u64 = 0;
@@ -104,7 +105,7 @@ pub fn main() !void {
     return;
   }
 
-  var fileBuffer: []u8 = try allocator.alloc(u8, 1048576);
+  var fileBuffer: []u8 = try allocator.alloc(u8, 8192);
 
   const path = try std.fs.path.resolve(allocator, &.{dirPath});
   var dir = std.fs.openDirAbsolute(path, .{.iterate = true}) catch {
@@ -127,42 +128,33 @@ pub fn main() !void {
   };
   defer dir.close();
 
-  var outputLines = try allocator.alloc([:0]u8, 4096);
-  var outputI: u64 = 0;
+  var filenames = try allocator.alloc([]u8, 4096);
+  var filenamesI: u64 = 0;
 
   var iterator = dir.iterate();
   while (try iterator.next()) |entry| {
+    if (filenamesI >= filenames.len) break;
     if (entry.kind != std.fs.Dir.Entry.Kind.File) continue;
-    var file = dir.openFile(entry.name, .{}) catch { continue; };
-    defer file.close();
-
-    var len = try file.read(fileBuffer);
-    if (len >= fileBuffer.len) len = fileBuffer.len - 1;
-
-    if (args.len > 2 and !doesMatch(fileBuffer[0..len], args[2])) {
-      continue;
-    }
-
-    const title = try readTitle(fileBuffer[0..len], entry.name);
-    const id = parseId(entry.name) catch { continue; };
-
-    outputLines[outputI] = try allocator.allocSentinel(u8, id.len + 1 + title.len, 0);
-    std.mem.copy(u8, outputLines[outputI], id);
-    outputLines[outputI][id.len] = ' ';
-    std.mem.copy(u8, outputLines[outputI][id.len + 1..], title);
-
-    outputI += 1;
+    filenames[filenamesI] = try allocator.alloc(u8, entry.name.len);
+    std.mem.copy(u8, filenames[filenamesI], entry.name);
+    filenamesI += 1;
+    continue;
   }
 
-  std.sort.sort([:0]u8, outputLines[0..outputI], {}, cmpId);
+  std.sort.sort([]const u8, filenames[0..filenamesI], {}, cmpId);
 
-  for (outputLines[0..outputI]) |line| {
-    _ = try stdout.write(line[0..]);
+  for (filenames[0..filenamesI]) |filename| {
+    const id = parseId(filename) catch { continue; };
+
+    const file = dir.openFile(filename, .{}) catch { continue; };
+    defer file.close();
+    const len = file.read(fileBuffer) catch { continue; };
+
+    const title = readTitle(fileBuffer[0..len], filename) catch { continue; };
+    _ = try stdout.write(id);
+    _ = try stdout.write(" ");
+    _ = try stdout.write(title);
     _ = try stdout.write("\n");
   }
-
-  //for (outputLines.items) |line| {
-  //  _ = try stdout.write(line);
-  //}
 }
 
