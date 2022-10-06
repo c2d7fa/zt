@@ -136,7 +136,6 @@ pub fn main() !void {
     defer file.close();
 
     var len = try file.read(fileBuffer);
-    if (len >= fileBuffer.len) len = fileBuffer.len - 1;
 
     const title = try readTitle(fileBuffer[0..len], std.fs.path.basename(path));
     try stdout.print("{s}\n", .{title});
@@ -166,7 +165,7 @@ pub fn main() !void {
     const file = dir.openFile(filename, .{}) catch { continue; };
     defer file.close();
 
-    const len = file.read(fileBuffer[0..1024]) catch { continue; };
+    const len = file.read(fileBuffer) catch { continue; };
 
     if (args.len > 2 and !doesMatch(fileBuffer[0..len], args[2])) {
       continue;
