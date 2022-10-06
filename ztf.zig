@@ -15,12 +15,18 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   const isMarkdown = std.mem.endsWith(u8, name, ".md");
   const isOrg = std.mem.endsWith(u8, name, ".org");
 
+  var mainStart: u64 = 0;
+
   var i: u64 = 0;
   while (i < buffer.len) {
     const line = firstLine(buffer[i..]);
 
     if (isMarkdown and std.mem.startsWith(u8, line, "---")) {
       inFrontmatter = !inFrontmatter;
+      if (!inFrontmatter) {
+        mainStart = i + line.len;
+        while (buffer[mainStart] == '\n') { mainStart += 1; }
+      }
     }
 
     if (inFrontmatter) {
@@ -43,7 +49,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   var nameEnd: u64 = name.len - 1;
   while (nameEnd > 0) {
     if (nameEnd <= 17) {
-      return firstLine(buffer); // Can't use filename
+      return firstLine(buffer[mainStart..]); // Can't use filename
     }
     if (name[nameEnd] == '.') {
       nameEnd = nameEnd;
