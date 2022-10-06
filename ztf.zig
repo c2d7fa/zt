@@ -88,6 +88,8 @@ fn parseId(name: []const u8) InvalidIdError![]const u8 {
 fn cmpId(context: void, a: []const u8, b: []const u8) bool {
   _ = context;
 
+  if (a.len < 15 or b.len < 15) return false;
+
   var i: u64 = 0;
   while (i < 15) {
     if (a[i] > b[i]) {
