@@ -10,76 +10,48 @@ fn firstLine(buffer: []const u8) []const u8 {
 }
 
 fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
-  var bestFound: u8 = 0;
-
   var inFrontmatter = false;
-  var start: u64 = 0;
+
+  const isMarkdown = std.mem.endsWith(u8, name, ".md");
+  const isOrg = std.mem.endsWith(u8, name, ".org");
 
   var i: u64 = 0;
   while (i < buffer.len) {
-    if (i == 0 and std.mem.startsWith(u8, buffer, "---\n")) {
-      inFrontmatter = true;
-      i += 4;
-      continue;
-    }
+    const line = firstLine(buffer[i..]);
 
-    if (inFrontmatter and std.mem.startsWith(u8, buffer[i..], "\n---\n")) {
-      inFrontmatter = false;
-      i += 5;
-      start = i;
-      continue;
-    }
-
-    if (inFrontmatter and std.mem.startsWith(u8, buffer[i..], "title: ")) {
-      return firstLine(buffer[i..]);
-    }
-
-    if (!inFrontmatter and std.mem.startsWith(u8, buffer[i..], "\n# ")) {
-      return firstLine(buffer[i+1..])[2..];
-    }
-
-    if (i == 0 and std.mem.startsWith(u8, buffer[i..], "# ")) {
-      return firstLine(buffer[i..])[2..];
-    }
-
-    if (std.mem.startsWith(u8, buffer[i..], "\n* ")) {
-      return firstLine(buffer[i+1..])[2..];
-    }
-
-    if (i == 0 and std.mem.startsWith(u8, buffer, "* ")) {
-      return firstLine(buffer[i..])[2..];
-    }
-
-    if (std.mem.startsWith(u8, buffer[i..], "#+TITLE: ") or std.mem.startsWith(u8, buffer[i..], "#+title: ")) {
-      return firstLine(buffer[i..])[9..];
-    }
-
-    if (firstLine(buffer[i..]).len == 1) {
-      i += 1;
-      continue;
+    if (inFrontmatter) {
+      if (std.mem.startsWith(u8, line, "---\n")) {
+        inFrontmatter = false;
+      } else if (std.mem.startsWith(u8, line, "title: ")) {
+        return line[5..];
+      }
     } else {
+      if (std.mem.startsWith(u8, line, "---\n")) {
+        inFrontmatter = true;
+      } else if (isMarkdown and std.mem.startsWith(u8, line, "# ")) {
+        return line[2..];
+      } else if (isOrg and std.mem.startsWith(u8, line, "* ")) {
+        return line[2..];
+      } else if (std.mem.startsWith(u8, line, "#+TITLE: ") or std.mem.startsWith(u8, line, "#+title: ")) {
+        return line[9..];
+      }
+    }
+
+   i += line.len + 1;
+  }
+
+  var nameEnd: u64 = name.len - 1;
+  while (nameEnd > 0) {
+    if (nameEnd <= 17) {
+      return firstLine(buffer); // Can't use filename
+    }
+    if (name[nameEnd] == '.') {
+      nameEnd = nameEnd;
       break;
     }
+    nameEnd -= 1;
   }
-
-  if (bestFound == 0) {
-    var nameEnd: u64 = name.len - 1;
-
-    while (nameEnd > 0) {
-      if (nameEnd <= 17) {
-        return firstLine(buffer[i..]);
-      }
-      if (name[nameEnd] == '.') {
-        nameEnd = nameEnd;
-        break;
-      }
-      nameEnd -= 1;
-    }
-
-    return name[16..nameEnd];
-  }
-
-  return firstLine(buffer[i..]);
+  return name[16..nameEnd];
 }
 
 pub fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
