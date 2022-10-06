@@ -138,7 +138,7 @@ pub fn main() !void {
   };
   defer dir.close();
 
-  var filenames = try allocator.alloc([]u8, 4096);
+  var filenames = try allocator.alloc([]u8, 32768);
   var filenamesI: u64 = 0;
 
   var iterator = dir.iterate();
