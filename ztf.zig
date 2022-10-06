@@ -1,6 +1,6 @@
 const std = @import("std");
 
-fn readTitle(buffer: []u8, name: []const u8) ![]const u8 {
+fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   var bestFound: u8 = 0;
 
   var inFrontmatter = false;
