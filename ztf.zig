@@ -25,22 +25,21 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   var textBuffer = buffer;
 
   if (isMarkdown) {
-    var inFrontmatter = false;
-
     var i: u64 = 0;
+    var inFrontmatter = std.mem.startsWith(u8, buffer, "---\n");
+    if (inFrontmatter) { i += 5; }
+
     while (i < buffer.len) {
       const line = firstLine(buffer[i..]);
 
-      if (std.mem.startsWith(u8, line, "---")) {
-        inFrontmatter = !inFrontmatter;
-        if (!inFrontmatter) {
+      if (inFrontmatter) {
+        if (std.mem.startsWith(u8, line, "---")) {
+          inFrontmatter = false;
           textBuffer = buffer[i + line.len + 1..];
+        } else if (std.mem.startsWith(u8, line, "title: ")) {
+          return line[7..];
         }
-      }
-
-      if (inFrontmatter and std.mem.startsWith(u8, line, "title: ")) {
-        return line[7..];
-      } else if (!inFrontmatter and std.mem.startsWith(u8, line, "# ")) {
+      } else if (std.mem.startsWith(u8, line, "# ")) {
         return line[2..];
       }
 
