@@ -19,16 +19,16 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   while (i < buffer.len) {
     const line = firstLine(buffer[i..]);
 
+    if (isMarkdown and std.mem.startsWith(u8, line, "---")) {
+      inFrontmatter = !inFrontmatter;
+    }
+
     if (inFrontmatter) {
-      if (std.mem.startsWith(u8, line, "---\n")) {
-        inFrontmatter = false;
-      } else if (std.mem.startsWith(u8, line, "title: ")) {
-        return line[5..];
+      if (std.mem.startsWith(u8, line, "title: ")) {
+        return line[7..];
       }
     } else {
-      if (std.mem.startsWith(u8, line, "---\n")) {
-        inFrontmatter = true;
-      } else if (isMarkdown and std.mem.startsWith(u8, line, "# ")) {
+      if (isMarkdown and std.mem.startsWith(u8, line, "# ")) {
         return line[2..];
       } else if (isOrg and std.mem.startsWith(u8, line, "* ")) {
         return line[2..];
