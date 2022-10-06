@@ -9,6 +9,15 @@ fn firstLine(buffer: []const u8) []const u8 {
   return buffer;
 }
 
+fn readTitleFromName(name: []const u8) []const u8 {
+  var nameEnd: u64 = name.len - 1;
+  while (nameEnd > 16) {
+    if (name[nameEnd] == '.') break;
+    nameEnd -= 1;
+  }
+  return name[16..nameEnd];
+}
+
 fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   var inFrontmatter = false;
 
@@ -46,18 +55,12 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
    i += line.len + 1;
   }
 
-  var nameEnd: u64 = name.len - 1;
-  while (nameEnd > 0) {
-    if (nameEnd <= 17) {
-      return firstLine(buffer[mainStart..]); // Can't use filename
-    }
-    if (name[nameEnd] == '.') {
-      nameEnd = nameEnd;
-      break;
-    }
-    nameEnd -= 1;
+  const nameTitle = readTitleFromName(name);
+  if (nameTitle.len > 0) {
+    return nameTitle;
+  } else {
+    return firstLine(buffer[mainStart..]);
   }
-  return name[16..nameEnd];
 }
 
 fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
