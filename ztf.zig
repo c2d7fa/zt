@@ -72,7 +72,12 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
 
 fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
   for (buffer) |char, i| {
-    if (char == searchTerm[0] and buffer[i+1] == searchTerm[1] and std.mem.startsWith(u8, buffer[i..], searchTerm)) return true;
+    if (
+      char == searchTerm[0]
+      and buffer.len >= i + searchTerm.len
+      and buffer[i+1] == searchTerm[1]
+      and std.mem.startsWith(u8, buffer[i..], searchTerm)
+    ) return true;
   }
   return false;
 }
