@@ -27,7 +27,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   if (isMarkdown) {
     var i: u64 = 0;
     var inFrontmatter = std.mem.startsWith(u8, buffer, "---\n");
-    if (inFrontmatter) { i += 5; }
+    if (inFrontmatter) { i += 4; }
 
     while (i < buffer.len) {
       const line = firstLine(buffer[i..]);
@@ -35,7 +35,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
       if (inFrontmatter) {
         if (std.mem.startsWith(u8, line, "---")) {
           inFrontmatter = false;
-          textBuffer = buffer[i + line.len + 1..];
+          textBuffer = buffer[i + line.len..];
         } else if (std.mem.startsWith(u8, line, "title: ")) {
           return line[7..];
         }
@@ -158,7 +158,8 @@ pub fn main() !void {
 
     const file = dir.openFile(filename, .{}) catch { continue; };
     defer file.close();
-    const len = file.read(fileBuffer) catch { continue; };
+
+    const len = file.read(fileBuffer[0..1024]) catch { continue; };
 
     if (args.len > 2 and !doesMatch(fileBuffer[0..len], args[2])) {
       continue;
