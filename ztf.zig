@@ -25,7 +25,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
       inFrontmatter = !inFrontmatter;
       if (!inFrontmatter) {
         mainStart = i + line.len;
-        while (buffer[mainStart] == '\n') { mainStart += 1; }
+        while (mainStart < buffer.len and buffer[mainStart] == '\n') { mainStart += 1; }
       }
     }
 
