@@ -1,11 +1,19 @@
 const std = @import("std");
 
+fn firstLine(buffer: []const u8) []const u8 {
+  var i: u64 = 0;
+  while (i < buffer.len) {
+    if (buffer[i] == '\n') return buffer[0..i];
+    i += 1;
+  }
+  return buffer;
+}
+
 fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
   var bestFound: u8 = 0;
 
   var inFrontmatter = false;
   var start: u64 = 0;
-  var end: u64 = buffer.len;
 
   var i: u64 = 0;
   while (i < buffer.len) {
@@ -23,59 +31,35 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
     }
 
     if (inFrontmatter and std.mem.startsWith(u8, buffer[i..], "title: ")) {
-      inFrontmatter = false;
-      i += 7;
-      start = i;
-      bestFound = 2;
-      continue;
+      return firstLine(buffer[i..]);
     }
 
     if (!inFrontmatter and std.mem.startsWith(u8, buffer[i..], "\n# ")) {
-      i += 3;
-      start = i;
-      bestFound = 1;
-      continue;
+      return firstLine(buffer[i+1..])[2..];
     }
 
     if (i == 0 and std.mem.startsWith(u8, buffer[i..], "# ")) {
-      i += 2;
-      start = i;
-      bestFound = 1;
-      continue;
+      return firstLine(buffer[i..])[2..];
     }
 
     if (std.mem.startsWith(u8, buffer[i..], "\n* ")) {
-      i += 3;
-      start = i;
-      bestFound = 1;
-      continue;
+      return firstLine(buffer[i+1..])[2..];
     }
 
     if (i == 0 and std.mem.startsWith(u8, buffer, "* ")) {
-      i += 2;
-      start = i;
-      bestFound = 1;
-      continue;
+      return firstLine(buffer[i..])[2..];
     }
 
     if (std.mem.startsWith(u8, buffer[i..], "#+TITLE: ") or std.mem.startsWith(u8, buffer[i..], "#+title: ")) {
-      i += 9;
-      start = i;
-      bestFound = 2;
-      continue;
+      return firstLine(buffer[i..])[9..];
     }
 
-    if (!inFrontmatter and buffer[i] == '\n') {
-      if (i == start) {
-        i += 1;
-        start = i;
-        continue;
-      }
-      end = i;
+    if (firstLine(buffer[i..]).len == 1) {
+      i += 1;
+      continue;
+    } else {
       break;
     }
-
-    i += 1;
   }
 
   if (bestFound == 0) {
@@ -83,7 +67,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
 
     while (nameEnd > 0) {
       if (nameEnd <= 17) {
-        return buffer[start..end];
+        return firstLine(buffer[i..]);
       }
       if (name[nameEnd] == '.') {
         nameEnd = nameEnd;
@@ -95,7 +79,7 @@ fn readTitle(buffer: []const u8, name: []const u8) ![]const u8 {
     return name[16..nameEnd];
   }
 
-  return buffer[start..end];
+  return firstLine(buffer[i..]);
 }
 
 pub fn doesMatch(buffer: []const u8, searchTerm: []const u8) bool {
