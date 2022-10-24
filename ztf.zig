@@ -104,6 +104,7 @@ fn cmpId(context: void, a: []const u8, b: []const u8) bool {
     }
     i += 1;
   }
+
   return false;
 }
 
@@ -151,6 +152,7 @@ pub fn main() !void {
   while (try iterator.next()) |entry| {
     if (filenamesI >= filenames.len) break;
     if (entry.kind != std.fs.Dir.Entry.Kind.File) continue;
+    if (entry.name.len < 15) continue;
     filenames[filenamesI] = try allocator.alloc(u8, entry.name.len);
     std.mem.copy(u8, filenames[filenamesI], entry.name);
     filenamesI += 1;
