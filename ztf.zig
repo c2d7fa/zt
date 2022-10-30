@@ -119,7 +119,7 @@ pub fn main() !void {
   const dirPath = args[1];
 
   if (std.mem.eql(u8, dirPath, "--version")) {
-    try stdout.print("{s}\n", .{"1"});
+    try stdout.print("{s}\n", .{"2"});
     return;
   }
 

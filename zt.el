@@ -5,7 +5,7 @@
 ;; Author: Jonas Hvid <mail@johv.dk>
 ;; URL: https://github.com/c2d7fa/zt
 ;; Created: 22 Sep 2022
-;; Version: 1.0.2
+;; Version: 1.0.3
 ;; Package-Requires: ((emacs "26.0") (s "1.13.1"))
 
 ;;; Code:
@@ -36,7 +36,7 @@ fontification for the first line."
   "The face used to highlight titles in plain text files when))))
 `zt-fontify-plain-text-title' is enabled.")
 
-(defconst zt--required-ztf-version "1")
+(defconst zt--required-ztf-version "2")
 
 (defun zt--system-configuration-has (s)
   (s-contains? s system-configuration))
@@ -58,16 +58,16 @@ fontification for the first line."
 
 (defun zt--download-url ()
   (let ((windows? (s-contains? "windows" (zt--platform))))
-    (concat "https://johv.dk/public/ztf-1-" (zt--platform) (if windows? ".exe" ""))))
+    (concat "https://johv.dk/public/ztf-2-" (zt--platform) (if windows? ".exe" ""))))
 
 (defun zt--expected-sha256 ()
   (alist-get (zt--platform)
-             '(("aarch64-linux" . "50d34326f6c9b286c56971231491a8babcbfc99e1eb7ac7e4723cff41549f9b9")
-               ("aarch64-macos" . "a2f1969297594f3454fc013556dcfb606cde44444761e6184909ef8b88530e4c")
-               ("aarch64-windows" . "10f9456412951e66ae6cf8fe51973e28745c07aabbcab0f579dea878a5f302b4")
-               ("x86_64-linux" . "ee09b1e740d5c7db5437256ff145905dc6145ffeaaeb30cc6f9c018a1c953e74")
-               ("x86_64-macos" . "acd91eaf9be8010119cf136cb86d4990933e171b1373bd05d8b7e216d43e74da")
-               ("x86_64-windows" . "9fd756e1a0e45527178fd9aaabc932897a87ab991c991c6179378f60b5d66c98"))
+             '(("aarch64-linux" . "ce9b0037ede13dea15a08c2d22d3b45f20ac1fe600d5509e5b93c576abbb9383")
+               ("aarch64-macos" . "cce15815c2f49dfdcd590d44db94c663aa39fe1c3a70f47a260aea521e21b4d5")
+               ("aarch64-windows" . "b408709e73f50657dd0aa6cfd12614fd2906b00fe64579a250d41d7ddae94602")
+               ("x86_64-linux" . "d3b612ff8192c38d8d05301abdbb7838bdb377f711c482077307baf550c198d7")
+               ("x86_64-macos" . "48b02a4198b81833c7cc0998498fe0f5fc7dd053d826fb76b70add562847cdac")
+               ("x86_64-windows" . "112c4b1d526c5c6e9d4a292fb5a9d5259d05d374c8b62defb06ef56fb34a34ad"))
    nil nil 'equal))
 
 (defun zt--fontify-first-line (limit)
