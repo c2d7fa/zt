@@ -390,6 +390,61 @@ be a useful binding to define:
   (let ((default-directory directory))
     (zt-open link)))
 
+(defun zt--add-to-alist-list (alist key value)
+  (let ((new-alist)))
+  (if (assoc key alist)
+    (progn
+      (setcdr (assoc key alist) (append (cdr (assoc key alist))
+                                        (list value)))
+      alist)
+    (cons (cons key (list value)) alist)))
+
+(defun zt--group-by (items f)
+  (let ((results nil))
+    (dolist (item items)
+      (setq results (zt--add-to-alist-list results (funcall f item) item)))
+    results))
+
+(defun zt--rg-group-by-file (lines)
+  (seq-filter
+   (lambda (x) (not (s-blank? (car x))))
+   (zt--group-by lines
+                 (lambda (line)
+                   (replace-regexp-in-string (rx bol (group (*? any)) ":" (* any))
+                                             "\\1"
+                                             line)))))
+
+(defun zt--render-groups-to-strings (groups)
+  (mapcar (lambda (group)
+            (s-concat (zt--format-link-id (car group))
+                      "\n"
+                      (s-join "\n"
+                              (mapcar (lambda (line)
+                                        (replace-regexp-in-string (rx bol (*? any) ":" (* space) (group (** 0 80 any)) (* any))
+                                                                  "    \\1"
+                                                                  line))
+                                      (cdr group)))))
+          groups))
+
+(defun zt--rg (query directory)
+  (let* ((rg-command (concat "rg --max-depth 1 --sort path " (shell-quote-argument query) " " (shell-quote-argument directory)))
+         (rg-output (shell-command-to-string rg-command)))
+    (mapcar (lambda (line)
+              (replace-regexp-in-string (rx bol (*? any) (group (= 8 digit) "T" (= 6 digit)) (*? any) ":" (group (* any)))
+                                        "\\1:\\2"
+                                        line))
+            (s-lines rg-output))))
+
+;;;###autoload
+(defun zt-ripgrep-open (regex &optional directory)
+  "Search for the given REGEX using `rg', and then show a
+completion menu with the matchihg candidates."
+  (interactive "MRegex: ")
+  (let* ((matches (zt--rg regex (or directory default-directory)))
+         (grouped (zt--rg-group-by-file matches))
+         (options (zt--render-groups-to-strings grouped)))
+    (completing-read "Open: " options)))
+
 (defconst zt-minor-mode-prefix-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "o") 'zt-open-at-point)
